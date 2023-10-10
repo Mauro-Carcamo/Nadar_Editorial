@@ -1,0 +1,262 @@
+.header{
+  position: fixed;
+  z-index: 100;
+  top: 0;
+}
+
+.imagenlogo{
+  width:20%;
+  margin-top: -20; /* Puedes ajustar este valor según tus necesidades */
+  margin-left: 20;
+}
+
+.camus{
+  align-items: center;
+}
+
+.containermenu2 {
+  background-image: url('../img/cielo.jpg'); /* Reemplaza 'ruta/a/tu/imagen.jpg' con la ruta real de tu imagen */
+  background-size: cover; /* Escalar la imagen para que cubra todo el elemento */
+  text-align: center;
+}
+
+.card-text {
+  font-family: 'Lato', monospace;
+  color: rgba(24, 22, 23, 0.829); /* Valores de color en escala de 0-255, 1 para alfa completamente opaco */
+  font-size: 17px;
+  text-align: center; /* Centra el elemento h1 horizontalmente */
+  margin-left: auto; /* Centra el elemento h1 horizontalmente */
+  margin-right: auto;
+  margin-top: auto; /* Puedes ajustar este valor según tus necesidades */
+  margin-bottom: auto;
+  font-weight: bold
+}
+.rrss {
+  width:4%;
+  padding: 10;
+  margin-top: -20;
+  margin-left: 10; 
+}
+
+.col {
+  display: flex; /* Usar flexbox para controlar la disposición de los elementos */
+ /* Espacio entre .imagenlogo y <ul> */
+  align-items: center; /* Centrar verticalmente los elementos */
+  padding: 15;
+}
+
+.containermenu{
+background-color: rgba(206, 230, 237, 0.889);
+padding: 40;
+}
+
+.containermenu3{
+  background-color:rgb(133,175,187);
+  padding: 40;
+}
+
+.inicio{
+  display: inline-block;
+  align-items: center;
+}
+.card{
+  background-color: rgb(133,175,187);
+  display: inline-block;
+  align-items: center;
+  margin-left: 30;
+}
+
+.textoimagen{
+  font-family: 'Lato', monospace;
+  color: rgba(255, 255, 255, 0.504); /* Valores de color en escala de 0-255, 1 para alfa completamente opaco */
+  font-weight: 100;
+  letter-spacing: 2px;
+  font-size: 18px; /* Centra el elemento h1 horizontalmente */
+  text-decoration: none; /* Elimina la decoración de enlace subrayado */
+  text-align: center;
+}
+
+/* Estilos para el menú de navegación */
+.navbar-right {
+  margin-left: 190;
+  text-align: center; /* Alinea el texto a la derecha */
+}
+
+.navbar-right ul {
+  list-style: none; /* Elimina los marcadores de lista */
+  padding: 0; /* Elimina el espacio de relleno predeterminado de la lista */
+}
+
+.navbar-right li {
+  display: inline; /* Muestra los elementos de lista en línea */
+  margin-left: 20px; /* Espacio entre elementos del menú */
+}
+
+.navbar-right a {
+  text-decoration: none; /* Elimina la decoración de enlace subrayado */
+  color: rgba(24, 22, 23, 0.718); /* Color de texto del enlace */
+  font-weight: bold; /* Hace que el texto del enlace sea negrita */
+}
+
+
+@import url(//fonts.googleapis.com/css?family=Lato:300:400);
+
+body {
+  margin: -10;
+}
+a{
+  font-family: 'Lato', monospace;
+  color: rgba(24, 22, 23, 0.829); /* Valores de color en escala de 0-255, 1 para alfa completamente opaco */
+  font-weight: 100;
+  letter-spacing: 2px;
+  font-size: 18px; /* Centra el elemento h1 horizontalmente */
+  margin-left: auto; /* Centra el elemento h1 horizontalmente */
+  margin-right: auto;
+  margin-top: auto; /* Puedes ajustar este valor según tus necesidades */
+  margin-bottom: auto;
+}
+
+h1 {
+  font-family: 'Lato', monospace;
+  color: rgba(24, 22, 23, 0.829); /* Valores de color en escala de 0-255, 1 para alfa completamente opaco */
+  font-weight: 200;
+  letter-spacing: 10px;
+  font-size: 20px;
+  text-align: center; /* Centra el elemento h1 horizontalmente */
+  margin-left: auto; /* Centra el elemento h1 horizontalmente */
+  margin-right: auto;
+  margin-top: auto; /* Puedes ajustar este valor según tus necesidades */
+  margin-bottom: center;
+  font-weight: bold; /* Centra el elemento h1 horizontalmente */
+}
+h3 {
+  font-family: 'Lato',monospace;
+  color: rgba(24, 22, 23, 0.662); /* Valores de color en escala de 0-255, 1 para alfa completamente opaco */
+  font-weight: 200;
+  font-size: 15px;
+  text-align: center; /* Centra el elemento h1 horizontalmente */
+  margin-left: auto; /* Centra el elemento h1 horizontalmente */
+  margin-right: auto;
+  margin-top: center; /* Puedes ajustar este valor según tus necesidades */
+  margin-bottom: 30;  /* Centra el elemento h1 horizontalmente */
+}
+p {
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 1px;
+  font-size:14px;
+  color: #333333;
+}
+
+.header {
+  position:relative;
+  text-align:center;
+  background: linear-gradient(60deg, rgba(84,58,183,1) 0%, rgba(0,172,193,1) 100%);
+  color:white;
+}
+.logo {
+  width:50px;
+  fill:white;
+  padding-right:15px;
+  display:inline-block;
+  vertical-align: middle;
+}
+
+.inner-header {
+  height:65vh;
+  width:100%;
+  margin: 0;
+  padding: 0;
+}
+
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.waves {
+  position:relative;
+  width: 99.5%;
+  height:1vh;
+  margin-bottom:-2px; /*Fix for safari gap*/
+  min-height:50px;
+  max-height:100px;
+  transform: scaleY(-1);
+}
+
+.waves2 {
+  position:relative;
+  width: 99.5%;
+  height:1vh;
+  margin-bottom:-2px; /*Fix for safari gap*/
+  min-height:50px;
+  max-height:100px;
+  transform: scaleY(1);
+}
+
+.content {
+  position:relative;
+  height:20vh;
+  text-align:center;
+  background-color: white;
+}
+
+/* Animation */
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 17s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 20s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 23s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 30s;
+}
+
+.parallax1 > use {
+  animation: move-forever 25s cubic-bezier(.38,.3,.75,.2)     infinite;
+}
+@keyframes move-forever {
+  0% {
+   transform: translate3d(-90px,0,0);
+  }
+  100% { 
+    transform: translate3d(85px,0,0);
+  }
+}
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves {
+    height:40px;
+    min-height:40px;
+  }
+  .content {
+    height:30vh;
+  }
+  h1 {
+    font-size:24px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
