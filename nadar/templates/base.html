@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -7,6 +8,17 @@
     <link rel="stylesheet" type="text/css" href="../static/css/css.css">
     <link rel="icon" href="../static/img/pez2.png" type="image/x-icon">
 </head>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="titulo">
+    <button type="submit">Crear</button>
+</from>
+<form method="get">
+    <table class = "table">
+        <thead>
+            <tr>
+            <th>LIBROS</th>
+            {% for task in lista %}
 <body>
     <header>              
             <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -26,7 +38,7 @@
                     <img class="imagenlogo" src="../static/img/logo.png" alt="Logo">
                     <nav class="navbar-right">
                         <ul>
-                            <li><a href="#">Colecciones</a></li>
+                            <li><a href="#colecciones">Colecciones</a></li>
                             <li><a href="#">Nosotros</a></li>
                             <li><a href="#">Portafolio</a></li>
                             <li><a href="#">Puntos de Vista</a></li>
@@ -39,38 +51,113 @@
                 </div>
     </header>
         <div class="containermenu">
-                <h1>Catálogo</h1>
-                <h3>Novedades 2023</h3>
-            <div class = "inicio">
-                <div class="card" style="width: 18rem;">
-                    <img src="../static/img/camus.png" class="camus" alt="...">
-                    <div class="card-body">
-                    <p class="card-text">1949. Albert Camus en Chile, de Nibaldo Mosciatti y Juan Rivas</p>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img src="../static/img/la-mano-dentro.png" class="camus" alt="...">
-                    <div class="card-body">
-                    <p class="card-text">La mano dentro del espejo, de Juan Pablo Mosqueira Córdoba</p>
-                    </div>    
-                </div>
-            </div>
-            <div class = "inicio">
-                <div class="card" style="width: 18rem;">
-                    <img src="../static/img/nadie-que-este.png" class="camus" alt="...">
-                    <div class="card-body">
-                    <p class="card-text">
-                        Nadie que esté feliz escribe, de Gustavo Solórzano-Alfaro</p>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <img src="../static/img/deshilachando.png" class="camus" alt="...">
-                    <div class="card-body">
-                    <p class="card-text">Deshilachando Banderas, de Sabela Gondulfes               </p>
-                    </div>    
-                </div>
-            </div>
+                            <h1>Catálogo</h1>
+                            <h3>Novedades 2023</h3>
 
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                            <div class = "inicio">
+                <section class="carousel">
+                <div class="carousel__container">
+                    <div class="carousel-item">
+                    <img
+                        class="carousel-item__img"
+                        src="../static/img/camus.png"
+                        alt="people"
+                    />
+                    <div class="carousel-item__details">
+                        <div class="controls">
+                        <span class="fas fa-play-circle"></span>
+                        <span class="fas fa-plus-circle"></span>
+                        </div>
+                        <h5 class="carousel-item__details--title">1949. Albert Camus en Chile, de Nibaldo Mosciatti y Juan Rivas</h5>
+                        <h6 class="carousel-item__details--subtitle">a está disponible la crónica 1949. Albert Camus en Chile, de los periodistas Nibaldo Mosciatti y Juan Rivas. Este relato reconstruye el viaje del escritor argelino-francés Albert Camus por diferentes países de Sudamérica: Brasil, Uruguay, Argentina y Chile a mediados de 1949. Cuando llega a Santiago, Camus se encuentra con una revuelta conocida con el nombre de “La revolución de la chaucha” o “El chauchazo”, motivada por las impopulares medidas económicas del presidente Gabriel González Videla.</h6>
+                    </div>
+                    </div>
+                    <div class="carousel-item">
+                    <img
+                        class="carousel-item__img"
+                        src="../static/img/deshilachando.png"
+                        alt="people"
+                    />
+                    <div class="carousel-item__details">
+                        <div class="controls">
+                        <span class="fas fa-play-circle"></span>
+                        <span class="fas fa-plus-circle"></span>
+                        </div>
+                        <h5 class="carousel-item__details--title">Descriptive Title</h5>
+                        <h6 class="carousel-item__details--subtitle">Date and Duration</h6>
+                    </div>
+                    </div>
+                    <div class="carousel-item">
+                    <img
+                        class="carousel-item__img"
+                        src="../static/img/la-mano-dentro.png"
+                        alt="people"
+                    />
+                    <div class="carousel-item__details">
+                        <div class="controls">
+                        <span class="fas fa-play-circle"></span>
+                        <span class="fas fa-plus-circle"></span>
+                        </div>
+                        <h5 class="carousel-item__details--title">Descriptive Title</h5>
+                        <h6 class="carousel-item__details--subtitle">Date and Duration</h6>
+                    </div>
+                    </div>
+                    <div class="carousel-item">
+                    <img
+                        class="carousel-item__img"
+                        src="https://images.pexels.com/photos/1071882/pexels-photo-1071882.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                        alt="people"
+                    />
+                    <div class="carousel-item__details">
+                        <div class="controls">
+                        <span class="fas fa-play-circle"></span>
+                        <span class="fas fa-plus-circle"></span>
+                        </div>
+                        <h5 class="carousel-item__details--title">Descriptive Title</h5>
+                        <h6 class="carousel-item__details--subtitle">Date and Duration</h6>
+                    </div>
+                    </div>
+                    <div class="carousel-item">
+                    <img
+                        class="carousel-item__img"
+                        src="https://images.pexels.com/photos/417344/pexels-photo-417344.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                        alt="people"
+                    />
+                    <div class="carousel-item__details">
+                        <div class="controls">
+                        <span class="fas fa-play-circle"></span>
+                        <span class="fas fa-plus-circle"></span>
+                        </div>
+                        <h5 class="carousel-item__details--title">Descriptive Title</h5>
+                        <h6 class="carousel-item__details--subtitle">Date and Duration</h6>
+                    </div>
+                    </div>
+                    <div class="carousel-item">
+                    <img
+                        class="carousel-item__img"
+                        src="https://images.pexels.com/photos/6945/sunset-summer-golden-hour-paul-filitchkin.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+                        alt="people"
+                    />
+                    <div class="carousel-item__details">
+                        <div class="controls">
+                        <span class="fas fa-play-circle"></span>
+                        <span class="fas fa-plus-circle"></span>
+                        </div>
+                        <h5 class="carousel-item__details--title">Descriptive Title</h5>
+                        <h6 class="carousel-item__details--subtitle">Date and Duration</h6>
+                    </div>
+                    </div>
+                </div>
+                </section>
+            </div>
         </div>
         <div class ="containermenu2">
             <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
@@ -92,8 +179,23 @@
             </svg>
         </div>
         <div class ="containermenu3">
-            <h1>Colecciones</h1>
+            <h1 id="colecciones">Colecciones</h1>
             <h3>Nadar Ediciones organiza su catálogo en torno a seis colecciones:</h3>
         </div>
+                        <svg class="waves2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax1">
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="rgb(133,175,187)" />
+                </g>
+            </svg>
+        <div class ="containermenu4">
+            <h1>Colecciones</h1>
+            <h3>Nadar Ediciones organiza su catálogo en torno a seis colecciones:</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://youtu.be/nCM7iYp8Pg4?si=R85CqiQyr7NIcV76" allowfullscreen></iframe>
+            </div>
+            <iframe width="560" height="315" src="https://youtu.be/nCM7iYp8Pg4?si=R85CqiQyr7NIcV76" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </body>
 </html>

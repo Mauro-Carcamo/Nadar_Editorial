@@ -20,5 +20,5 @@ from django.urls import path
 from nadar import views, urls
 
 urlpatterns = [path('admin/', admin.site.urls),
-               path('', include ('nadar.urls')),
-               path("accounts/", include("django.contrib.auth.urls"))]
+                path('', include ('nadar.urls')),
+                path("accounts/", include("django.contrib.auth.urls"))]
