@@ -1,4 +1,4 @@
-#!/bin/bash
+
 
 # Crea un entorno virtual
 echo "Creating a virtual environment..."
