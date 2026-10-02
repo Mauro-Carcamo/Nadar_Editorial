@@ -282,7 +282,7 @@ function CollectionStage({
                       slug={book.slug}
                       title={book.title}
                       subtitle={book.subtitle}
-                      image={book.image}
+                      image={getCover(book).src}
                       price={book.price ?? null}
                       currency={book.currency ?? "CLP"}
                       className="btn btn-primary"

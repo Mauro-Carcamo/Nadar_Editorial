@@ -82,7 +82,7 @@ export function CatalogGrid({ books }: { books: Book[] }) {
                   slug={book.slug}
                   title={book.title}
                   subtitle={book.subtitle}
-                  image={book.image}
+                  image={getCover(book).src}
                   price={book.price ?? null}
                   currency={book.currency ?? "CLP"}
                   className="catalog-card-cart"
