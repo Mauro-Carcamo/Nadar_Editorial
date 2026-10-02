@@ -3665,21 +3665,22 @@ html[data-scrolled] .nav-wrap {
   top: 0;
   bottom: 0;
   /* Mismo tamaño que la foto de Nadar; desplazada a la izquierda para quedar a su costado */
-  right: min(36vw, 460px);
+  right: min(50vw, 680px);
   width: min(70vw, 900px);
   z-index: -1;
   pointer-events: none;
   transform-origin: 50% 0;
   will-change: transform, opacity;
   /* Elipse inscrita en la caja: los bordes quedan totalmente transparentes, sin cortes rectos */
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 48%, #000 55%, transparent 100%);
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 48%, #000 55%, transparent 100%);
+  /* Zona nítida amplia: solo los bordes se funden con el fondo */
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 48%, #000 78%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 48%, #000 78%, transparent 100%);
 }
 
 .home-manifesto-bird img {
   object-fit: cover;
   object-position: 50% 30%;
-  filter: sepia(0.2) saturate(0.7);
+  filter: none;
   opacity: 0.38;
 }
 
@@ -3690,7 +3691,7 @@ html[data-scrolled] .nav-wrap {
 
 @media (max-width: 899px) {
   .home-manifesto-bird {
-    right: 30vw;
+    right: 45vw;
     width: 100vw;
   }
 
