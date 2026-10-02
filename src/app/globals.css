@@ -4523,3 +4523,285 @@ html[data-scrolled] .nav-wrap {
   font-size: 0.8rem;
   font-weight: 400;
 }
+
+/* ===================================================================
+   Puntos de venta: lista por región + mapa (MapLibre)
+   =================================================================== */
+.home-pos {
+  padding: 72px 0 88px;
+  background: var(--bg);
+}
+
+.home-pos.is-page {
+  padding-top: 48px;
+}
+
+.home-pos-intro {
+  margin: 8px 0 0;
+  max-width: 56ch;
+  color: var(--ink-soft);
+}
+
+.pos-regions {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding-bottom: 4px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.pos-regions button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.pos-regions button span {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.pos-regions button:hover {
+  border-color: var(--accent-ink);
+}
+
+.pos-regions button.is-active {
+  background: var(--accent-ink);
+  border-color: var(--accent-ink);
+  color: #fff;
+}
+
+.pos-regions button.is-active span {
+  color: var(--mist-200);
+}
+
+.pos-layout {
+  display: grid;
+  gap: 16px;
+}
+
+.pos-map-wrap {
+  position: relative;
+  order: -1;
+  height: 340px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface-alt);
+  box-shadow: var(--shadow-soft);
+}
+
+.pos-map {
+  width: 100%;
+  height: 100%;
+}
+
+.pos-map-status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.pos-list {
+  max-height: 520px;
+  overflow-y: auto;
+  padding: 4px 16px 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  scrollbar-width: thin;
+}
+
+.pos-region {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 14px 0 8px;
+  background: var(--surface);
+  font-family: var(--font-display, inherit);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--accent-ink);
+}
+
+.pos-comuna {
+  margin: 10px 0 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.pos-group ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pos-group li {
+  padding: 10px 12px;
+  border-left: 2px solid transparent;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.pos-group li + li {
+  border-top: 1px solid var(--line-soft);
+}
+
+.pos-group li:hover {
+  background: var(--mist-100);
+}
+
+.pos-group li.is-active {
+  background: var(--blue-100);
+  border-left-color: var(--accent-ink);
+}
+
+.pos-item {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pos-name {
+  font-weight: 600;
+}
+
+.pos-address {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+.pos-note {
+  justify-self: start;
+  margin-top: 2px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--teal-100);
+  color: var(--teal-600);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.pos-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 6px;
+  font-size: 0.8rem;
+}
+
+.pos-links a {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+}
+
+.pos-links a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* Marcadores */
+.pos-marker {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--accent-ink);
+  box-shadow: 0 2px 6px rgba(45, 60, 63, 0.35);
+  cursor: pointer;
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.pos-marker.is-approx {
+  background: var(--teal-400);
+  border-style: dashed;
+}
+
+.pos-marker:hover,
+.pos-marker:focus-visible {
+  background: var(--accent-strong);
+  outline: none;
+}
+
+.pos-marker.is-active {
+  width: 24px;
+  height: 24px;
+  background: var(--accent-strong);
+  z-index: 2;
+}
+
+.pos-marker[hidden] {
+  display: none;
+}
+
+.pos-popup {
+  display: grid;
+  gap: 2px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.pos-map .maplibregl-popup-content {
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+@media (min-width: 900px) {
+  .home-pos {
+    padding: 112px 0 128px;
+  }
+
+  .pos-layout {
+    grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+    height: 620px;
+  }
+
+  .pos-list {
+    max-height: none;
+    height: 100%;
+  }
+
+  .pos-map-wrap {
+    order: 0;
+    height: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pos-marker,
+  .pos-group li,
+  .pos-regions button {
+    transition: none;
+  }
+}

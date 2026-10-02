@@ -15,6 +15,7 @@ const read = (f) => JSON.parse(fs.readFileSync(path.resolve("src/data", f), "utf
 const books = read("books.enriched.json");
 const collections = read("collections.json");
 const covers = read("covers.json");
+const pointsOfSale = read("points-of-sale.json");
 
 const slugify = (s) =>
   s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
@@ -195,11 +196,24 @@ try {
     }
   }
 
+  // Puntos de venta (coordenadas ya geocodificadas en el JSON)
+  for (const p of pointsOfSale) {
+    await client.query(
+      `INSERT INTO points_of_sale (slug, name, address, comuna, city, region, itinerant, note, website, instagram, lat, lng, precision, position)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+       ON CONFLICT (slug) DO UPDATE SET name = EXCLUDED.name, address = EXCLUDED.address, comuna = EXCLUDED.comuna,
+         city = EXCLUDED.city, region = EXCLUDED.region, itinerant = EXCLUDED.itinerant, note = EXCLUDED.note,
+         website = EXCLUDED.website, instagram = EXCLUDED.instagram, lat = EXCLUDED.lat, lng = EXCLUDED.lng,
+         precision = EXCLUDED.precision, position = EXCLUDED.position`,
+      [p.slug, p.name, p.address, p.comuna, p.city, p.region, p.itinerant, p.note, p.website, p.instagram, p.lat, p.lng, p.precision ?? "address", p.position],
+    );
+  }
+
   await client.query("COMMIT");
   const counts = await one(`SELECT
     (SELECT count(*) FROM books) AS books, (SELECT count(*) FROM authors) AS authors,
     (SELECT count(*) FROM categories) AS categories, (SELECT count(*) FROM collections) AS collections,
-    (SELECT count(*) FROM book_images) AS images, (SELECT count(*) FROM inventory WHERE stock > 0) AS in_stock`);
+    (SELECT count(*) FROM book_images) AS images, (SELECT count(*) FROM points_of_sale) AS points_of_sale, (SELECT count(*) FROM inventory WHERE stock > 0) AS in_stock`);
   console.log("Catálogo cargado:", counts, `· stock inicial nuevo en ${withStock} libros`);
 } catch (error) {
   await client.query("ROLLBACK");

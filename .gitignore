@@ -47,3 +47,4 @@ next-env.d.ts
 
 # subidas locales del panel (luego Supabase Storage)
 /public/uploads/
+/public/vendor/maplibre/

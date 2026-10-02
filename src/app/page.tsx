@@ -4,6 +4,7 @@ import { HeroBooks } from "@/components/HeroBooks";
 import { ManifestoSection } from "@/components/ManifestoSection";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { PointsOfSaleSection } from "@/components/points-of-sale/PointsOfSaleSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getBestsellers } from "@/services/catalog/repository";
@@ -22,6 +23,7 @@ export default async function Home() {
         <ManifestoSection />
         <CollectionsSection />
         <CatalogSection />
+        <PointsOfSaleSection />
       </main>
       <SiteFooter />
     </MotionProvider>
