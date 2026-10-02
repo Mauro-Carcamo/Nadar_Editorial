@@ -49,7 +49,7 @@ export function ManifestoSection() {
           style={{ y: birdY, scale: birdScale, opacity: photoOpacity }}
           aria-hidden="true"
         >
-          <Image src="/images/page/ave-mar.jpg" alt="" fill sizes="(min-width: 900px) 40vw, 70vw" />
+          <Image src="/images/page/ave-mar.jpg" alt="" fill sizes="(min-width: 900px) 70vw, 100vw" />
         </motion.div>
         {/* Gaspard-Félix Tournachon, «Nadar», en la canasta de un globo (c. 1863). Dominio público, Gallica/BnF */}
         <motion.div
