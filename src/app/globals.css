@@ -4818,3 +4818,364 @@ html[data-scrolled] .nav-wrap {
   position: relative;
   z-index: 1;
 }
+
+/* ===================================================================
+   Páginas de contenido: Proyecto, Contacto y 404
+   =================================================================== */
+.about-page,
+.contact-page,
+.not-found {
+  padding: 48px 0 88px;
+  background: var(--bg);
+}
+
+.about-hero {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+  padding-bottom: 32px;
+}
+
+.about-lead {
+  margin: 16px 0 0;
+  max-width: 34ch;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.about-hero-photo {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.about-hero-photo img {
+  object-fit: cover;
+  object-position: 50% 30%;
+  filter: sepia(0.25) saturate(0.7);
+}
+
+.about-hero-photo figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 24px 14px 10px;
+  background: linear-gradient(transparent, rgba(45, 60, 63, 0.7));
+  color: #fff;
+  font-size: 0.75rem;
+}
+
+.about-section {
+  display: grid;
+  gap: 16px;
+  padding: 40px 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.about-section h2 {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 400;
+}
+
+.about-text {
+  max-width: 68ch;
+}
+
+.about-text p {
+  margin: 0 0 1em;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.about-team,
+.about-friends {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-team li,
+.about-friends li {
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.about-team h3,
+.about-friends h3 {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.about-friends h3 span {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: var(--font-ui), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-2-ink);
+}
+
+.about-role {
+  margin: 4px 0 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+
+.about-team p:last-child,
+.about-friends p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+.about-friends p {
+  margin-top: 8px;
+}
+
+.about-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* Contacto */
+.contact-layout {
+  display: grid;
+  gap: 24px;
+  align-items: start;
+}
+
+.contact-page .contact-form {
+  gap: 16px;
+  padding: 24px;
+  border: 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-form-row {
+  display: grid;
+  gap: 16px;
+}
+
+.contact-page .contact-form input,
+.contact-page .contact-form select,
+.contact-page .contact-form textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font: inherit;
+  font-weight: 400;
+}
+
+.contact-page .contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form [aria-invalid="true"] {
+  border-color: #b42318;
+}
+
+.field-error,
+.contact-form-error {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.contact-form-ok {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: #e3f4ea;
+  color: #1f6b3a;
+  font-weight: 600;
+}
+
+.contact-form-trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.contact-info {
+  display: grid;
+  gap: 20px;
+  padding: 24px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-info h2 {
+  margin: 0 0 6px;
+  font-family: var(--font-ui), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.contact-info p,
+.contact-info address {
+  margin: 0;
+  font-style: normal;
+  line-height: 1.6;
+}
+
+.contact-info a {
+  color: var(--accent-ink);
+}
+
+.not-found {
+  min-height: 60vh;
+}
+
+.not-found p {
+  color: var(--ink-soft);
+}
+
+@media (min-width: 640px) {
+  .contact-form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-friends {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .about-page,
+  .contact-page,
+  .not-found {
+    padding: 72px 0 120px;
+  }
+
+  .about-hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: 56px;
+  }
+
+  .about-section {
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 40px;
+    padding: 56px 0;
+  }
+
+  .about-team {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contact-layout {
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 32px;
+  }
+}
+
+/* Panel: embudo y mensajes */
+.admin-funnel {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-funnel li {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.88rem;
+}
+
+.admin-funnel-bar {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--mist-100);
+  overflow: hidden;
+}
+
+.admin-funnel-bar span {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  border-radius: inherit;
+  background: var(--accent-ink);
+}
+
+.admin-funnel strong {
+  text-align: right;
+}
+
+.admin-messages {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-messages header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+
+.admin-messages header small {
+  margin-left: auto;
+  color: var(--ink-soft);
+}
+
+.admin-messages p {
+  margin: 12px 0;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.admin-message-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .admin-funnel li {
+    grid-template-columns: 1fr 40px;
+  }
+
+  .admin-funnel-bar {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}

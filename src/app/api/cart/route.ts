@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
+import { clientIp, rateLimit } from "@/lib/rate-limit";
 import { CartLineSchema, SHIPPING_ZONE_CODES } from "@/schemas/checkout";
 import { syncGuestCart } from "@/services/cart/cart-service";
 
@@ -11,6 +12,9 @@ const CartSyncSchema = z.object({
 
 // Persistencia del carrito: el cliente envía su contenido (con debounce) y recibe precios y stock reales.
 export async function PUT(request: NextRequest) {
+  if (!rateLimit(`cart:${clientIp(request)}`, 60, 60 * 1000)) {
+    return NextResponse.json({ error: { code: "RATE_LIMITED" } }, { status: 429 });
+  }
   const parsed = CartSyncSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: { code: "VALIDATION_ERROR" } }, { status: 400 });

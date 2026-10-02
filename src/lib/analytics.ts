@@ -12,14 +12,22 @@ function getSessionId(): string {
   if (typeof window === "undefined") return "server-session";
 
   const key = "nadar_session_id";
-  const existing = window.localStorage.getItem(key);
-  if (existing) {
-    cachedSessionId = existing;
-    return existing;
+  try {
+    const existing = window.localStorage.getItem(key);
+    if (existing) {
+      cachedSessionId = existing;
+      return existing;
+    }
+  } catch {
+    // almacenamiento bloqueado: se usa un id solo para esta pestaña
   }
 
-  const generated = `sess_${Math.random().toString(36).slice(2)}_${Date.now()}`;
-  window.localStorage.setItem(key, generated);
+  const generated = `sess_${crypto.randomUUID().replace(/-/g, "")}`;
+  try {
+    window.localStorage.setItem(key, generated);
+  } catch {
+    // idem
+  }
   cachedSessionId = generated;
   return generated;
 }

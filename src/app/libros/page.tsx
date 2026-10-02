@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CatalogClient } from "@/components/CatalogClient";
 import { listCollections, listPublishedBooks } from "@/services/catalog/repository";
+
+export const metadata: Metadata = {
+  title: "Catálogo | Nadar Ediciones",
+  description: "Todos los libros de Nadar Ediciones: busca por título, autor, ISBN o tema, o explora por colección.",
+};
 
 export default async function LibrosPage() {
   const [books, collections] = await Promise.all([listPublishedBooks(), listCollections()]);

@@ -4,6 +4,14 @@ import { getDashboardMetrics } from "@/services/admin/metrics";
 
 export const dynamic = "force-dynamic";
 
+const FUNNEL_LABEL: Record<string, string> = {
+  page_view: "Visitas",
+  book_view: "Vieron un libro",
+  add_to_cart: "Agregaron al carrito",
+  checkout_start: "Iniciaron el pago",
+  purchase: "Compraron",
+};
+
 export default async function AdminDashboard() {
   const m = await getDashboardMetrics();
   const max = Math.max(1, ...m.salesByDay.map((d) => d.revenue));
@@ -16,7 +24,9 @@ export default async function AdminDashboard() {
     { label: "Libros publicados", value: m.kpis.products },
     { label: "Conversión de carritos", value: `${Math.round(m.kpis.conversion * 100)}%` },
     { label: "Carritos abandonados", value: m.kpis.abandoned },
+    { label: "Mensajes sin leer", value: m.unreadMessages, href: "/admin/mensajes" },
   ];
+  const top = Math.max(1, m.funnel[0].sessions);
 
   return (
     <>
@@ -28,7 +38,7 @@ export default async function AdminDashboard() {
       <div className="admin-kpi-grid">
         {kpis.map((k) => (
           <article key={k.label} className="admin-kpi-card">
-            <p>{k.label}</p>
+            <p>{k.href ? <Link href={k.href}>{k.label}</Link> : k.label}</p>
             <strong>{k.value}</strong>
           </article>
         ))}
@@ -41,6 +51,21 @@ export default async function AdminDashboard() {
             <li key={d.day} title={`${d.day}: ${money(d.revenue)} · ${d.orders} pedidos`}>
               <span style={{ height: `${(d.revenue / max) * 100}%` }} />
               <small>{d.day}</small>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="admin-panel" aria-labelledby="funnel-30">
+        <h3 id="funnel-30">Embudo de conversión (30 días, sesiones únicas)</h3>
+        <ol className="admin-funnel">
+          {m.funnel.map((f) => (
+            <li key={f.step}>
+              <span className="admin-funnel-label">{FUNNEL_LABEL[f.step]}</span>
+              <span className="admin-funnel-bar">
+                <span style={{ width: `${(f.sessions / top) * 100}%` }} />
+              </span>
+              <strong>{f.sessions}</strong>
             </li>
           ))}
         </ol>

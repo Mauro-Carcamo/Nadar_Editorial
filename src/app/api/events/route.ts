@@ -1,42 +1,47 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import { z } from "zod";
+import { isDatabaseConfigured, query } from "@/lib/db";
+import { clientIp, rateLimit } from "@/lib/rate-limit";
 
-type EventBody = {
-  sessionId?: string;
-  eventType?: string;
-  pagePath?: string;
-  buttonId?: string;
-  meta?: unknown;
-};
+// Eventos de navegación → analytics_events (base del embudo analytics.fact_funnel_daily).
+// Sin datos personales: solo un id de sesión aleatorio del navegador.
+
+const EVENT_TYPES = ["page_view", "book_view", "add_to_cart", "cart_open", "checkout_start", "social_click"] as const;
+
+const EventSchema = z.object({
+  sessionId: z.string().regex(/^sess_[a-z0-9_]{6,60}$/i),
+  eventType: z.enum(EVENT_TYPES),
+  pagePath: z.string().startsWith("/").max(300),
+  buttonId: z.string().max(80).optional(),
+  meta: z.record(z.string().max(40), z.union([z.string().max(200), z.number(), z.boolean(), z.null()])).optional(),
+});
 
 export async function POST(request: NextRequest) {
-  let body: EventBody;
-
+  if (!rateLimit(`events:${clientIp(request)}`, 120, 60 * 1000)) {
+    return NextResponse.json({ error: { code: "RATE_LIMITED", message: "Demasiados eventos" } }, { status: 429 });
+  }
+  const raw = await request.text();
+  if (raw.length > 4000) {
+    return NextResponse.json({ error: { code: "VALIDATION_ERROR", message: "Evento demasiado grande" } }, { status: 413 });
+  }
+  let json: unknown = null;
   try {
-    body = (await request.json()) as EventBody;
+    json = JSON.parse(raw);
   } catch {
-    return NextResponse.json(
-      { error: { code: "VALIDATION_ERROR", message: "Invalid JSON body" } },
-      { status: 400 },
-    );
+    // se informa abajo como error de validación
   }
-
-  if (!body.sessionId || !body.eventType || !body.pagePath) {
-    return NextResponse.json(
-      { error: { code: "VALIDATION_ERROR", message: "sessionId, eventType and pagePath are required" } },
-      { status: 400 },
-    );
+  const parsed = EventSchema.safeParse(json);
+  if (!parsed.success) {
+    return NextResponse.json({ error: { code: "VALIDATION_ERROR", message: "Evento inválido" } }, { status: 400 });
   }
+  if (!isDatabaseConfigured()) return NextResponse.json({ ok: true });
 
-  // Local-first: por ahora solo log en servidor para verificar eventos antes de DB.
-  // En la siguiente fase se persiste en Supabase.
-  console.log("[analytics:event]", {
-    sessionId: body.sessionId,
-    eventType: body.eventType,
-    pagePath: body.pagePath,
-    buttonId: body.buttonId ?? null,
-    meta: body.meta ?? {},
-    at: new Date().toISOString(),
-  });
-
+  const { sessionId, eventType, pagePath, buttonId, meta } = parsed.data;
+  const slug = typeof meta?.slug === "string" ? meta.slug : pagePath.match(/^\/libros\/([^/?#]+)/)?.[1] ?? null;
+  await query(
+    `INSERT INTO analytics_events (session_id, event_type, page_path, button_id, book_id, meta)
+     VALUES ($1, $2, $3, $4, (SELECT id FROM books WHERE slug = $5), $6)`,
+    [sessionId, eventType, pagePath, buttonId ?? null, slug, JSON.stringify(meta ?? {})],
+  );
   return NextResponse.json({ ok: true });
 }

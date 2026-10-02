@@ -6,6 +6,7 @@ const footerLinks = [
   { href: "/libros", label: "Catálogo" },
   { href: "/colecciones", label: "Colecciones" },
   { href: "/proyecto", label: "Proyecto" },
+  { href: "/puntos-de-venta", label: "Puntos de venta" },
   { href: "/contacto", label: "Contacto" },
 ];
 

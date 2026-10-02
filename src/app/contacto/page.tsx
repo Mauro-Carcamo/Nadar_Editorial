@@ -1,46 +1,53 @@
-﻿import { SiteFooter } from "@/components/SiteFooter";
+import type { Metadata } from "next";
+import { ContactForm } from "@/components/ContactForm";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SocialLinks } from "@/components/SocialLinks";
+
+export const metadata: Metadata = {
+  title: "Contacto | Nadar Ediciones",
+  description: "Escríbenos por consultas de catálogo, pedidos, prensa, librerías o propuestas editoriales.",
+};
 
 export default function ContactoPage() {
   return (
     <>
       <SiteHeader />
-      <main className="section section-light">
-        <div className="container page-intro">
-          <p className="eyebrow">Contacto</p>
-          <h1>Conversemos</h1>
-          <p>Para consultas de catalogo, prensa, actividades o colaboraciones editoriales.</p>
-        </div>
+      <main className="contact-page">
+        <div className="container">
+          <header className="page-intro">
+            <p className="home-hero-eyebrow">Contacto</p>
+            <h1 className="home-collections-heading">Conversemos</h1>
+            <p>Consultas de catálogo, pedidos, prensa, librerías o propuestas editoriales.</p>
+          </header>
 
-        <div className="container contact-form-wrap">
-          <form className="contact-form" action="#" method="post">
-            <label>
-              Nombre
-              <input type="text" name="name" placeholder="Tu nombre" />
-            </label>
-            <label>
-              Correo
-              <input type="email" name="email" placeholder="tu@correo.cl" />
-            </label>
-            <label>
-              Mensaje
-              <textarea name="message" rows={5} placeholder="Escribe tu mensaje" />
-            </label>
-            <button type="submit" className="btn btn-primary">
-              Enviar mensaje
-            </button>
-          </form>
-        </div>
+          <div className="contact-layout">
+            <ContactForm />
 
-        <div className="container social-section">
-          <h2>Redes sociales</h2>
-          <p>Sigue a Nadar Ediciones en sus canales oficiales.</p>
-          <SocialLinks source="contacto" ariaLabel="Redes sociales Nadar Ediciones" />
+            <aside className="contact-info" aria-label="Datos de contacto">
+              <section>
+                <h2>Correo</h2>
+                <p>
+                  <a href="mailto:contacto@nadarediciones.cl">contacto@nadarediciones.cl</a>
+                </p>
+              </section>
+              <section>
+                <h2>Correspondencia</h2>
+                <address>
+                  Padre Mariano 391, Of. 704
+                  <br />
+                  Providencia, Santiago de Chile
+                </address>
+              </section>
+              <section>
+                <h2>Redes</h2>
+                <SocialLinks source="contacto" ariaLabel="Redes sociales Nadar Ediciones" />
+              </section>
+            </aside>
+          </div>
         </div>
       </main>
       <SiteFooter />
     </>
   );
 }
-

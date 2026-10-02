@@ -6,7 +6,7 @@ const SOLD = "('PAID', 'PROCESSING', 'SHIPPED', 'DELIVERED')";
 
 export async function getDashboardMetrics() {
   await expireStalePendingOrders();
-  const [kpis, recentOrders, recentPayments, lowStock, salesByDay, topBooks] = await Promise.all([
+  const [kpis, recentOrders, recentPayments, lowStock, salesByDay, topBooks, funnel, messages] = await Promise.all([
     query<{
       revenue: number;
       orders: number;
@@ -49,6 +49,16 @@ export async function getDashboardMetrics() {
        FROM analytics.fact_sales f JOIN analytics.dim_book b ON b.book_key = f.book_key
        GROUP BY b.title ORDER BY units DESC LIMIT 5`,
     ),
+    // Embudo de los últimos 30 días: sesiones únicas por paso (estrella) + pedidos pagados (OLTP)
+    query<{ step: string; sessions: number }>(
+      `SELECT e.event_type AS step, count(DISTINCT e.session_id)::int AS sessions
+       FROM analytics_events e
+       WHERE e.created_at >= current_date - 29 AND e.event_type IN ('page_view', 'book_view', 'add_to_cart', 'checkout_start')
+       GROUP BY e.event_type
+       UNION ALL
+       SELECT 'purchase', count(*)::int FROM orders WHERE status IN ${SOLD} AND created_at >= current_date - 29`,
+    ),
+    query<{ unread: number }>("SELECT count(*)::int AS unread FROM contact_messages WHERE status = 'NEW'"),
   ]);
 
   const k = kpis.rows[0];
@@ -59,5 +69,10 @@ export async function getDashboardMetrics() {
     lowStock: lowStock.rows,
     salesByDay: salesByDay.rows,
     topBooks: topBooks.rows,
+    funnel: ["page_view", "book_view", "add_to_cart", "checkout_start", "purchase"].map((step) => ({
+      step,
+      sessions: funnel.rows.find((r) => r.step === step)?.sessions ?? 0,
+    })),
+    unreadMessages: messages.rows[0].unread,
   };
 }

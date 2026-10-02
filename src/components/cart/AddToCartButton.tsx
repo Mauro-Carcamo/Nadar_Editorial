@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { ReactNode, useEffect, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
+import { trackEvent } from "@/lib/analytics";
 
 type Props = {
   slug: string;
@@ -68,6 +69,7 @@ export function AddToCartButton({
               }
             : undefined;
         addItem({ slug, title, subtitle, image, price, currency }, from);
+        trackEvent({ eventType: "add_to_cart", pagePath: window.location.pathname, meta: { slug, price } });
         setAdded(true);
       }}
     >
