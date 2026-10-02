@@ -5,22 +5,6 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 
-// Textos del proyecto editorial (Docs/16_Contenido_Editorial_Base.md)
-const pillars = [
-  {
-    title: "Qué publicamos",
-    text: "Ensayo, pensamiento crítico, historia intelectual y poéticas del territorio.",
-  },
-  {
-    title: "Cómo editamos",
-    text: "Cada libro como una pieza de largo alcance: edición cuidada y circulación sostenida.",
-  },
-  {
-    title: "Para quién",
-    text: "Para quienes imaginan nuevas formas de vida común desde la lectura.",
-  },
-];
-
 /**
  * Sección "de paso": queda fija detrás de la página (sticky) mientras Colecciones sube y la cubre.
  * Al entrar emerge desde abajo del hero; al quedar atrás las letras se achican, suben y se desvanecen.
@@ -59,12 +43,11 @@ export function ManifestoSection() {
           style={{ y: photoY, scale: photoScale, opacity: photoOpacity }}
           aria-hidden="true"
         >
-          <Image src="/images/page/nadar-globo.jpg" alt="" fill sizes="(min-width: 900px) 46vw, 90vw" />
+          <Image src="/images/page/nadar-globo.jpg" alt="" fill sizes="(min-width: 900px) 70vw, 100vw" />
         </motion.div>
         <motion.div className="container home-manifesto-inner" style={{ y, scale, opacity }}>
-          <p className="home-hero-eyebrow">Nadar Ediciones</p>
-          <h2 id="home-manifesto-title" className="home-manifesto-statement">
-            Libros de arte y crítica para leer el presente <em>desde múltiples orillas.</em>
+          <h2 id="home-manifesto-title" className="sr-only">
+            El nombre Nadar
           </h2>
 
           <blockquote className="home-manifesto-origin">
@@ -78,15 +61,6 @@ export function ManifestoSection() {
               difieren vientos y corrientes acuáticas?
             </p>
           </blockquote>
-
-          <div className="home-manifesto-pillars">
-            {pillars.map((pillar) => (
-              <div key={pillar.title}>
-                <h3>{pillar.title}</h3>
-                <p>{pillar.text}</p>
-              </div>
-            ))}
-          </div>
 
           <Link href="/proyecto" className="text-link home-manifesto-link">
             Conocer el proyecto editorial <span aria-hidden="true">→</span>

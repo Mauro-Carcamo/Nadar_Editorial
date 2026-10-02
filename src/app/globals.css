@@ -3606,3 +3606,55 @@ html[data-scrolled] .nav-wrap {
     padding: 72px 0;
   }
 }
+
+/* Manifiesto reducido: solo la cita sobre el nombre y el enlace, centrados;
+   foto de Nadar más grande y transparente detrás */
+.home-manifesto .home-manifesto-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.home-manifesto .home-manifesto-inner > * {
+  max-width: 62ch;
+}
+
+.home-manifesto .home-manifesto-origin {
+  margin: 0 auto;
+}
+
+.home-manifesto .home-manifesto-origin p {
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+  line-height: 1.7;
+}
+
+.home-manifesto .home-manifesto-link {
+  margin-top: 28px;
+}
+
+.home-manifesto .home-manifesto-photo {
+  width: min(70vw, 900px);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 45%), linear-gradient(to top, transparent 0%, #000 25%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 45%), linear-gradient(to top, transparent 0%, #000 25%);
+}
+
+.home-manifesto .home-manifesto-photo img {
+  opacity: 0.32;
+}
+
+@media (min-width: 900px) {
+  .home-manifesto {
+    padding: 96px 0 104px;
+  }
+}
+
+@media (max-width: 899px) {
+  .home-manifesto .home-manifesto-photo {
+    width: 100vw;
+  }
+
+  .home-manifesto .home-manifesto-photo img {
+    opacity: 0.16;
+  }
+}
