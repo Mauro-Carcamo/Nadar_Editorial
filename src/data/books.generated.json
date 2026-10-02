@@ -1,0 +1,110 @@
+[
+  {
+    "slug": "historia-de-una-montana-de-elisee-reclus",
+    "title": "«Historia de una montaña»",
+    "subtitle": "Élisée Reclus",
+    "image": "/images/books/671-historia-de-una-montana-de-elisee-reclus.png",
+    "collection": "Horizontes de sentido",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "la-culpa-de-gustavo-solorzano-alfaro",
+    "title": "“La culpa”",
+    "subtitle": "Gustavo Solórzano-Alfaro",
+    "image": "/images/books/661-la-culpa-de-gustavo-solorzano-alfaro.png",
+    "collection": "Trayectorias",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "asota-ein-anunwiin-wammamain-memoria-de-la-gente-de-agua-de-nuestro-territorio-de-jose-angel-quinter",
+    "title": "«Asota e’in añunwiin wammamain – Memoria de la gente de agua de nuestro territorio»",
+    "subtitle": "José Ángel Quintero Weir y Pablo Mansilla Quiñones",
+    "image": "/images/books/643-asota-ein-anunwiin-wammamain-memoria-de-la-gente-de-agua-de-nuestro-territorio-de-jose-angel-quinter.png",
+    "collection": "Mundo telúrico",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "desafiando-el-olvido-poder-marginados-e-invisibles-en-la-historia-medieval-de-jordi-maiz-chacon",
+    "title": "«Desafiando el olvido. Poder, marginados e invisibles en la historia medieval»",
+    "subtitle": "Jordi Maíz Chacón",
+    "image": "/images/books/580-desafiando-el-olvido-poder-marginados-e-invisibles-en-la-historia-medieval-de-jordi-maiz-chacon.png",
+    "collection": "Horizontes de sentido",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "colonia-penal-de-ismael-rivera",
+    "title": "“Colonia penal”",
+    "subtitle": "Ismael Rivera",
+    "image": "/images/books/612-colonia-penal-de-ismael-rivera.png",
+    "collection": "Trayectorias",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "entrelazamientos-deseantes-la-intervencion-en-lo-social-y-sus-puntos-de-referencia-de-nelson-arellan",
+    "title": "“Entrelazamientos deseantes. La intervención en lo social y sus puntos de referencia”",
+    "subtitle": "Nelson Arellano-Escudero y Borja Castro-Serrano",
+    "image": "/images/books/601-entrelazamientos-deseantes-la-intervencion-en-lo-social-y-sus-puntos-de-referencia-de-nelson-arellan.png",
+    "collection": "Mundo telúrico",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "drago-oficio-y-escritura-de-felipe-reyes-f",
+    "title": "«Drago. Oficio y escritura»",
+    "subtitle": "Felipe Reyes F.",
+    "image": "/images/books/523-drago-oficio-y-escritura-de-felipe-reyes-f.png",
+    "collection": "Horizontes de sentido",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "cartas-desde-argel-1882-de-karl-marx",
+    "title": "“Cartas desde Argel, 1882”",
+    "subtitle": "Karl Marx",
+    "image": "/images/books/597-cartas-desde-argel-1882-de-karl-marx.png",
+    "collection": "Trayectorias",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "1949-albert-camus-en-chile-de-nibaldo-f-mosciatti-y-juan-e-rivas",
+    "title": "«1949. Albert Camus en Chile» de Nibaldo F. Mosciatti y Juan E. Rivas",
+    "subtitle": "Nadar Ediciones",
+    "image": "/images/books/617-1949-albert-camus-en-chile-de-nibaldo-f-mosciatti-y-juan-e-rivas.png",
+    "collection": "Mundo telúrico",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "materiales-de-construccion-critica-neoliberalismo-e-intervencion-social-de-borja-castro-serrano-alex",
+    "title": "“Materiales (de)construcción. Crítica, neoliberalismo e intervención social”",
+    "subtitle": "Borja Castro-Serrano, Alex Cea y Nelson Arellano-Escudero (editores)",
+    "image": "/images/books/623-materiales-de-construccion-critica-neoliberalismo-e-intervencion-social-de-borja-castro-serrano-alex.png",
+    "collection": "Horizontes de sentido",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "la-que-escribe-este-libro-de-natalia-emilia",
+    "title": "«La que escribe este libro”",
+    "subtitle": "Natalia Emilia",
+    "image": "/images/books/631-la-que-escribe-este-libro-de-natalia-emilia.png",
+    "collection": "Trayectorias",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  },
+  {
+    "slug": "discurso-acerca-del-todo-de-heraclito",
+    "title": "“Discurso acerca del Todo”",
+    "subtitle": "Heráclito",
+    "image": "/images/books/636-discurso-acerca-del-todo-de-heraclito.png",
+    "collection": "Mundo telúrico",
+    "bajada": "Edición Nadar para abrir preguntas sobre territorio, memoria y crítica.",
+    "description": "Titulo del catalogo de Nadar Ediciones. Version inicial para vista local previa a integracion con base de datos y panel admin."
+  }
+]

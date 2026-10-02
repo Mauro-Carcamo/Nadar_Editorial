@@ -20,6 +20,13 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Reglas del proyecto
+
+- En componentes que renderizan con SSR, no leer `localStorage`, `sessionStorage`, `Date.now()` o `Math.random()` directamente en JSX ni en snapshots no cacheados.
+- Si se usa `useSyncExternalStore`, `getSnapshot` debe devolver una referencia estable cuando los datos no cambian; si no, React puede entrar en loops o lanzar errores de hidratacion.
+- Para estado persistido en cliente, preferir un store pequeno con snapshot de servidor estable y cache local explicita.
+- Guia extendida del proyecto: `../Docs/20_Patrones_SSR_Cliente_Web.md`
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
