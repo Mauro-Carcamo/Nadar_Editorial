@@ -14,6 +14,17 @@ npm run lint
 npx tsc --noEmit   # verificación de tipos
 ```
 
+Base de datos local (PostgreSQL) y administrador: ver [`../Docs/31_Plataforma_Auditoria_y_Plan.md`](../Docs/31_Plataforma_Auditoria_y_Plan.md).
+
+```bash
+npm run db:setup         # una vez: crea usuario y base (requiere PG_SUPERUSER_URL temporal)
+npm run db:migrate       # aplica db/migrations
+npm run db:seed          # carga el catálogo (idempotente)
+npm run db:create-admin -- correo "clave" "Nombre"
+```
+
+Panel: http://localhost:3000/admin
+
 Variables de entorno: copiar `.env.local.example` a `.env.local` (ver [`../Docs/26_Configuracion_Entorno_Variables.md`](../Docs/26_Configuracion_Entorno_Variables.md)). Sin `.env.local` el sitio funciona con los datos JSON locales, pero Supabase y WebPay no.
 
 Si los estilos de `src/app/globals.css` no se actualizan en el navegador (pasa a veces en Windows con Turbopack), reiniciar el servidor o borrar la carpeta `.next`.
