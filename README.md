@@ -1,43 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nadar Ediciones · Sitio web
 
-## Getting Started
+Sitio de la editorial Nadar Ediciones: catálogo, colecciones, carrito con WebPay y panel admin. Next.js 16 + React 19.
 
-First, run the development server:
+Documentación completa en [`../Docs`](../Docs/README.md). Estado actual: [`../Docs/28_Estado_Proyecto_MVP.md`](../Docs/28_Estado_Proyecto_MVP.md). Rediseño de la página de inicio: [`../Docs/30_Rediseno_Home_2026.md`](../Docs/30_Rediseno_Home_2026.md).
+
+## Desarrollo local
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # build de producción
+npm run lint
+npx tsc --noEmit   # verificación de tipos
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Variables de entorno: copiar `.env.local.example` a `.env.local` (ver [`../Docs/26_Configuracion_Entorno_Variables.md`](../Docs/26_Configuracion_Entorno_Variables.md)). Sin `.env.local` el sitio funciona con los datos JSON locales, pero Supabase y WebPay no.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Si los estilos de `src/app/globals.css` no se actualizan en el navegador (pasa a veces en Windows con Turbopack), reiniciar el servidor o borrar la carpeta `.next`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Estructura
+
+| Ruta | Contenido |
+|------|-----------|
+| `src/app/page.tsx` | Página de inicio: hero, manifiesto, colecciones y catálogo |
+| `src/app/globals.css` | Tokens de diseño (`:root`) y estilos |
+| `src/components/` | Componentes; `motion/` (animaciones) y `cart/` (carrito) |
+| `src/data/site.ts` | Tipo `Book`, colecciones y helpers: `getBestsellers`, `getCover`, `hasRealDescription` |
+| `src/data/books.enriched.json` | Catálogo de libros |
+| `src/data/covers.json` | Dimensiones de las portadas planas |
+| `public/images/books/` | Fotos originales de las portadas |
+| `public/images/covers-hd/` | Portadas planas recortadas (las usa `getCover`) |
+
+## Librerías principales
+
+- **Swiper 14**: carruseles del hero, colecciones (Parallax + Grab cursor) y catálogo (Grid).
+- **Motion 13** (`motion/react`): animaciones. Todo el inicio va dentro de `MotionProvider`, que respeta "reducir movimiento".
+- **transbank-sdk**: pagos WebPay (sandbox).
 
 ## Reglas del proyecto
 
 - En componentes que renderizan con SSR, no leer `localStorage`, `sessionStorage`, `Date.now()` o `Math.random()` directamente en JSX ni en snapshots no cacheados.
-- Si se usa `useSyncExternalStore`, `getSnapshot` debe devolver una referencia estable cuando los datos no cambian; si no, React puede entrar en loops o lanzar errores de hidratacion.
-- Para estado persistido en cliente, preferir un store pequeno con snapshot de servidor estable y cache local explicita.
-- Guia extendida del proyecto: `../Docs/20_Patrones_SSR_Cliente_Web.md`
+- Si se usa `useSyncExternalStore`, `getSnapshot` debe devolver una referencia estable cuando los datos no cambian; si no, React puede entrar en loops o lanzar errores de hidratación.
+- Para estado persistido en cliente, preferir un store pequeño con snapshot de servidor estable y caché local explícita (ver `CartProvider`).
+- No condicionar estilos en el render según `useReducedMotion` (el servidor no conoce la preferencia y se rompe la hidratación); desactivar efectos con CSS `prefers-reduced-motion`.
+- El catálogo usa Swiper Grid con alto calculado en CSS: el número de columnas debe coincidir entre `slidesPerView` (`CatalogGrid.tsx`) y `--catalog-cols` (`globals.css`).
+- Al reemplazar una imagen, usar un nombre o ruta nueva: el optimizador de Next.js guarda en caché por URL.
+- Guía extendida: [`../Docs/20_Patrones_SSR_Cliente_Web.md`](../Docs/20_Patrones_SSR_Cliente_Web.md).
 
-## Learn More
+## Despliegue
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vercel. Ver [`../Docs/27_Despliegue_Vercel_Completo.md`](../Docs/27_Despliegue_Vercel_Completo.md).
