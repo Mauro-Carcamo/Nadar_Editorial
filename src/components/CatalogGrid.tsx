@@ -68,7 +68,7 @@ export function CatalogGrid({ books }: { books: Book[] }) {
                       alt={`Portada de ${book.title}, de ${book.subtitle}`}
                       width={getCover(book).width}
                       height={getCover(book).height}
-                      sizes="(min-width: 960px) 200px, (min-width: 640px) 24vw, 36vw"
+                      sizes="(min-width: 960px) 260px, (min-width: 640px) 30vw, 44vw"
                     />
                   </motion.span>
                 </span>

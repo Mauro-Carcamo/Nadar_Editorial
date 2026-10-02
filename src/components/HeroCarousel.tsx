@@ -58,7 +58,7 @@ export function HeroCarousel({ books }: { books: Book[] }) {
                     alt={`Portada de ${book.title}, de ${book.subtitle}`}
                     width={cover.width}
                     height={cover.height}
-                    sizes="(min-width: 640px) 360px, 60vw"
+                    sizes="(min-width: 640px) 480px, 80vw"
                     priority={index < 3}
                   />
                 </span>

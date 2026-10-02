@@ -195,7 +195,7 @@ function CollectionStage({
                     alt=""
                     width={getCover(book).width}
                     height={getCover(book).height}
-                    sizes="90px"
+                    sizes="120px"
                   />
                 </span>
               </button>
@@ -218,7 +218,7 @@ function CollectionStage({
                 alt={`Portada de ${book.title}, de ${book.subtitle}`}
                 width={getCover(book).width}
                 height={getCover(book).height}
-                sizes="(min-width: 960px) 320px, 60vw"
+                sizes="(min-width: 960px) 380px, 70vw"
                 priority={index === 0}
               />
             </motion.div>

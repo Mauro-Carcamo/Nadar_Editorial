@@ -21,7 +21,7 @@ export type Book = {
 
 export const allBooks = books as Book[];
 
-// Portadas planas recortadas de las fotos originales (public/images/covers).
+// Portadas planas recortadas de las fotos originales y reescaladas al doble (public/images/covers-hd).
 // Si un libro no tiene portada plana (p. ej. uno nuevo desde el admin) se usa su foto original.
 const coverFiles: Record<string, number[]> = covers;
 
@@ -29,7 +29,7 @@ export function getCover(book: Book) {
   const file = book.image.split("/").pop() ?? "";
   const size = coverFiles[file];
   return size
-    ? { src: `/images/covers/${file}`, width: size[0], height: size[1], flat: true }
+    ? { src: `/images/covers-hd/${file}`, width: size[0], height: size[1], flat: true }
     : { src: book.image, width: 850, height: 688, flat: false };
 }
 
