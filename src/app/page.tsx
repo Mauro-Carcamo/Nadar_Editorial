@@ -1,6 +1,7 @@
 import { CatalogSection } from "@/components/CatalogSection";
 import { CollectionsSection } from "@/components/CollectionsSection";
 import { HeroBooks } from "@/components/HeroBooks";
+import { ManifestoSection } from "@/components/ManifestoSection";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -17,6 +18,7 @@ export default function Home() {
       <SiteHeader />
       <main id="contenido" tabIndex={-1}>
         <HeroBooks books={getBestsellers(10)} />
+        <ManifestoSection />
         <CollectionsSection />
         <CatalogSection />
       </main>

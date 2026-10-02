@@ -43,7 +43,7 @@ export function AddToCartButton({
     <motion.button
       type="button"
       whileTap={{ scale: 0.94 }}
-      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+      transition={{ type: "spring", stiffness: 260, damping: 24 }}
       className={`${className}${added ? " is-added" : ""}`}
       aria-label={ariaLabel ?? "Agregar al carrito"}
       onClick={() => {

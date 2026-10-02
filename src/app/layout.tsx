@@ -1,24 +1,19 @@
 import type { Metadata } from "next";
-import { Josefin_Sans, Open_Sans, Rubik } from "next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 import { CartProvider } from "@/components/cart/CartProvider";
 import "./globals.css";
 
-const displayFont = Josefin_Sans({
+// Títulos: serif editorial (eje óptico); interfaz y lectura: sans neutra
+const displayFont = Newsreader({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  axes: ["opsz"],
+  style: ["normal", "italic"],
 });
 
-const uiFont = Open_Sans({
+const uiFont = Inter({
   variable: "--font-ui",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const accentFont = Rubik({
-  variable: "--font-accent",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -34,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${displayFont.variable} ${uiFont.variable} ${accentFont.variable}`}>
+      <body className={`${displayFont.variable} ${uiFont.variable}`}>
         <CartProvider>{children}</CartProvider>
       </body>
     </html>

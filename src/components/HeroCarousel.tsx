@@ -8,7 +8,7 @@ import type { Swiper as SwiperInstance } from "swiper";
 import { A11y, Keyboard } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { Book } from "@/data/site";
+import { Book, getCover } from "@/data/site";
 
 export function HeroCarousel({ books }: { books: Book[] }) {
   const [swiper, setSwiper] = useState<SwiperInstance | null>(null);
@@ -22,7 +22,7 @@ export function HeroCarousel({ books }: { books: Book[] }) {
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
       >
         <Swiper
           className="container home-hero-carousel"
@@ -46,17 +46,22 @@ export function HeroCarousel({ books }: { books: Book[] }) {
           onSlideChange={syncEdges}
           onResize={syncEdges}
         >
-          {books.map((book, index) => (
+          {books.map((book, index) => {
+            const cover = getCover(book);
+            return (
             <SwiperSlide key={book.slug} className="home-hero-slide" tag="article">
               <Link href={`/libros/${book.slug}`} className="home-hero-slide-link">
-                <Image
-                  src={book.image}
-                  alt={`Portada de ${book.title}, de ${book.subtitle}`}
-                  width={600}
-                  height={800}
-                  sizes="(min-width: 640px) 560px, 84vw"
-                  priority={index < 3}
-                />
+                {/* Portada plana centrada sobre un marco claro */}
+                <span className={`home-hero-slide-cover${cover.flat ? " is-flat" : ""}`}>
+                  <Image
+                    src={cover.src}
+                    alt={`Portada de ${book.title}, de ${book.subtitle}`}
+                    width={cover.width}
+                    height={cover.height}
+                    sizes="(min-width: 640px) 360px, 60vw"
+                    priority={index < 3}
+                  />
+                </span>
                 <span className="home-hero-slide-caption">
                   <span className="home-hero-rank" aria-label={`Puesto ${index + 1}`}>
                     {String(index + 1).padStart(2, "0")}
@@ -68,7 +73,8 @@ export function HeroCarousel({ books }: { books: Book[] }) {
                 </span>
               </Link>
             </SwiperSlide>
-          ))}
+            );
+          })}
         </Swiper>
       </motion.div>
 
@@ -76,7 +82,7 @@ export function HeroCarousel({ books }: { books: Book[] }) {
         className="container home-hero-head"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.05, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <div>
           <p className="home-hero-eyebrow">Top {books.length}</p>

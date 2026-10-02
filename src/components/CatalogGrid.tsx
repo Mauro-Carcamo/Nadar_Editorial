@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
-import { Book } from "@/data/site";
+import { Book, getCover } from "@/data/site";
 
 const formatPrice = (price: number) => `$${new Intl.NumberFormat("es-CL").format(price)}`;
 
@@ -21,13 +21,13 @@ const cardVariants: Variants = {
   visible: (order: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: order * 0.07, ease: EASE },
+    transition: { duration: 0.95, delay: order * 0.1, ease: EASE },
   }),
-  hover: { y: -6, transition: { duration: 0.3, ease: "easeOut" } },
+  hover: { y: -6, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
 const coverVariants: Variants = {
-  hover: { scale: 1.04, transition: { duration: 0.4, ease: "easeOut" } },
+  hover: { scale: 1.04, transition: { duration: 0.65, ease: "easeOut" } },
 };
 
 // Demo "Grid": 2 filas; las columnas deben coincidir con --catalog-cols en globals.css
@@ -61,16 +61,17 @@ export function CatalogGrid({ books }: { books: Book[] }) {
               viewport={{ once: true, amount: 0.3 }}
             >
               <Link href={`/libros/${book.slug}`} className="catalog-card-link">
-                <motion.span className="catalog-card-cover" variants={coverVariants}>
-                  <Image
-                    src={book.image}
-                    alt={`Portada de ${book.title}, de ${book.subtitle}`}
-                    width={850}
-                    height={688}
-                    sizes="(min-width: 960px) 280px, (min-width: 640px) 31vw, 46vw"
-                  />
-                </motion.span>
-                <span className="catalog-card-collection">{book.collection}</span>
+                <span className={`catalog-card-frame${getCover(book).flat ? " is-flat" : ""}`}>
+                  <motion.span className="catalog-card-cover" variants={coverVariants}>
+                    <Image
+                      src={getCover(book).src}
+                      alt={`Portada de ${book.title}, de ${book.subtitle}`}
+                      width={getCover(book).width}
+                      height={getCover(book).height}
+                      sizes="(min-width: 960px) 200px, (min-width: 640px) 24vw, 36vw"
+                    />
+                  </motion.span>
+                </span>
                 <span className="catalog-card-title">{book.title}</span>
                 <span className="catalog-card-author">{book.subtitle}</span>
               </Link>

@@ -9,7 +9,7 @@ import { A11y, Keyboard, Parallax } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
-import { Book, hasRealDescription } from "@/data/site";
+import { Book, getCover, hasRealDescription } from "@/data/site";
 
 type CollectionWithBooks = {
   slug: string;
@@ -22,7 +22,7 @@ const formatPrice = (price: number) => `$${new Intl.NumberFormat("es-CL").format
 const pad = (n: number) => String(n).padStart(2, "0");
 
 type PillBox = { x: number; y: number; w: number; h: number };
-const PILL_SPRING = { type: "spring", stiffness: 380, damping: 34 } as const;
+const PILL_SPRING = { type: "spring", stiffness: 200, damping: 28 } as const;
 
 // Posición de la píldora del menú entre montajes del panel (se remonta al cambiar de colección)
 let lastPill: PillBox | null = null;
@@ -128,17 +128,6 @@ function CollectionStage({
         strip?.slideTo(Math.max(0, s.activeIndex - 1));
       }}
     >
-      {/* Fondo Parallax: se desplaza más lento que el contenido */}
-      <div slot="container-start" className="collection-stage-bg" data-swiper-parallax="-23%">
-        {/* Movimiento continuo: el nombre de la colección flota lentamente */}
-        <motion.span
-          aria-hidden="true"
-          animate={{ x: [0, -48, 0] }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-        >
-          {active.name}
-        </motion.span>
-      </div>
 
       {/* Menú de colecciones dentro del panel; swiper-no-swiping evita arrastrar el visor desde aquí */}
       <div slot="container-start" className="collection-stage-head swiper-no-swiping">
@@ -201,7 +190,13 @@ function CollectionStage({
                 onClick={() => main?.slideTo(index)}
               >
                 <span className="collection-strip-cover">
-                  <Image src={book.image} alt="" width={300} height={243} sizes="(min-width: 960px) 160px, 40vw" />
+                  <Image
+                    src={getCover(book).src}
+                    alt=""
+                    width={getCover(book).width}
+                    height={getCover(book).height}
+                    sizes="90px"
+                  />
                 </span>
               </button>
             </SwiperSlide>
@@ -213,17 +208,17 @@ function CollectionStage({
         <SwiperSlide key={book.slug} tag="article" className="collection-parallax-slide">
           <div className="collection-parallax-cover" data-swiper-parallax="-40%" data-swiper-parallax-opacity="0.3">
             <motion.div
-              className="collection-parallax-cover-inner"
+              className={`collection-parallax-cover-inner${getCover(book).flat ? " is-flat" : ""}`}
               initial={{ opacity: 0, scale: 1.08 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
             >
               <Image
-                src={book.image}
+                src={getCover(book).src}
                 alt={`Portada de ${book.title}, de ${book.subtitle}`}
-                width={850}
-                height={688}
-                sizes="(min-width: 960px) 480px, 92vw"
+                width={getCover(book).width}
+                height={getCover(book).height}
+                sizes="(min-width: 960px) 320px, 60vw"
                 priority={index === 0}
               />
             </motion.div>
@@ -233,7 +228,7 @@ function CollectionStage({
             className="collection-parallax-info"
             initial={{ opacity: 0, x: 32 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.0, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="collection-parallax-eyebrow" data-swiper-parallax="-400">
               {active.name} · {pad(index + 1)}/{pad(total)}
