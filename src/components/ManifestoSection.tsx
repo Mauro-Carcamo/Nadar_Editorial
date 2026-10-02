@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
@@ -42,14 +43,41 @@ export function ManifestoSection() {
   const scale = useTransform(leave, [0, 1], [1, 0.9]);
   const opacity = useTransform(leave, [0, 0.85], [1, 0.15]);
 
+  // Foto de fondo: mismos movimientos que el texto, pero más lentos (parallax) para que se sienta atrás
+  const photoEnterY = useTransform(enter, [0, 1], [-40, 0]);
+  const photoLeaveY = useTransform(leave, [0, 1], [0, -24]);
+  const photoY = useTransform(() => photoEnterY.get() + photoLeaveY.get());
+  const photoScale = useTransform(leave, [0, 1], [1, 0.94]);
+  const photoOpacity = useTransform(leave, [0, 0.85], [1, 0.1]);
+
   return (
     <>
       <section ref={ref} className="home-manifesto" aria-labelledby="home-manifesto-title">
+        {/* Gaspard-Félix Tournachon, «Nadar», en la canasta de un globo (c. 1863). Dominio público, Gallica/BnF */}
+        <motion.div
+          className="home-manifesto-photo"
+          style={{ y: photoY, scale: photoScale, opacity: photoOpacity }}
+          aria-hidden="true"
+        >
+          <Image src="/images/page/nadar-globo.jpg" alt="" fill sizes="(min-width: 900px) 46vw, 90vw" />
+        </motion.div>
         <motion.div className="container home-manifesto-inner" style={{ y, scale, opacity }}>
           <p className="home-hero-eyebrow">Nadar Ediciones</p>
           <h2 id="home-manifesto-title" className="home-manifesto-statement">
             Libros de arte y crítica para leer el presente <em>desde múltiples orillas.</em>
           </h2>
+
+          <blockquote className="home-manifesto-origin">
+            <p>
+              “Nadar” era el pseudónimo de Gaspard-Félix Tournachon, fotógrafo y aeronauta francés que vivió durante el
+              siglo XIX. “Nadar” también refiere al verbo que se utiliza para describir la traslación acuática mediante
+              movimientos corporales. Cabría preguntarse: ¿Es posible una natación celeste, «nadar en los aires»? Pensar
+              a Gaspard-Félix Tournachon como nadador a través de los gases que habitan el cielo, o simplemente quien
+              nada, sea un pez, una persona o un elefante, en el mar o en los lagos, como si el estado líquido del agua
+              fuera lo mismo que su estado gaseoso. Recordemos que viento se define como un gas en movimiento ¿En qué
+              difieren vientos y corrientes acuáticas?
+            </p>
+          </blockquote>
 
           <div className="home-manifesto-pillars">
             {pillars.map((pillar) => (

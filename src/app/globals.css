@@ -3037,8 +3037,93 @@ html[data-scrolled] .nav-wrap {
   will-change: transform, opacity;
 }
 
+/* Foto de Nadar en globo: grande, atrás y hacia la derecha; se funde con el fondo por la izquierda */
+.home-manifesto-photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(48vw, 620px);
+  z-index: 0;
+  pointer-events: none;
+  transform-origin: 50% 0;
+  will-change: transform, opacity;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%), linear-gradient(to top, transparent 0%, #000 22%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 38%), linear-gradient(to top, transparent 0%, #000 22%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.home-manifesto-photo img {
+  object-fit: cover;
+  object-position: 50% 30%;
+  filter: sepia(0.25) saturate(0.7) contrast(1.02);
+  opacity: 0.9;
+}
+
+.home-manifesto-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Texto sobre el origen del nombre: centrado */
+.home-manifesto-origin {
+  max-width: 60ch;
+  margin: 28px auto 0;
+  padding: 0;
+  text-align: center;
+}
+
+.home-manifesto-origin p {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1rem, 1.4vw, 1.12rem);
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* Escritorio: el texto ocupa la columna izquierda (sin pisar la foto) y la cita se centra en ella.
+   Las tres columnas se ocultan para que la sección siga siendo corta. */
+@media (min-width: 900px) {
+  .home-manifesto-inner > * {
+    max-width: min(58%, 680px);
+  }
+
+  .home-manifesto-origin {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .home-manifesto .home-manifesto-pillars {
+    display: none;
+  }
+}
+
+/* Móvil: la foto queda detrás del texto, muy tenue (la opacidad va en la imagen:
+   la del contenedor la controla Motion) */
+@media (max-width: 899px) {
+  .home-manifesto-photo {
+    width: 78vw;
+  }
+
+  .home-manifesto-photo img {
+    opacity: 0.16;
+  }
+
+  .home-manifesto-origin {
+    margin-top: 20px;
+  }
+}
+
 /* Reducir movimiento: anula el efecto de Motion (estilos en línea) sin cambiar el HTML del servidor */
 @media (prefers-reduced-motion: reduce) {
+  .home-manifesto-photo {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
   .home-manifesto-inner {
     transform: none !important;
     opacity: 1 !important;
