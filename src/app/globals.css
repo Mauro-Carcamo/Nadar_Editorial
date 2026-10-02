@@ -3070,6 +3070,14 @@ html[data-scrolled] .nav-wrap {
   will-change: transform, opacity;
 }
 
+/* Reducir movimiento: anula el efecto de Motion (estilos en línea) sin cambiar el HTML del servidor */
+@media (prefers-reduced-motion: reduce) {
+  .home-manifesto-inner {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
 .home-manifesto-statement {
   max-width: 24ch;
   margin: 0;

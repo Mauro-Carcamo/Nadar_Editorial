@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 
 // Textos del proyecto editorial (Docs/16_Contenido_Editorial_Base.md)
@@ -23,13 +23,13 @@ const pillars = [
 /**
  * Sección "de paso": queda fija detrás de la página (sticky) mientras Colecciones sube y la cubre.
  * Al entrar emerge desde abajo del hero; al quedar atrás las letras se achican, suben y se desvanecen.
+ * Con "reducir movimiento" el efecto se anula en CSS (así el HTML del servidor y del cliente coincide).
  */
 export function ManifestoSection() {
   const ref = useRef<HTMLElement>(null);
   // Marcador sin altura justo después de la sección: a diferencia de la sección (sticky),
   // sí se desplaza con la página, así que sirve para medir cuánto la cubre Colecciones.
   const endRef = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
 
   // Entrada: desde que la sección asoma abajo hasta que llega arriba
   const { scrollYProgress: enter } = useScroll({ target: ref, offset: ["start end", "start start"] });
@@ -45,7 +45,7 @@ export function ManifestoSection() {
   return (
     <>
       <section ref={ref} className="home-manifesto" aria-labelledby="home-manifesto-title">
-        <motion.div className="container home-manifesto-inner" style={reduce ? undefined : { y, scale, opacity }}>
+        <motion.div className="container home-manifesto-inner" style={{ y, scale, opacity }}>
           <p className="home-hero-eyebrow">Nadar Ediciones</p>
           <h2 id="home-manifesto-title" className="home-manifesto-statement">
             Libros de arte y crítica para leer el presente <em>desde múltiples orillas.</em>
