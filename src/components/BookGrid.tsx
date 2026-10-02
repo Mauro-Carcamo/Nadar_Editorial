@@ -1,53 +1,65 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Book } from "@/data/site";
+import { Book, getCover } from "@/data/site";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+
+const formatPrice = (price: number) => `$${new Intl.NumberFormat("es-CL").format(price)}`;
 
 export function BookGrid({ books }: { books: Book[] }) {
   return (
     <div className="book-grid">
-      {books.map((book) => (
-        <article key={book.slug} className="book-card">
-          <Link href={`/libros/${book.slug}`} className="book-cover-wrap-link">
-            <div className="book-cover-wrap">
-              <span className="book-badge">{book.collection}</span>
-              <Image
-                src={book.image}
-                alt={`Portada de ${book.title}`}
-                width={600}
-                height={800}
-                className="book-cover"
-              />
+      {books.map((book) => {
+        const cover = getCover(book);
+        return (
+          <article key={book.slug} className="book-card">
+            <Link href={`/libros/${book.slug}`} className="book-cover-wrap-link">
+              <div className={`book-cover-wrap${cover.flat ? " is-flat" : ""}`}>
+                <Image
+                  src={cover.src}
+                  alt={`Portada de ${book.title}`}
+                  width={cover.width}
+                  height={cover.height}
+                  sizes="(min-width: 960px) 300px, (min-width: 640px) 45vw, 90vw"
+                  className="book-cover"
+                />
+              </div>
+            </Link>
+            <div className="book-meta">
+              {book.collection ? (
+                <p className="book-collection">
+                  {book.collection}
+                  {book.series ? ` · ${book.series}` : ""}
+                </p>
+              ) : null}
+              <h3>
+                <Link href={`/libros/${book.slug}`}>{book.title}</Link>
+              </h3>
+              <p>{book.subtitle}</p>
+              {book.bajada ? <p className="book-bajada">{book.bajada}</p> : null}
+              <div className="book-card-actions">
+                {book.price ? (
+                  <>
+                    <span className="book-mini-fact">{formatPrice(book.price)}</span>
+                    <AddToCartButton
+                      slug={book.slug}
+                      title={book.title}
+                      subtitle={book.subtitle}
+                      image={cover.src}
+                      price={book.price}
+                      currency={book.currency ?? "CLP"}
+                      className="pill"
+                    />
+                  </>
+                ) : (
+                  <Link href="/contacto" className="pill">
+                    Consultar disponibilidad
+                  </Link>
+                )}
+              </div>
             </div>
-          </Link>
-          <div className="book-meta">
-            <p className="book-collection">{book.collection}</p>
-            <h3>{book.title}</h3>
-            <p>{book.subtitle}</p>
-            {book.isbn ? <p className="book-mini-fact">ISBN: {book.isbn}</p> : null}
-            {book.price ? (
-              <p className="book-mini-fact">
-                {new Intl.NumberFormat("es-CL").format(book.price)} {book.currency ?? "CLP"}
-              </p>
-            ) : null}
-            <p className="book-bajada">{book.bajada}</p>
-            <div className="book-card-actions">
-              <Link href={`/libros/${book.slug}`} className="text-link">
-                Ver detalle
-              </Link>
-              <AddToCartButton
-                slug={book.slug}
-                title={book.title}
-                subtitle={book.subtitle}
-                image={book.image}
-                price={book.price ?? null}
-                currency={book.currency ?? "CLP"}
-                className="pill"
-              />
-            </div>
-          </div>
-        </article>
-      ))}
+          </article>
+        );
+      })}
     </div>
   );
 }

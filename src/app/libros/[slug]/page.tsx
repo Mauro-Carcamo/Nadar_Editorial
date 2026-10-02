@@ -1,20 +1,36 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { allBooks, getBookBySlug, hasRealDescription } from "@/data/site";
+import {
+  allBooks,
+  collections,
+  getBookBySlug,
+  getBooksByCollection,
+  getCover,
+  getLeadAndBody,
+} from "@/data/site";
 
 export function generateStaticParams() {
   return allBooks.map((book) => ({ slug: book.slug }));
 }
 
-export default async function BookDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const book = getBookBySlug(slug);
+  if (!book) return {};
+  return {
+    title: `${book.title} · ${book.subtitle} | Nadar Ediciones`,
+    description: book.bajada || undefined,
+  };
+}
+
+const formatPrice = (price: number) => `$${new Intl.NumberFormat("es-CL").format(price)}`;
+
+export default async function BookDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const book = getBookBySlug(slug);
 
@@ -22,58 +38,139 @@ export default async function BookDetailPage({
     notFound();
   }
 
+  const cover = getCover(book);
+  const collection = collections.find((c) => c.name === book.collection);
+  const { lead, body } = getLeadAndBody(book);
+  const paragraphs = body.split("\n\n").filter(Boolean);
+  const bio = (book.authorBio ?? "").split("\n\n").filter(Boolean);
+  const related = book.collection
+    ? getBooksByCollection(book.collection).filter((b) => b.slug !== book.slug).slice(0, 4)
+    : [];
+
+  const facts: [string, string][] = [];
+  if (book.isbn) facts.push(["ISBN", book.isbn]);
+  if (book.year) facts.push(["Año", book.year]);
+  if (book.pages) facts.push(["Páginas", String(book.pages)]);
+  if (book.size) facts.push(["Tamaño", book.size]);
+  if (book.subject) facts.push(["Materia", book.subject]);
+  if (book.contributors?.length) facts.push(["Colaboran", book.contributors.join(" · ")]);
+
   return (
     <>
       <SiteHeader />
-      <main className="section section-light">
-        <div className="container book-detail-grid">
-          <div className="book-detail-image-wrap">
+      <main className="book-page">
+        <div className="container book-page-grid">
+          <div className={`book-page-cover${cover.flat ? " is-flat" : ""}`}>
             <Image
-              src={book.image}
-              alt={`Portada de ${book.title}`}
-              width={900}
-              height={1200}
-              className="book-detail-image"
+              src={cover.src}
+              alt={`Portada de ${book.title}, de ${book.subtitle}`}
+              width={cover.width}
+              height={cover.height}
+              sizes="(min-width: 960px) 440px, 80vw"
               priority
             />
           </div>
-          <article className="book-detail-content">
-            <p className="eyebrow">{book.collection}</p>
-            <h1>{book.title}</h1>
-            <p className="book-detail-author">{book.subtitle}</p>
-            <div className="book-detail-facts">
-              {book.isbn ? <p><strong>ISBN:</strong> {book.isbn}</p> : null}
-              {book.publishDate ? <p><strong>Fecha:</strong> {book.publishDate}</p> : null}
-              {book.subject ? <p><strong>Materia:</strong> {book.subject}</p> : null}
-              {book.publicationType ? <p><strong>Formato:</strong> {book.publicationType}</p> : null}
+
+          <article className="book-page-content">
+            {book.collection ? (
+              <p className="home-hero-eyebrow">
+                {collection ? <Link href={`/colecciones#${collection.slug}`}>{book.collection}</Link> : book.collection}
+                {book.series ? ` · ${book.series}` : ""}
+              </p>
+            ) : null}
+            <h1 className="book-page-title">{book.title}</h1>
+            <p className="book-page-author">{book.subtitle}</p>
+
+            {lead ? <p className="book-page-bajada">{lead}</p> : null}
+
+            <div className="book-page-buy">
               {book.price ? (
-                <p>
-                  <strong>Precio:</strong> {new Intl.NumberFormat("es-CL").format(book.price)}{" "}
-                  {book.currency ?? "CLP"}
-                </p>
-              ) : null}
-            </div>
-            <p className="book-detail-bajada">{book.bajada}</p>
-            {hasRealDescription(book) ? <p>{book.description}</p> : null}
-            <div className="hero-actions">
-              <AddToCartButton
-                slug={book.slug}
-                title={book.title}
-                subtitle={book.subtitle}
-                image={book.image}
-                price={book.price ?? null}
-                currency={book.currency ?? "CLP"}
-                className="btn btn-primary"
-              />
-              <a className="btn btn-outline" href="mailto:contacto@nadarediciones.cl">
-                Consultar disponibilidad
-              </a>
+                <>
+                  <p className="book-page-price">
+                    {formatPrice(book.price)} <span>{book.currency ?? "CLP"}</span>
+                  </p>
+                  <AddToCartButton
+                    slug={book.slug}
+                    title={book.title}
+                    subtitle={book.subtitle}
+                    image={cover.src}
+                    price={book.price}
+                    currency={book.currency ?? "CLP"}
+                    className="btn btn-primary"
+                  />
+                </>
+              ) : (
+                <Link className="btn btn-primary" href="/contacto">
+                  Consultar disponibilidad
+                </Link>
+              )}
               <Link className="btn btn-outline" href="/libros">
-                Volver al catalogo
+                Volver al catálogo
               </Link>
             </div>
+
+            {paragraphs.length ? (
+              <section className="book-page-section" aria-label="Sinopsis">
+                {paragraphs.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </section>
+            ) : null}
+
+            {bio.length ? (
+              <section className="book-page-section">
+                <h2>Sobre {book.subtitle.includes(" y ") || book.subtitle.includes(",") ? "los autores" : "el autor"}</h2>
+                {bio.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </section>
+            ) : null}
+
+            {facts.length ? (
+              <section className="book-page-section">
+                <h2>Ficha técnica</h2>
+                <dl className="book-page-facts">
+                  {facts.map(([label, value]) => (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            ) : null}
+
+            {book.tags?.length ? (
+              <ul className="book-page-tags" aria-label="Temas">
+                {book.tags.map((tag) => (
+                  <li key={tag}>{tag}</li>
+                ))}
+              </ul>
+            ) : null}
           </article>
         </div>
+
+        {related.length ? (
+          <section className="container book-page-related" aria-labelledby="related-title">
+            <h2 id="related-title">Más de {book.collection}</h2>
+            <ul>
+              {related.map((r) => {
+                const rc = getCover(r);
+                return (
+                  <li key={r.slug}>
+                    <Link href={`/libros/${r.slug}`}>
+                      <span className={`book-page-related-cover${rc.flat ? " is-flat" : ""}`}>
+                        <Image src={rc.src} alt="" width={rc.width} height={rc.height} sizes="200px" />
+                      </span>
+                      <span className="book-page-related-title">{r.title}</span>
+                      <span className="book-page-related-author">{r.subtitle}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ) : null}
       </main>
       <SiteFooter />
     </>

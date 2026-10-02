@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { BookGrid } from "@/components/BookGrid";
-import { Book } from "@/data/site";
+import { Book, collections as officialCollections } from "@/data/site";
 
 type Props = {
   books: Book[];
@@ -12,16 +12,17 @@ export function CatalogClient({ books }: Props) {
   const [query, setQuery] = useState("");
   const [activeCollection, setActiveCollection] = useState("Todas");
 
+  // Colecciones en el orden oficial, solo las que tienen libros (los libros sin colección quedan en "Todas")
   const collections = useMemo(() => {
-    const unique = Array.from(new Set(books.map((b) => b.collection))).sort();
-    return ["Todas", ...unique];
+    const present = new Set(books.map((b) => b.collection).filter(Boolean));
+    return ["Todas", ...officialCollections.map((c) => c.name).filter((name) => present.has(name))];
   }, [books]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return books.filter((book) => {
       const byCollection = activeCollection === "Todas" || book.collection === activeCollection;
-      const haystack = [book.title, book.subtitle, book.bajada, book.isbn ?? "", book.subject ?? ""]
+      const haystack = [book.title, book.subtitle, book.bajada, book.isbn ?? "", book.subject ?? "", ...(book.tags ?? [])]
         .join(" ")
         .toLowerCase();
       const byQuery = !q || haystack.includes(q);
@@ -31,9 +32,9 @@ export function CatalogClient({ books }: Props) {
 
   return (
     <>
-      <div className="container filter-panel" role="region" aria-label="Filtros de catalogo">
+      <div className="container filter-panel" role="region" aria-label="Filtros de catálogo">
         <label className="search-label" htmlFor="catalog-search">
-          Buscar por titulo, autor, ISBN o materia
+          Buscar por título, autor, ISBN o materia
         </label>
         <input
           id="catalog-search"
@@ -41,7 +42,7 @@ export function CatalogClient({ books }: Props) {
           type="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Ej: Reclus, geografia, 978..."
+          placeholder="Ej.: Reclus, poesía, 978…"
         />
 
         <div className="filter-row">

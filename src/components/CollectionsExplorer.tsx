@@ -9,7 +9,7 @@ import { A11y, Keyboard, Parallax } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
-import { Book, getCover, hasRealDescription } from "@/data/site";
+import { Book, getCover, getLeadAndBody } from "@/data/site";
 
 type CollectionWithBooks = {
   slug: string;
@@ -231,7 +231,8 @@ function CollectionStage({
             transition={{ duration: 1.0, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="collection-parallax-eyebrow" data-swiper-parallax="-400">
-              {active.name} · {pad(index + 1)}/{pad(total)}
+              {active.name}
+              {book.series ? ` · ${book.series}` : ""} · {pad(index + 1)}/{pad(total)}
             </p>
             <h3 className="collection-parallax-title" data-swiper-parallax="-300">
               {book.title}
@@ -240,9 +241,11 @@ function CollectionStage({
               {book.subtitle}
             </p>
             <div className="collection-parallax-text" data-swiper-parallax="-100">
-              <p className="collection-parallax-bajada">{book.bajada}</p>
-              {hasRealDescription(book) ? (
-                <p className="collection-parallax-description">{book.description}</p>
+              {getLeadAndBody(book).lead ? (
+                <p className="collection-parallax-bajada">{getLeadAndBody(book).lead}</p>
+              ) : null}
+              {getLeadAndBody(book).body ? (
+                <p className="collection-parallax-description">{getLeadAndBody(book).body}</p>
               ) : null}
               {book.isbn || book.publishDate || book.subject ? (
                 <dl className="collection-parallax-facts">
@@ -274,6 +277,7 @@ function CollectionStage({
                 </p>
               ) : null}
               <div className="collection-parallax-actions">
+                {book.price ? (
                 <AddToCartButton
                   slug={book.slug}
                   title={book.title}
@@ -284,6 +288,11 @@ function CollectionStage({
                   className="btn btn-primary"
                   ariaLabel={`Agregar ${book.title} al carrito`}
                 />
+                ) : (
+                  <Link href="/contacto" className="btn btn-primary">
+                    Consultar disponibilidad
+                  </Link>
+                )}
                 <Link href={`/libros/${book.slug}`} className="btn btn-outline">
                   Ver ficha
                 </Link>

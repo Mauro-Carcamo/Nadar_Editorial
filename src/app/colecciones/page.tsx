@@ -1,29 +1,72 @@
-﻿import Link from "next/link";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { collections } from "@/data/site";
+import { collections, getBooksByCollection, getCover } from "@/data/site";
+
+export const metadata: Metadata = {
+  title: "Colecciones | Nadar Ediciones",
+  description: "Nadar Ediciones organiza su catálogo en torno a seis colecciones.",
+};
 
 export default function ColeccionesPage() {
   return (
     <>
       <SiteHeader />
-      <main className="section section-light-alt">
-        <div className="container page-intro">
-          <p className="eyebrow">Colecciones</p>
-          <h1>Rutas de lectura</h1>
-          <p>Cada coleccion organiza problemas y conversaciones desde perspectivas situadas.</p>
-        </div>
+      <main className="collections-page">
+        <div className="container">
+          <header className="collections-page-head">
+            <p className="home-hero-eyebrow">Colecciones</p>
+            <h1 className="home-collections-heading">Rutas de lectura</h1>
+            <p className="home-collections-intro">
+              Nadar Ediciones organiza su catálogo en torno a seis colecciones.
+            </p>
+          </header>
 
-        <div className="container collections-grid">
-          {collections.map((collection) => (
-            <article key={collection.slug}>
-              <h3>{collection.name}</h3>
-              <p>{collection.description}</p>
-              <Link className="text-link" href="/libros">
-                Ver titulos
-              </Link>
-            </article>
-          ))}
+          {collections.map((collection, index) => {
+            const books = getBooksByCollection(collection.name);
+            return (
+              <section key={collection.slug} id={collection.slug} className="collections-page-item">
+                <div className="collections-page-text">
+                  <span className="collections-page-index">{String(index + 1).padStart(2, "0")}</span>
+                  <h2>{collection.name}</h2>
+                  <p className="collections-page-lead">{collection.description}</p>
+                  {collection.intro ? <p>{collection.intro}</p> : null}
+                  {collection.series.length ? (
+                    <p className="collections-page-series">Series: {collection.series.join(" · ")}</p>
+                  ) : null}
+                  <p className="collections-page-count">
+                    {books.length} {books.length === 1 ? "título" : "títulos"}
+                  </p>
+                </div>
+
+                {books.length ? (
+                  <ul className="collections-page-books">
+                    {books.map((book) => {
+                      const cover = getCover(book);
+                      return (
+                        <li key={book.slug}>
+                          <Link href={`/libros/${book.slug}`} title={`${book.title} · ${book.subtitle}`}>
+                            <span className={`collections-page-cover${cover.flat ? " is-flat" : ""}`}>
+                              <Image
+                                src={cover.src}
+                                alt={`Portada de ${book.title}`}
+                                width={cover.width}
+                                height={cover.height}
+                                sizes="160px"
+                              />
+                            </span>
+                            <span className="collections-page-book-title">{book.title}</span>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : null}
+              </section>
+            );
+          })}
         </div>
       </main>
       <SiteFooter />

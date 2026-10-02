@@ -77,6 +77,7 @@ export function CatalogGrid({ books }: { books: Book[] }) {
               </Link>
               <div className="catalog-card-buy">
                 {book.price ? <span className="catalog-card-price">{formatPrice(book.price)}</span> : null}
+                {book.price ? (
                 <AddToCartButton
                   slug={book.slug}
                   title={book.title}
@@ -89,6 +90,12 @@ export function CatalogGrid({ books }: { books: Book[] }) {
                 >
                   Agregar
                 </AddToCartButton>
+                ) : (
+                  // Sin precio confirmado no se agrega al carrito: se consulta disponibilidad
+                  <Link href="/contacto" className="catalog-card-cart catalog-card-ask">
+                    Consultar
+                  </Link>
+                )}
               </div>
             </motion.div>
           </SwiperSlide>

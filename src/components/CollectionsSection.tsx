@@ -22,7 +22,7 @@ export function CollectionsSection() {
               Rutas de lectura
             </h2>
             <p className="home-collections-intro">
-              Cada colección organiza problemas y conversaciones desde perspectivas situadas.
+              Nadar Ediciones organiza su catálogo en torno a seis colecciones.
             </p>
           </header>
         </Reveal>

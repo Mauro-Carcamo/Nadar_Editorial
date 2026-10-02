@@ -1,0 +1,54 @@
+[
+  {
+    "slug": "horizontes-de-sentido",
+    "name": "Horizontes de sentido",
+    "description": "Filosofía política, crítica e investigación",
+    "intro": "La colección “Horizontes de sentido”, pese a no restringir sus límites, se enfoca a la edición y divulgación de obras dedicadas al pensamiento crítico y a la filosofía política. Su pregunta es fundamentalmente política, indaga las posibilidades de ésta y la sitúa como una correlación de lo social. En este sentido, cada obra publicada dentro de esta colección constituye un filamento que une y desune conceptos como democracia, Estado, revolución, utopía, para vaciarlos, rearticularlos o destruirlos. Postulando que la palabra no sólo es expresión, sino también la forma en que nos entrelazamos al mundo, la colección “Horizontes de sentido” hace circular sus títulos entre espacios diversos y plurales, sin apuntar a rostros o sujetos definidos y apelando a que el pensamiento crítico-político manifiesta la necesidad o intención de explorar nuevos campos y formas políticas y sociales.",
+    "series": [],
+    "sourceUrl": "https://nadarediciones.cl/horizontes-de-sentido/"
+  },
+  {
+    "slug": "contracorriente",
+    "name": "Nadar Contracorriente",
+    "description": "Narrativa contemporánea, ejercicios poéticos y dramaturgia",
+    "intro": "Nadar contracorriente es mucho más que el ejercicio físico: es un ejercicio político y literario de la más alta exigencia, que necesita de brazos y espíritus fuertes para decir lo que no muchos se atreven. La literatura, en sus diversas campos y áreas, sea ensayo o narrativa, poesía o dramaturgia, no sólo es una apuesta, es una forma de vivir y re-construir el mundo. Nadar Contracorriente apunta a ser un crisol de la más alta cultura y expresión, de crítica y ruptura, donde se encuentren y dialoguen escritores en el ejercicio de la libertad de la palabra –entre ellos y con la sociedad que es receptora de sus preocupaciones–, convirtiéndose en un espacio de reserva de vida y letras libres en pro de la diversificación de ideas y formatos, pues es en la literatura mestiza y en la multiplicidad de puntos de vista, donde Nadar Contracorriente encuentra su principio fundante. Aquí encontraremos las vibraciones literarias de la sociedad que se amplifican a todas y todos para quienes sea la literatura su mundo: escritores y lectores. Nadar Contracorriente es la casa donde conviven el teatro, la narrativa y la poesía.",
+    "series": [
+      "Narrativas contemporáneas",
+      "Poesía",
+      "Dramaturgia"
+    ],
+    "sourceUrl": "https://nadarediciones.cl/contracorriente/"
+  },
+  {
+    "slug": "preteritas",
+    "name": "Pretéritas",
+    "description": "Historia, crónica y memoria en distintos códigos",
+    "intro": "La experiencia del tiempo es singular y plural a la vez. El tiempo, situado como elemento físico integrado al espacio, permanente y perdido en las profundidades cronológicas, también opera como momento presente, en el sentido exacto del día a día, de los sucesos que ocurren simultáneamente ante los flujos del mañana. El pasado, de tal forma, está constituido por una serie de cauces donde buscamos la continuidad histórica, indagando las duraciones, períodos y épocas que en distintas dimensiones temporales retratan la vida de los seres y los destinos de las sociedades que componen. Colección Pretéritas reúne títulos de investigación y ensayística histórica, crónicas literarias, filosóficas y anecdóticas, miradas arqueológicas, mitológicas y políticas sobre el devenir de los tiempos, del pasado y la actualidad, buscando reunir en estas claves nuevas y múltiples interpretaciones sobre nuestra época y su condición sociohistórica.",
+    "series": [],
+    "sourceUrl": "https://nadarediciones.cl/preteritas/"
+  },
+  {
+    "slug": "otros-clasicos",
+    "name": "Otros clásicos",
+    "description": "Revisitando la tradición literaria desde sus márgenes",
+    "intro": "¿Qué es lo clásico? Si existe lo clásico, ¿cuáles serían los límites de lo viejo y lo nuevo? ¿O será que el paso del tiempo es una ilusión y todo tiende sencillamente a repetirse infinitamente? No vemos fronteras cronológicas, todo está mezclado en un instante. Hay muertos que son nuestros contemporáneos, nuestros amigos, nuestros compañeros. Siguen vivos en sus palabras, impresas con el fuego de los corazones libres.",
+    "series": [],
+    "sourceUrl": "https://nadarediciones.cl/otros-clasicos/"
+  },
+  {
+    "slug": "magisterio",
+    "name": "Magisterio",
+    "description": "Obras sobre educación y pedagogía",
+    "intro": "Nadar Ediciones, asumiendo las necesidades del lugar, momento y cultura en que dice presente, y en su profundo interés por aportar al debate y reflexión en torno a la “cuestión educacional” a la que se ve enfrentada la sociedad chilena, marcando el desarrollo de ésta desde fines del siglo XX y comienzos del XXI, coloca a disposición del público general y, especialmente, de profesores y estudiantes de pedagogía, su Colección Magisterio, enfocada a la teoría y política de la educación. Nadar Ediciones – Colección Magisterio, toma su nombre en cuanto a la valoración de la actividad magisterial, de la enseñanza y aprendizaje en que confluyen Maestros y Estudiantes en una relación positiva que promueve el progreso social y político. Los títulos de la Colección Magisterio apuntan al rescate de textos imprescindibles por su valor formativo para los maestros y maestras el siglo XXI: pedagogos clásicos de Chile y el mundo, que por sus cuestionamientos a y desde los modelos educativos es imposible dejar de lado, a otros autores y autoras contemporáneos de diversas disciplinas que se han visto involucrados en el proceso educativo, generando discursos críticos y prácticas sociales innovadoras sobre el qué, para qué y cómo de la educación, son fundamentales tener presentes para construir un camino en el que la educación sea recuperado como un derecho social y una reflexión permanente.",
+    "series": [],
+    "sourceUrl": "https://nadarediciones.cl/magisterio/"
+  },
+  {
+    "slug": "co-ediciones",
+    "name": "Co-ediciones",
+    "description": "Colaboración intelectual y cooperación editorial",
+    "intro": "Las co-ediciones de Nadar Ediciones constituyen momentos esenciales del quehacer editorial: la mancomunión de esfuerzos en pos de catálogos comunes. A través de nuestras co-ediciones buscamos enlazar las iniciativas editoriales latinoamericanas, observando tanto nuestros vínculos históricos como los horizontes políticos y sociales por desarrollar.",
+    "series": [],
+    "sourceUrl": "https://nadarediciones.cl/co-ediciones/"
+  }
+]
