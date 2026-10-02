@@ -49,15 +49,20 @@ function useTabPill(menuRef: RefObject<HTMLDivElement | null>) {
       // si la animación empieza antes, gran parte del deslizamiento no llega a pintarse.
       frame = requestAnimationFrame(() => {
         frame = requestAnimationFrame(() => {
-          controls.push(animate(x, target.x, PILL_SPRING), animate(w, target.w, PILL_SPRING));
+          controls.push(
+            animate(x, target.x, PILL_SPRING),
+            animate(y, target.y, PILL_SPRING),
+            animate(w, target.w, PILL_SPRING),
+            animate(h, target.h, PILL_SPRING),
+          );
         });
       });
     } else {
       x.set(target.x);
+      y.set(target.y);
       w.set(target.w);
+      h.set(target.h);
     }
-    y.set(target.y);
-    h.set(target.h);
     lastPill = target;
 
     const onResize = () => {
@@ -87,14 +92,7 @@ export function CollectionsExplorer({ collections }: { collections: CollectionWi
   if (!active) return null;
 
   // key: al cambiar de colección se montan swipers nuevos desde el primer libro
-  return (
-    <CollectionStage
-      key={active.slug}
-      collections={collections}
-      active={active}
-      onSelect={setActiveSlug}
-    />
-  );
+  return <CollectionStage key={active.slug} collections={collections} active={active} onSelect={setActiveSlug} />;
 }
 
 function CollectionStage({
@@ -114,23 +112,11 @@ function CollectionStage({
   const pill = useTabPill(menuRef);
 
   return (
-    <Swiper
-      className="collection-stage"
-      modules={[A11y, Keyboard, Parallax]}
-      speed={700}
-      parallax
-      autoHeight
-      keyboard={{ enabled: true, onlyInViewport: true }}
-      a11y={{ prevSlideMessage: "Libro anterior", nextSlideMessage: "Libro siguiente" }}
-      onSwiper={setMain}
-      onSlideChange={(s) => {
-        setActiveIndex(s.activeIndex);
-        strip?.slideTo(Math.max(0, s.activeIndex - 1));
-      }}
-    >
-
-      {/* Menú de colecciones dentro del panel; swiper-no-swiping evita arrastrar el visor desde aquí */}
-      <div slot="container-start" className="collection-stage-head swiper-no-swiping">
+    // Panel en dos columnas: colecciones a la izquierda; a la derecha, tira de libros arriba y detalle abajo.
+    // El menú va fuera del Swiper porque Swiper mide el ancho de su contenedor para cada libro.
+    <div className="collection-panel">
+      {/* Lista de colecciones: vertical a la izquierda en escritorio, horizontal arriba en móvil */}
+      <nav className="collection-panel-nav" aria-label="Colecciones">
         <div className="collections-menu" role="tablist" aria-label="Colecciones" ref={menuRef}>
           <motion.span className="collections-tab-pill" style={pill} aria-hidden="true" />
           {collections.map((collection, index) => {
@@ -163,145 +149,159 @@ function CollectionStage({
         >
           {active.description}
         </p>
-      </div>
+      </nav>
 
-      {/* Tira "Grab cursor" bajo el menú: solo fotos; al elegir una se abre el libro abajo */}
-      <div slot="container-start" className="collection-stage-foot">
-        <Swiper
-          className="collection-strip"
-          modules={[A11y]}
-          nested
-          grabCursor
-          slidesPerView={2.4}
-          spaceBetween={12}
-          breakpoints={{
-            640: { slidesPerView: 3.6, spaceBetween: 14 },
-            960: { slidesPerView: 8, spaceBetween: 16 },
-          }}
-          onSwiper={setStrip}
-        >
-          {active.books.map((book, index) => (
-            <SwiperSlide key={book.slug} className="collection-strip-slide">
-              <button
-                type="button"
-                className={`collection-strip-item${index === activeIndex ? " is-active" : ""}`}
-                aria-label={`Ver ${book.title}`}
-                aria-current={index === activeIndex ? "true" : undefined}
-                onClick={() => main?.slideTo(index)}
-              >
-                <span className="collection-strip-cover">
-                  <Image
-                    src={getCover(book).src}
-                    alt=""
-                    width={getCover(book).width}
-                    height={getCover(book).height}
-                    sizes="120px"
-                  />
-                </span>
-              </button>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-
-      {active.books.map((book, index) => (
-        <SwiperSlide key={book.slug} tag="article" className="collection-parallax-slide">
-          <div className="collection-parallax-cover" data-swiper-parallax="-40%" data-swiper-parallax-opacity="0.3">
-            <motion.div
-              className={`collection-parallax-cover-inner${getCover(book).flat ? " is-flat" : ""}`}
-              initial={{ opacity: 0, scale: 1.08 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <Image
-                src={getCover(book).src}
-                alt={`Portada de ${book.title}, de ${book.subtitle}`}
-                width={getCover(book).width}
-                height={getCover(book).height}
-                sizes="(min-width: 960px) 380px, 70vw"
-                priority={index === 0}
-              />
-            </motion.div>
-          </div>
-
-          <motion.div
-            className="collection-parallax-info"
-            initial={{ opacity: 0, x: 32 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.0, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+      <Swiper
+        className="collection-stage"
+        modules={[A11y, Keyboard, Parallax]}
+        speed={700}
+        parallax
+        autoHeight
+        keyboard={{ enabled: true, onlyInViewport: true }}
+        a11y={{ prevSlideMessage: "Libro anterior", nextSlideMessage: "Libro siguiente" }}
+        onSwiper={setMain}
+        onSlideChange={(s) => {
+          setActiveIndex(s.activeIndex);
+          strip?.slideTo(Math.max(0, s.activeIndex - 1));
+        }}
+      >
+        {/* Tira "Grab cursor" arriba del detalle: solo fotos; al elegir una se abre el libro abajo */}
+        <div slot="container-start" className="collection-stage-foot">
+          <Swiper
+            className="collection-strip"
+            modules={[A11y]}
+            nested
+            grabCursor
+            slidesPerView={2.4}
+            spaceBetween={12}
+            breakpoints={{
+              640: { slidesPerView: 3.6, spaceBetween: 14 },
+              960: { slidesPerView: 6.5, spaceBetween: 16 },
+            }}
+            onSwiper={setStrip}
           >
-            <p className="collection-parallax-eyebrow" data-swiper-parallax="-400">
-              {active.name}
-              {book.series ? ` · ${book.series}` : ""} · {pad(index + 1)}/{pad(total)}
-            </p>
-            <h3 className="collection-parallax-title" data-swiper-parallax="-300">
-              {book.title}
-            </h3>
-            <p className="collection-parallax-author" data-swiper-parallax="-200">
-              {book.subtitle}
-            </p>
-            <div className="collection-parallax-text" data-swiper-parallax="-100">
-              {getLeadAndBody(book).lead ? (
-                <p className="collection-parallax-bajada">{getLeadAndBody(book).lead}</p>
-              ) : null}
-              {getLeadAndBody(book).body ? (
-                <p className="collection-parallax-description">{getLeadAndBody(book).body}</p>
-              ) : null}
-              {book.isbn || book.publishDate || book.subject ? (
-                <dl className="collection-parallax-facts">
-                  {book.isbn ? (
-                    <div>
-                      <dt>ISBN</dt>
-                      <dd>{book.isbn}</dd>
-                    </div>
-                  ) : null}
-                  {book.publishDate ? (
-                    <div>
-                      <dt>Publicación</dt>
-                      <dd>{book.publishDate}</dd>
-                    </div>
-                  ) : null}
-                  {book.subject ? (
-                    <div>
-                      <dt>Materia</dt>
-                      <dd>{book.subject}</dd>
-                    </div>
-                  ) : null}
-                </dl>
-              ) : null}
-            </div>
-            <div className="collection-parallax-buy" data-swiper-parallax="-50">
-              {book.price ? (
-                <p className="collection-parallax-price">
-                  {formatPrice(book.price)} <span>{book.currency ?? "CLP"}</span>
-                </p>
-              ) : null}
-              <div className="collection-parallax-actions">
-                {book.price ? (
-                <AddToCartButton
-                  slug={book.slug}
-                  title={book.title}
-                  subtitle={book.subtitle}
-                  image={book.image}
-                  price={book.price ?? null}
-                  currency={book.currency ?? "CLP"}
-                  className="btn btn-primary"
-                  ariaLabel={`Agregar ${book.title} al carrito`}
-                />
-                ) : (
-                  <Link href="/contacto" className="btn btn-primary">
-                    Consultar disponibilidad
-                  </Link>
-                )}
-                <Link href={`/libros/${book.slug}`} className="btn btn-outline">
-                  Ver ficha
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        </SwiperSlide>
-      ))}
+            {active.books.map((book, index) => (
+              <SwiperSlide key={book.slug} className="collection-strip-slide">
+                <button
+                  type="button"
+                  className={`collection-strip-item${index === activeIndex ? " is-active" : ""}`}
+                  aria-label={`Ver ${book.title}`}
+                  aria-current={index === activeIndex ? "true" : undefined}
+                  onClick={() => main?.slideTo(index)}
+                >
+                  <span className="collection-strip-cover">
+                    <Image
+                      src={getCover(book).src}
+                      alt=""
+                      width={getCover(book).width}
+                      height={getCover(book).height}
+                      sizes="120px"
+                    />
+                  </span>
+                </button>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
 
-    </Swiper>
+        {active.books.map((book, index) => (
+          <SwiperSlide key={book.slug} tag="article" className="collection-parallax-slide">
+            <div className="collection-parallax-cover" data-swiper-parallax="-40%" data-swiper-parallax-opacity="0.3">
+              <motion.div
+                className={`collection-parallax-cover-inner${getCover(book).flat ? " is-flat" : ""}`}
+                initial={{ opacity: 0, scale: 1.08 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <Image
+                  src={getCover(book).src}
+                  alt={`Portada de ${book.title}, de ${book.subtitle}`}
+                  width={getCover(book).width}
+                  height={getCover(book).height}
+                  sizes="(min-width: 960px) 380px, 70vw"
+                  priority={index === 0}
+                />
+              </motion.div>
+            </div>
+
+            <motion.div
+              className="collection-parallax-info"
+              initial={{ opacity: 0, x: 32 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1.0, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <p className="collection-parallax-eyebrow" data-swiper-parallax="-400">
+                {active.name}
+                {book.series ? ` · ${book.series}` : ""} · {pad(index + 1)}/{pad(total)}
+              </p>
+              <h3 className="collection-parallax-title" data-swiper-parallax="-300">
+                {book.title}
+              </h3>
+              <p className="collection-parallax-author" data-swiper-parallax="-200">
+                {book.subtitle}
+              </p>
+              <div className="collection-parallax-text" data-swiper-parallax="-100">
+                {getLeadAndBody(book).lead ? (
+                  <p className="collection-parallax-bajada">{getLeadAndBody(book).lead}</p>
+                ) : null}
+                {getLeadAndBody(book).body ? (
+                  <p className="collection-parallax-description">{getLeadAndBody(book).body}</p>
+                ) : null}
+                {book.isbn || book.publishDate || book.subject ? (
+                  <dl className="collection-parallax-facts">
+                    {book.isbn ? (
+                      <div>
+                        <dt>ISBN</dt>
+                        <dd>{book.isbn}</dd>
+                      </div>
+                    ) : null}
+                    {book.publishDate ? (
+                      <div>
+                        <dt>Publicación</dt>
+                        <dd>{book.publishDate}</dd>
+                      </div>
+                    ) : null}
+                    {book.subject ? (
+                      <div>
+                        <dt>Materia</dt>
+                        <dd>{book.subject}</dd>
+                      </div>
+                    ) : null}
+                  </dl>
+                ) : null}
+              </div>
+              <div className="collection-parallax-buy" data-swiper-parallax="-50">
+                {book.price ? (
+                  <p className="collection-parallax-price">
+                    {formatPrice(book.price)} <span>{book.currency ?? "CLP"}</span>
+                  </p>
+                ) : null}
+                <div className="collection-parallax-actions">
+                  {book.price ? (
+                    <AddToCartButton
+                      slug={book.slug}
+                      title={book.title}
+                      subtitle={book.subtitle}
+                      image={book.image}
+                      price={book.price ?? null}
+                      currency={book.currency ?? "CLP"}
+                      className="btn btn-primary"
+                      ariaLabel={`Agregar ${book.title} al carrito`}
+                    />
+                  ) : (
+                    <Link href="/contacto" className="btn btn-primary">
+                      Consultar disponibilidad
+                    </Link>
+                  )}
+                  <Link href={`/libros/${book.slug}`} className="btn btn-outline">
+                    Ver ficha
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }

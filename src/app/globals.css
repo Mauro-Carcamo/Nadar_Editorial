@@ -2393,44 +2393,28 @@ html {
   line-height: 1.6;
 }
 
-/* Panel único (Swiper Parallax): menú arriba, libro al centro, tira Grab cursor abajo */
-.collection-stage.swiper {
-  position: relative;
+/* Panel de colecciones: lista de colecciones + (tira de libros arriba, detalle abajo).
+   En escritorio la lista es una columna vertical a la izquierda; en móvil, una fila deslizable arriba. */
+.collection-panel {
+  display: grid;
   border-radius: var(--radius);
   background: var(--surface-alt);
 }
 
-.collection-stage-bg {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 130%;
-  overflow: hidden;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 18% 40%, var(--blue-100) 0%, transparent 40%),
-    radial-gradient(circle at 75% 85%, var(--teal-100) 0%, transparent 45%),
-    linear-gradient(120deg, var(--mist-100), var(--bg) 55%, var(--blue-100));
+.collection-stage.swiper {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  background: transparent;
 }
 
-.collection-stage-bg span {
-  position: absolute;
-  left: 3%;
-  top: 46%;
-  font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(4.5rem, 14vw, 11rem);
-  font-weight: 700;
-  line-height: 1;
-  white-space: nowrap;
-  color: var(--mist-200);
-  opacity: 0.5;
-}
-
-/* Cabecera: menú de colecciones + descripción */
-.collection-stage-head {
+.collection-panel-nav {
   position: relative;
   z-index: 2;
   display: grid;
+  align-content: start;
   gap: 10px;
+  min-width: 0;
   padding: 16px 16px 4px;
 }
 
@@ -2765,26 +2749,9 @@ html {
     padding: 112px 0 128px;
   }
 
-  .collection-stage-head {
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 24px;
-    padding: 18px 32px 4px;
-  }
-
-  .collections-menu {
-    margin: 0;
-    padding: 2px;
-    overflow: visible;
-  }
-
-  .collections-panel-description {
-    text-align: right;
-  }
-
   .collection-stage .collection-parallax-slide {
-    /* Portada de 480px de ancho: el panel completo cabe en pantallas de 768px de alto */
-    grid-template-columns: minmax(0, 480px) minmax(0, 1fr);
+    /* Columna derecha (~900px): portada de hasta 400px e información al lado */
+    grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
     gap: 48px;
     align-items: center;
     padding: 14px 32px 18px;
@@ -3177,19 +3144,48 @@ html[data-scrolled] .nav-wrap {
   text-decoration: none;
 }
 
-/* Menú de colecciones con 6 pestañas: en escritorio la descripción pasa a una segunda línea */
+/* Lista vertical de colecciones a la izquierda del panel (escritorio); la píldora azul se desliza en vertical */
 @media (min-width: 960px) {
-  .collection-stage-head {
-    grid-template-columns: 1fr;
-    gap: 10px;
+  .collection-panel {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+
+  .collection-panel-nav {
+    align-self: stretch;
+    padding: 24px 16px 24px 20px;
+    border-right: 1px solid var(--line-soft);
   }
 
   .collections-menu {
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .collections-tab {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    width: 100%;
+    padding: 8px 10px 8px 12px;
+    text-align: left;
+  }
+
+  .collections-tab-name {
+    white-space: normal;
+    line-height: 1.25;
   }
 
   .collections-panel-description {
-    text-align: left;
+    margin-top: 12px;
+    padding: 0 4px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .collection-stage-foot {
+    padding-top: 20px;
   }
 }
 
