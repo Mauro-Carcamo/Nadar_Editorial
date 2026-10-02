@@ -3710,3 +3710,615 @@ html[data-scrolled] .nav-wrap {
     opacity: 1 !important;
   }
 }
+
+/* ===================================================================
+   Comercio: carrito lateral (Zustand + Motion), vuelo al carrito y checkout
+   =================================================================== */
+.cart-drawer-root {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+}
+
+.cart-drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(45, 60, 63, 0.35);
+  backdrop-filter: blur(2px);
+}
+
+.cart-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(420px, 100vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  box-shadow: -24px 0 48px -24px rgba(45, 60, 63, 0.35);
+  outline: none;
+}
+
+.cart-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.cart-drawer-head h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.cart-drawer-close {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.cart-drawer-close:hover {
+  background: var(--surface-alt);
+}
+
+.cart-drawer-empty {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  padding: 24px 20px;
+  color: var(--ink-soft);
+}
+
+.cart-drawer-list {
+  flex: 1;
+  overflow-y: auto;
+  margin: 0;
+  padding: 8px 20px;
+  list-style: none;
+}
+
+.cart-drawer-item {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-soft);
+  overflow: hidden;
+}
+
+.cart-drawer-cover img {
+  display: block;
+  width: 60px;
+  height: auto;
+  border-radius: 2px;
+  box-shadow: 0 8px 14px -8px rgba(45, 60, 63, 0.5);
+}
+
+.cart-drawer-item-title {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.02rem;
+  line-height: 1.25;
+}
+
+.cart-drawer-item-author {
+  margin: 2px 0 8px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.cart-drawer-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cart-qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.cart-qty button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 1.1rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.cart-qty button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.cart-qty span {
+  display: inline-block;
+  min-width: 24px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.cart-drawer-item-price {
+  font-weight: 700;
+}
+
+.cart-drawer-remove {
+  margin-top: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cart-drawer-warning {
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #b42318;
+}
+
+.cart-drawer-foot {
+  display: grid;
+  gap: 12px;
+  padding: 16px 20px 20px;
+  border-top: 1px solid var(--line-soft);
+  background: var(--bg);
+}
+
+.cart-drawer-zone {
+  display: grid;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.cart-drawer-zone select,
+.checkout-field input,
+.checkout-field select {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font: inherit;
+  color: var(--ink);
+}
+
+.cart-drawer-totals {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.cart-drawer-totals div,
+.checkout-summary dl div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-drawer-totals dt,
+.checkout-summary dt {
+  color: var(--ink-soft);
+}
+
+.cart-drawer-totals dd,
+.checkout-summary dd {
+  margin: 0;
+}
+
+.cart-drawer-total,
+.checkout-summary-total {
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.cart-drawer-total dt,
+.checkout-summary-total dt {
+  color: var(--ink);
+}
+
+.cart-drawer-cta {
+  width: 100%;
+}
+
+.cart-drawer-cta.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cart-drawer-note,
+.checkout-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.fly-to-cart {
+  position: fixed;
+  z-index: 90;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 12px 24px -8px rgba(45, 60, 63, 0.5);
+  pointer-events: none;
+}
+
+.cart-count {
+  display: inline-grid;
+}
+
+/* Checkout */
+.checkout-page {
+  background: var(--bg);
+  padding: 32px 0 96px;
+}
+
+.checkout-grid {
+  display: grid;
+  gap: 32px;
+  margin-top: 28px;
+}
+
+.checkout-section h2,
+.checkout-summary h2 {
+  margin: 8px 0 14px;
+  font-size: 1.35rem;
+  font-weight: 400;
+}
+
+.checkout-section {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.checkout-field {
+  display: grid;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.checkout-field.has-error input {
+  border-color: #b42318;
+}
+
+.checkout-field small {
+  font-weight: 600;
+  color: #b42318;
+}
+
+.checkout-address {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.checkout-address .checkout-field:first-child {
+  grid-column: 1 / -1;
+}
+
+.checkout-summary {
+  align-self: start;
+  display: grid;
+  gap: 12px;
+  padding: 22px;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.checkout-summary ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.checkout-summary li {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.checkout-summary li img {
+  width: 44px;
+  height: auto;
+  border-radius: 2px;
+}
+
+.checkout-summary-title {
+  display: grid;
+  font-size: 0.92rem;
+  line-height: 1.3;
+}
+
+.checkout-summary-title small {
+  color: var(--ink-soft);
+}
+
+.checkout-summary dl {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.checkout-pay {
+  width: 100%;
+}
+
+.checkout-message {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: #fdecea;
+  color: #8a1c12;
+  font-size: 0.9rem;
+}
+
+.checkout-empty,
+.checkout-result {
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+  max-width: 640px;
+  margin-top: 24px;
+}
+
+@media (min-width: 900px) {
+  .checkout-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 56px;
+  }
+
+  .checkout-summary {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+/* ===================================================================
+   Administración: login, navegación, badges, tablas y gráfico
+   =================================================================== */
+.admin-login {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--bg);
+}
+
+.admin-login-card {
+  width: min(400px, 100%);
+  padding: 32px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 24px 48px -32px rgba(45, 60, 63, 0.45);
+}
+
+.admin-login-card h1 {
+  margin: 0;
+  font-weight: 400;
+}
+
+.admin-login-help {
+  margin: 6px 0 20px;
+  color: var(--ink-soft);
+}
+
+.admin-login-form {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-login-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.admin-login-form input {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: inherit;
+}
+
+.admin-login-error {
+  margin: 0;
+  color: #b42318;
+  font-weight: 600;
+}
+
+.admin-sidebar nav a {
+  color: var(--mist-200);
+  padding: 6px 0;
+}
+
+.admin-sidebar nav a:hover {
+  color: #fff;
+}
+
+.admin-user {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.admin-user p {
+  margin: 0;
+  display: grid;
+  font-size: 0.9rem;
+}
+
+.admin-user small {
+  color: var(--mist-200);
+}
+
+.admin-user .text-link {
+  color: var(--mist-200);
+}
+
+.admin-logout {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.admin-sub {
+  display: block;
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.admin-empty {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.admin-kpi-card small {
+  color: var(--ink-soft);
+}
+
+.admin-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-badge.is-ok {
+  background: #e3f4ea;
+  color: #1f6b3a;
+}
+
+.admin-badge.is-bad {
+  background: #fdecea;
+  color: #8a1c12;
+}
+
+.admin-badge.is-wait {
+  background: var(--blue-100);
+  color: var(--blue-700);
+}
+
+.admin-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 16px 0;
+}
+
+.admin-filters a {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.admin-filters a.is-active {
+  background: var(--accent-ink);
+  border-color: var(--accent-ink);
+  color: #fff;
+}
+
+.admin-pager {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.admin-mono {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.82rem;
+}
+
+.admin-low {
+  color: #b42318;
+}
+
+.admin-dl {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  gap: 6px 24px;
+  margin: 0;
+}
+
+.admin-dl dd {
+  margin: 0;
+  text-align: right;
+}
+
+.admin-timeline {
+  margin: 0 0 12px;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 0.88rem;
+}
+
+.admin-chart {
+  margin-top: 16px;
+}
+
+.admin-bars {
+  display: grid;
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+  align-items: end;
+  gap: 6px;
+  height: 160px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-bars li {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+  gap: 4px;
+}
+
+.admin-bars span {
+  align-self: end;
+  min-height: 2px;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent-ink);
+}
+
+.admin-bars small {
+  font-size: 0.65rem;
+  text-align: center;
+  color: var(--ink-soft);
+}

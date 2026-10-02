@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { createAdminBook, listAdminBooks } from "@/lib/bookRepository";
 
 export async function GET() {
+  const auth = await requireAdminApi();
+  if ("response" in auth) return auth.response;
   try {
     const result = await listAdminBooks();
     return NextResponse.json({ items: result.items, mode: result.mode });
@@ -19,6 +22,8 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const auth = await requireAdminApi();
+  if ("response" in auth) return auth.response;
   let body: Record<string, unknown>;
   try {
     body = (await request.json()) as Record<string, unknown>;

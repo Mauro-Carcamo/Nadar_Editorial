@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminApi } from "@/lib/auth/admin";
 import { deleteAdminBook, getAdminBook, updateAdminBook } from "@/lib/bookRepository";
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const auth = await requireAdminApi();
+  if ("response" in auth) return auth.response;
   const { slug } = await params;
   const result = await getAdminBook(slug);
 
@@ -19,6 +22,8 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> },
 ) {
+  const auth = await requireAdminApi();
+  if ("response" in auth) return auth.response;
   const { slug } = await params;
   let body: Record<string, unknown>;
   try {
@@ -59,6 +64,8 @@ export async function DELETE(
   _: NextRequest,
   { params }: { params: Promise<{ slug: string }> },
 ) {
+  const auth = await requireAdminApi();
+  if ("response" in auth) return auth.response;
   const { slug } = await params;
   const result = await deleteAdminBook(slug);
 

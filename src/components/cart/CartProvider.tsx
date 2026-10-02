@@ -1,211 +1,111 @@
 "use client";
 
-import { createContext, ReactNode, useContext, useMemo, useSyncExternalStore } from "react";
+import { ReactNode, useEffect, useRef } from "react";
+import { useShallow } from "zustand/react/shallow";
+import { CartDrawer } from "@/components/cart/CartDrawer";
+import { FlyToCart } from "@/components/cart/FlyToCart";
+import {
+  SHIPPING_COSTS,
+  SHIPPING_LABELS,
+  selectCount,
+  selectShippingCost,
+  selectSubtotal,
+  useCartStore,
+  type CartItem,
+  type ShippingZone,
+} from "@/stores/cart-store";
 
-export type CartItem = {
-  slug: string;
-  title: string;
-  subtitle: string;
-  image: string;
-  price: number | null;
-  currency: string;
-  quantity: number;
-};
+export { SHIPPING_COSTS, SHIPPING_LABELS };
+export type { CartItem, ShippingZone };
 
-type AddItemPayload = Omit<CartItem, "quantity">;
+const LEGACY_KEY = "nadar_cart_v1";
+const LEGACY_ZONE_KEY = "nadar_shipping_zone";
 
-export type ShippingZone = "rm" | "central" | "extreme" | "pickup";
+/** Hidrata el carrito guardado, migra el formato anterior y lo sincroniza con el servidor. */
+function CartRuntime() {
+  const items = useCartStore((s) => s.items);
+  const shippingZone = useCartStore((s) => s.shippingZone);
+  const guestToken = useCartStore((s) => s.guestToken);
+  const hydrated = useRef(false);
 
-export const SHIPPING_COSTS: Record<ShippingZone, number> = {
-  rm: 3500,
-  central: 4500,
-  extreme: 7900,
-  pickup: 0,
-};
+  useEffect(() => {
+    void Promise.resolve(useCartStore.persist.rehydrate()).then(() => {
+      hydrated.current = true;
+      try {
+        // Migración única desde el carrito anterior (localStorage nadar_cart_v1)
+        const legacy = localStorage.getItem(LEGACY_KEY);
+        if (legacy) {
+          const parsed = JSON.parse(legacy) as CartItem[];
+          if (Array.isArray(parsed) && parsed.length && !useCartStore.getState().items.length) {
+            const zone = localStorage.getItem(LEGACY_ZONE_KEY) as ShippingZone | null;
+            useCartStore.setState({ items: parsed, ...(zone && zone in SHIPPING_COSTS ? { shippingZone: zone } : {}) });
+          }
+          localStorage.removeItem(LEGACY_KEY);
+          localStorage.removeItem(LEGACY_ZONE_KEY);
+        }
+      } catch {
+        // almacenamiento no disponible: el carrito funciona igual en memoria
+      }
+    });
+  }, []);
 
-export const SHIPPING_LABELS: Record<ShippingZone, string> = {
-  rm: "Región Metropolitana",
-  central: "Regiones centrales",
-  extreme: "Norte y Sur",
-  pickup: "Retiro en librería",
-};
+  // Persistencia en el servidor (debounce): precios y stock reales, base de carritos abandonados
+  useEffect(() => {
+    if (!hydrated.current || !guestToken) return;
+    const timer = window.setTimeout(async () => {
+      try {
+        const res = await fetch("/api/cart", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            token: guestToken,
+            items: items.map((i) => ({ slug: i.slug, quantity: i.quantity })),
+            shippingZone,
+          }),
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.renewToken) useCartStore.getState().renewToken();
+        else if (Array.isArray(data.lines)) useCartStore.getState().applyServerPrices(data.lines);
+      } catch {
+        // sin conexión con el servidor: se reintenta en el próximo cambio
+      }
+    }, 800);
+    return () => window.clearTimeout(timer);
+  }, [items, shippingZone, guestToken]);
 
-type CartContextValue = {
-  items: CartItem[];
-  count: number;
-  subtotal: number;
-  shippingZone: ShippingZone;
-  shippingCost: number;
-  total: number;
-  setShippingZone: (zone: ShippingZone) => void;
-  addItem: (item: AddItemPayload) => void;
-  removeItem: (slug: string) => void;
-  changeQty: (slug: string, qty: number) => void;
-  clear: () => void;
-};
-
-const CartContext = createContext<CartContextValue | null>(null);
-const STORAGE_KEY = "nadar_cart_v1";
-const STORAGE_ZONE_KEY = "nadar_shipping_zone";
-const EMPTY_CART: CartItem[] = [];
-const listeners = new Set<() => void>();
-let cachedRaw = "";
-let cachedCart: CartItem[] = EMPTY_CART;
-
-function emitCartChange() {
-  listeners.forEach((listener) => listener());
-}
-
-function readStoredCart(): CartItem[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      cachedRaw = "";
-      cachedCart = EMPTY_CART;
-      return cachedCart;
-    }
-    if (raw === cachedRaw) return cachedCart;
-    const parsed = JSON.parse(raw) as CartItem[];
-    cachedRaw = raw;
-    cachedCart = Array.isArray(parsed) ? parsed : EMPTY_CART;
-    return cachedCart;
-  } catch {
-    cachedRaw = "";
-    cachedCart = EMPTY_CART;
-    return cachedCart;
-  }
-}
-
-function readStoredZone(): ShippingZone {
-  if (typeof window === "undefined") return "rm";
-  try {
-    const raw = window.localStorage.getItem(STORAGE_ZONE_KEY);
-    if (!raw) return "rm";
-    const zone = raw as ShippingZone;
-    if (zone in SHIPPING_COSTS) return zone;
-    return "rm";
-  } catch {
-    return "rm";
-  }
-}
-
-function subscribe(listener: () => void) {
-  listeners.add(listener);
-
-  function onStorage(event: StorageEvent) {
-    if (event.key === STORAGE_KEY) {
-      listener();
-    }
-  }
-
-  window.addEventListener("storage", onStorage);
-
-  return () => {
-    listeners.delete(listener);
-    window.removeEventListener("storage", onStorage);
-  };
-}
-
-function getClientSnapshot() {
-  return readStoredCart();
-}
-
-function getServerSnapshot() {
-  return EMPTY_CART;
-}
-
-function writeStoredCart(items: CartItem[]) {
-  const raw = JSON.stringify(items);
-  cachedRaw = raw;
-  cachedCart = items;
-  window.localStorage.setItem(STORAGE_KEY, raw);
-  emitCartChange();
-}
-
-function getServerZone(): ShippingZone {
-  return "rm";
-}
-
-function writeStoredZone(zone: ShippingZone) {
-  window.localStorage.setItem(STORAGE_ZONE_KEY, zone);
-  emitCartChange();
+  return null;
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const items = useSyncExternalStore(subscribe, getClientSnapshot, getServerSnapshot);
-  // La zona guardada se lee igual que el carrito (sin setState durante el render)
-  const shippingZone = useSyncExternalStore(subscribe, readStoredZone, getServerZone);
-
-  function setShippingZone(zone: ShippingZone) {
-    writeStoredZone(zone);
-  }
-
-  const shippingCost = useMemo(() => {
-    return items.length > 0 ? SHIPPING_COSTS[shippingZone] : 0;
-  }, [shippingZone, items.length]);
-
-  function addItem(payload: AddItemPayload) {
-    const prev = readStoredCart();
-    const found = prev.find((x) => x.slug === payload.slug);
-    if (found) {
-      writeStoredCart(
-        prev.map((x) =>
-          x.slug === payload.slug ? { ...x, quantity: Math.min(99, x.quantity + 1) } : x,
-        ),
-      );
-      return;
-    }
-
-    writeStoredCart([...prev, { ...payload, quantity: 1 }]);
-  }
-
-  function removeItem(slug: string) {
-    writeStoredCart(readStoredCart().filter((x) => x.slug !== slug));
-  }
-
-  function changeQty(slug: string, qty: number) {
-    writeStoredCart(
-      readStoredCart()
-        .map((x) => (x.slug === slug ? { ...x, quantity: Math.min(99, Math.max(1, qty)) } : x))
-        .filter((x) => x.quantity > 0),
-    );
-  }
-
-  function clear() {
-    writeStoredCart([]);
-  }
-
-const count = useMemo(() => items.reduce((acc, x) => acc + x.quantity, 0), [items]);
-  const subtotal = useMemo(
-    () => items.reduce((acc, x) => acc + (x.price ?? 0) * x.quantity, 0),
-    [items],
+  return (
+    <>
+      {children}
+      <CartRuntime />
+      <CartDrawer />
+      <FlyToCart />
+    </>
   );
-  const total = subtotal + shippingCost;
-
-const value = useMemo<CartContextValue>(
-    () => ({
-      items,
-      count,
-      subtotal,
-      shippingZone,
-      shippingCost,
-      total,
-      setShippingZone,
-      addItem,
-      removeItem,
-      changeQty,
-      clear,
-    }),
-    [items, count, subtotal, shippingZone, shippingCost, total],
-  );
-
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
+/** API del carrito para los componentes (se mantiene la misma forma que antes de Zustand). */
 export function useCart() {
-  const ctx = useContext(CartContext);
-  if (!ctx) throw new Error("useCart must be used within CartProvider");
-  return ctx;
+  const state = useCartStore(
+    useShallow((s) => ({
+      items: s.items,
+      shippingZone: s.shippingZone,
+      guestToken: s.guestToken,
+      addItem: s.addItem,
+      removeItem: s.removeItem,
+      changeQty: s.changeQty,
+      setShippingZone: s.setShippingZone,
+      clear: s.clear,
+      open: s.open,
+      close: s.close,
+    })),
+  );
+  const count = useCartStore(selectCount);
+  const subtotal = useCartStore(selectSubtotal);
+  const shippingCost = useCartStore(selectShippingCost);
+  return { ...state, count, subtotal, shippingCost, total: subtotal + shippingCost };
 }
-

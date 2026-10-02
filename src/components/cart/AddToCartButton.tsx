@@ -46,8 +46,28 @@ export function AddToCartButton({
       transition={{ type: "spring", stiffness: 260, damping: 24 }}
       className={`${className}${added ? " is-added" : ""}`}
       aria-label={ariaLabel ?? "Agregar al carrito"}
-      onClick={() => {
-        addItem({ slug, title, subtitle, image, price, currency });
+      onClick={(event) => {
+        // Origen de la animación: la portada visible más cercana al botón
+        // Sube por los contenedores hasta el primero que tenga una portada
+        let scope: HTMLElement | null = event.currentTarget.parentElement;
+        while (scope && !scope.querySelector("img")) scope = scope.parentElement;
+        const img = scope?.querySelector("img");
+        const rect = img?.getBoundingClientRect();
+        const target = document.querySelector("[data-cart-target]")?.getBoundingClientRect();
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const from =
+          img && rect && rect.width > 0 && target && !reduced
+            ? {
+                src: img.currentSrc || img.src,
+                x: rect.left,
+                y: rect.top,
+                width: rect.width,
+                height: rect.height,
+                toX: target.left + target.width / 2,
+                toY: target.top + target.height / 2,
+              }
+            : undefined;
+        addItem({ slug, title, subtitle, image, price, currency }, from);
         setAdded(true);
       }}
     >
