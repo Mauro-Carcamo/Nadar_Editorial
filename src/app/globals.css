@@ -3659,7 +3659,7 @@ html[data-scrolled] .nav-wrap {
   }
 }
 
-/* Ave sobre el mar: a la izquierda de la foto de Nadar, detrás de ella (z-index menor) y del mismo tamaño */
+/* Ave sobre el mar: a la izquierda de la foto de Nadar, detrás de ella (z-index menor) y del mismo tamaño, sin halo */
 .home-manifesto-bird {
   position: absolute;
   top: 0;
@@ -3672,9 +3672,13 @@ html[data-scrolled] .nav-wrap {
   transform-origin: 50% 0;
   will-change: transform, opacity;
   /* Elipse inscrita en la caja: los bordes quedan totalmente transparentes, sin cortes rectos */
-  /* Zona nítida amplia: solo los bordes se funden con el fondo */
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 48%, #000 78%, transparent 100%);
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 48%, #000 78%, transparent 100%);
+  /* Sin halo: desvanecido recto solo hacia la derecha (donde se junta con Nadar) y en los bordes superior e inferior */
+  -webkit-mask-image: linear-gradient(to right, #000 70%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 8%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(to right, #000 70%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 8%, #000 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 .home-manifesto-bird img {
