@@ -20,8 +20,11 @@ export default async function Home() {
       <SiteHeader />
       <main id="contenido" tabIndex={-1}>
         <HeroBooks books={bestsellers} />
-        <ManifestoSection />
-        <CollectionsSection />
+        {/* El manifiesto queda fijo de fondo solo dentro de este bloque: Colecciones lo cubre y ahí termina */}
+        <div className="home-pass">
+          <ManifestoSection />
+          <CollectionsSection />
+        </div>
         <CatalogSection />
         <PointsOfSaleSection />
       </main>

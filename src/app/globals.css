@@ -4805,3 +4805,16 @@ html[data-scrolled] .nav-wrap {
     transition: none;
   }
 }
+
+/* Fondo de paso: el sticky del manifiesto se limita a este bloque (manifiesto + Colecciones).
+   Las secciones siguientes van por encima y nunca dejan ver el fondo. */
+.home-pass {
+  position: relative;
+  isolation: isolate;
+}
+
+.home-catalog,
+.home-pos {
+  position: relative;
+  z-index: 1;
+}
