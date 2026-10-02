@@ -3658,3 +3658,49 @@ html[data-scrolled] .nav-wrap {
     opacity: 0.16;
   }
 }
+
+/* Ave sobre el mar: a la izquierda de la foto de Nadar y detrás de ella (z-index menor) */
+.home-manifesto-bird {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: min(46vw, 600px);
+  width: min(40vw, 520px);
+  z-index: -1;
+  pointer-events: none;
+  transform-origin: 50% 0;
+  will-change: transform, opacity;
+  /* Elipse inscrita en la caja: los bordes quedan totalmente transparentes, sin cortes rectos */
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 48%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 48%, #000 35%, transparent 100%);
+}
+
+.home-manifesto-bird img {
+  object-fit: cover;
+  object-position: 50% 30%;
+  filter: sepia(0.2) saturate(0.7);
+  opacity: 0.38;
+}
+
+/* La sección crea su propio contexto de apilamiento: ave (-1) < Nadar (0) < texto (1) */
+.home-manifesto {
+  isolation: isolate;
+}
+
+@media (max-width: 899px) {
+  .home-manifesto-bird {
+    right: 40vw;
+    width: 70vw;
+  }
+
+  .home-manifesto-bird img {
+    opacity: 0.18;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-manifesto-bird {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

@@ -34,9 +34,23 @@ export function ManifestoSection() {
   const photoScale = useTransform(leave, [0, 1], [1, 0.94]);
   const photoOpacity = useTransform(leave, [0, 0.85], [1, 0.1]);
 
+  // Ilustración del ave: más atrás todavía, así que se mueve aún más lento
+  const birdEnterY = useTransform(enter, [0, 1], [-20, 0]);
+  const birdLeaveY = useTransform(leave, [0, 1], [0, -12]);
+  const birdY = useTransform(() => birdEnterY.get() + birdLeaveY.get());
+  const birdScale = useTransform(leave, [0, 1], [1, 0.97]);
+
   return (
     <>
       <section ref={ref} className="home-manifesto" aria-labelledby="home-manifesto-title">
+        {/* Ilustración de un ave sobre el mar (página Laboratorio del sitio original): a la izquierda de Nadar, detrás */}
+        <motion.div
+          className="home-manifesto-bird"
+          style={{ y: birdY, scale: birdScale, opacity: photoOpacity }}
+          aria-hidden="true"
+        >
+          <Image src="/images/page/ave-mar.jpg" alt="" fill sizes="(min-width: 900px) 40vw, 70vw" />
+        </motion.div>
         {/* Gaspard-Félix Tournachon, «Nadar», en la canasta de un globo (c. 1863). Dominio público, Gallica/BnF */}
         <motion.div
           className="home-manifesto-photo"
