@@ -44,3 +44,6 @@ next-env.d.ts
 
 # logs del servidor de desarrollo local
 .dev-server*.log
+
+# subidas locales del panel (luego Supabase Storage)
+/public/uploads/

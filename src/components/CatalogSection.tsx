@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { CatalogGrid } from "@/components/CatalogGrid";
 import { Reveal } from "@/components/motion/Reveal";
-import { allBooks } from "@/data/site";
+import { listPublishedBooks } from "@/services/catalog/repository";
 
-export function CatalogSection() {
+export async function CatalogSection() {
+  const allBooks = await listPublishedBooks();
   if (!allBooks.length) return null;
 
   return (

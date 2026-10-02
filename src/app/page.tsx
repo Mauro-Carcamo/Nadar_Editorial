@@ -6,9 +6,10 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { getBestsellers } from "@/data/site";
+import { getBestsellers } from "@/services/catalog/repository";
 
-export default function Home() {
+export default async function Home() {
+  const bestsellers = await getBestsellers(10);
   return (
     <MotionProvider>
       <a href="#contenido" className="skip-link">
@@ -17,7 +18,7 @@ export default function Home() {
       <ScrollProgress />
       <SiteHeader />
       <main id="contenido" tabIndex={-1}>
-        <HeroBooks books={getBestsellers(10)} />
+        <HeroBooks books={bestsellers} />
         <ManifestoSection />
         <CollectionsSection />
         <CatalogSection />

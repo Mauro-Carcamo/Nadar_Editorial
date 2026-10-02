@@ -1,8 +1,9 @@
 import { CollectionsExplorer } from "@/components/CollectionsExplorer";
 import { Reveal } from "@/components/motion/Reveal";
-import { allBooks, collections } from "@/data/site";
+import { listCollections, listPublishedBooks } from "@/services/catalog/repository";
 
-export function CollectionsSection() {
+export async function CollectionsSection() {
+  const [allBooks, collections] = await Promise.all([listPublishedBooks(), listCollections()]);
   const withBooks = collections
     .map((collection) => ({
       ...collection,

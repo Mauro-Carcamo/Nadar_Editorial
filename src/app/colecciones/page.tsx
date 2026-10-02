@@ -3,14 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { collections, getBooksByCollection, getCover } from "@/data/site";
+import { getCover } from "@/data/book-utils";
+import { listCollections, listPublishedBooks } from "@/services/catalog/repository";
 
 export const metadata: Metadata = {
   title: "Colecciones | Nadar Ediciones",
   description: "Nadar Ediciones organiza su catálogo en torno a seis colecciones.",
 };
 
-export default function ColeccionesPage() {
+export default async function ColeccionesPage() {
+  const [collections, allBooks] = await Promise.all([listCollections(), listPublishedBooks()]);
   return (
     <>
       <SiteHeader />
@@ -25,7 +27,7 @@ export default function ColeccionesPage() {
           </header>
 
           {collections.map((collection, index) => {
-            const books = getBooksByCollection(collection.name);
+            const books = allBooks.filter((b) => b.collection === collection.name);
             return (
               <section key={collection.slug} id={collection.slug} className="collections-page-item">
                 <div className="collections-page-text">

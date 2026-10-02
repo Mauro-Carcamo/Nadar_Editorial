@@ -2,21 +2,22 @@
 
 import { useMemo, useState } from "react";
 import { BookGrid } from "@/components/BookGrid";
-import { Book, collections as officialCollections } from "@/data/site";
+import type { Book } from "@/data/book-utils";
 
 type Props = {
   books: Book[];
+  collectionOrder: string[]; // orden oficial de las colecciones
 };
 
-export function CatalogClient({ books }: Props) {
+export function CatalogClient({ books, collectionOrder }: Props) {
   const [query, setQuery] = useState("");
   const [activeCollection, setActiveCollection] = useState("Todas");
 
   // Colecciones en el orden oficial, solo las que tienen libros (los libros sin colección quedan en "Todas")
   const collections = useMemo(() => {
     const present = new Set(books.map((b) => b.collection).filter(Boolean));
-    return ["Todas", ...officialCollections.map((c) => c.name).filter((name) => present.has(name))];
-  }, [books]);
+    return ["Todas", ...collectionOrder.filter((name) => present.has(name))];
+  }, [books, collectionOrder]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

@@ -21,7 +21,7 @@ const cardVariants: Variants = {
   visible: (order: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.95, delay: order * 0.1, ease: EASE },
+    transition: { duration: 0.95, delay: order * 0.06, ease: EASE },
   }),
   hover: { y: -6, transition: { duration: 0.5, ease: "easeOut" } },
 };
@@ -30,14 +30,14 @@ const coverVariants: Variants = {
   hover: { scale: 1.04, transition: { duration: 0.65, ease: "easeOut" } },
 };
 
-// Demo "Grid": 2 filas; las columnas deben coincidir con --catalog-cols en globals.css
+// Demo "Grid": 3 filas (5 columnas en escritorio); las columnas deben coincidir con --catalog-cols en globals.css
 export function CatalogGrid({ books }: { books: Book[] }) {
   return (
     <div className="catalog-shelf">
       <Swiper
         className="catalog-swiper"
         modules={[A11y, Grid, Keyboard, Pagination]}
-        grid={{ rows: 2, fill: "row" }}
+        grid={{ rows: 3, fill: "row" }}
         slidesPerView={2}
         slidesPerGroup={2}
         spaceBetween={16}
@@ -46,7 +46,7 @@ export function CatalogGrid({ books }: { books: Book[] }) {
         a11y={{ containerMessage: "Catálogo completo de Nadar Ediciones" }}
         breakpoints={{
           640: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 24 },
-          960: { slidesPerView: 4, slidesPerGroup: 4, spaceBetween: 28 },
+          960: { slidesPerView: 5, slidesPerGroup: 5, spaceBetween: 24 },
         }}
       >
         {books.map((book, index) => (
@@ -54,7 +54,7 @@ export function CatalogGrid({ books }: { books: Book[] }) {
             <motion.div
               className="catalog-card"
               variants={cardVariants}
-              custom={index % 8}
+              custom={index % 15}
               initial="hidden"
               whileInView="visible"
               whileHover="hover"

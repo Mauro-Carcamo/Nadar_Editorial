@@ -5,22 +5,16 @@ import { notFound } from "next/navigation";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import {
-  allBooks,
-  collections,
-  getBookBySlug,
-  getBooksByCollection,
-  getCover,
-  getLeadAndBody,
-} from "@/data/site";
+import { getCover, getLeadAndBody } from "@/data/book-utils";
+import { getBooksByCollection, getPublishedBook, listCollections, listPublishedBooks } from "@/services/catalog/repository";
 
-export function generateStaticParams() {
-  return allBooks.map((book) => ({ slug: book.slug }));
+export async function generateStaticParams() {
+  return (await listPublishedBooks()).map((book) => ({ slug: book.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const book = getBookBySlug(slug);
+  const book = await getPublishedBook(slug);
   if (!book) return {};
   return {
     title: `${book.title} · ${book.subtitle} | Nadar Ediciones`,
@@ -32,19 +26,19 @@ const formatPrice = (price: number) => `$${new Intl.NumberFormat("es-CL").format
 
 export default async function BookDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const book = getBookBySlug(slug);
+  const book = await getPublishedBook(slug);
 
   if (!book) {
     notFound();
   }
 
   const cover = getCover(book);
-  const collection = collections.find((c) => c.name === book.collection);
+  const collection = (await listCollections()).find((c) => c.name === book.collection);
   const { lead, body } = getLeadAndBody(book);
   const paragraphs = body.split("\n\n").filter(Boolean);
   const bio = (book.authorBio ?? "").split("\n\n").filter(Boolean);
   const related = book.collection
-    ? getBooksByCollection(book.collection).filter((b) => b.slug !== book.slug).slice(0, 4)
+    ? (await getBooksByCollection(book.collection)).filter((b) => b.slug !== book.slug).slice(0, 4)
     : [];
 
   const facts: [string, string][] = [];
