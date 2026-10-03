@@ -6769,3 +6769,25 @@ html {
 }
 
 
+
+/* Manifiesto: textura de craquelado (libro antiguo), muy sutil, solo en el fondo (debajo de fotos y texto) */
+.home-manifesto::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: url("/images/patterns/craquelado.png?v=1");
+  background-repeat: repeat;
+  background-size: 420px auto;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+
+
+.home-manifesto::before {
+  opacity: 0.18;
+}
+
+
