@@ -6209,3 +6209,15 @@ html {
 }
 
 
+
+/* Ficha del libro: el marco de la portada (fondo verde agua) lleva peces y logotipos nadar
+   en tonos un poco más oscuros y más claros que el fondo */
+.book-page-cover {
+  background-color: var(--surface-alt);
+  background-image: url("/images/patterns/peces-voladores-agua.svg?v=1");
+  background-repeat: repeat;
+  background-size: 540px auto;
+  background-position: center;
+}
+
+
