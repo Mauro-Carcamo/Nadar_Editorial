@@ -61,7 +61,7 @@ export function ManifestoSection() {
   // Globo (adelante, mitad derecha): parte abajo a la izquierda, sube hacia la esquina superior
   // derecha y se agranda.
   const photoX = useTransform(progress, [0, 1], [-16, 40]);
-  const photoY = useTransform(progress, [0, 1], [-10, -94]);
+  const photoY = useTransform(progress, [0, 1], [-48, -130]);
   const photoScale = useTransform(progress, [0, 1], [1.02, 1.14]);
 
   // Pájaro (atrás, mitad izquierda): parte un poco más arriba y, al hacer scroll, se achica y baja despacio.
