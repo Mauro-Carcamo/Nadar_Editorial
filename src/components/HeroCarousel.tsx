@@ -87,7 +87,7 @@ export function HeroCarousel({ books }: { books: Book[] }) {
         <div>
           <p className="home-hero-eyebrow">Top {books.length}</p>
           <h2 id="home-hero-title" className="home-hero-heading">
-            Los más vendidos
+            Destacados
           </h2>
         </div>
         <div className="home-hero-controls">

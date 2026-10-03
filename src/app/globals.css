@@ -5806,3 +5806,40 @@ h3,
   filter: grayscale(1) brightness(2.2);
   cursor: pointer;
 }
+
+/* Hero sobre el tono más oscuro de la paleta (#2d3c3f): textos y controles claros.
+   Las tarjetas de los libros mantienen su marco claro. */
+.home-hero {
+  background: var(--palette-ink);
+  border-bottom-color: transparent;
+}
+
+.home-hero .home-hero-eyebrow {
+  color: var(--mist-400);
+}
+
+.home-hero .home-hero-heading {
+  color: var(--palette-bg);
+}
+
+.home-hero .home-hero-controls .text-link {
+  color: var(--mist-200);
+  text-decoration-color: rgba(206, 228, 227, 0.5);
+}
+
+.home-hero .home-hero-nav {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: var(--palette-bg);
+}
+
+.home-hero .home-hero-nav:hover:not(:disabled) {
+  border-color: var(--mist-400);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.home-hero a:focus-visible,
+.home-hero button:focus-visible {
+  outline-color: var(--mist-400);
+}
+
