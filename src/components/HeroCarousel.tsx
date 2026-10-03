@@ -16,7 +16,9 @@ export function HeroCarousel({ books }: { books: Book[] }) {
   return (
     <>
       {/* Entrada del hero al cargar: los libros suben y aparecen */}
+      {/* Franja continua del color de las tarjetas: solo se mueven los libros y su texto */}
       <motion.div
+        className="home-hero-band"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}

@@ -6352,3 +6352,51 @@ html {
   }
 }
 
+
+/* Destacados: franja continua (color de las tarjetas) sin marcos ni separaciones entre libros */
+.home-hero-band {
+  background: var(--surface-alt);
+  padding-block: 20px 4px;
+}
+
+.home-hero-slide-link {
+  border-radius: 0;
+  background: transparent;
+}
+
+.home-hero-carousel .swiper-slide {
+  transform: none;
+}
+
+/* Manifiesto más bajo y con contenido más chico */
+.home-manifesto {
+  min-height: min(50svh, 460px);
+}
+
+.home-manifesto .home-manifesto-origin p {
+  font-size: clamp(0.85rem, 1vw, 0.95rem);
+  line-height: 1.45;
+}
+
+.home-manifesto .home-manifesto-link {
+  margin-top: 16px;
+  font-size: 0.9rem;
+}
+
+@media (min-width: 900px) {
+  .home-manifesto {
+    padding: 56px 0 60px;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-manifesto {
+    padding: 44px 0 52px;
+  }
+
+  .home-manifesto .home-manifesto-origin p {
+    font-size: 0.85rem;
+  }
+}
+
+
