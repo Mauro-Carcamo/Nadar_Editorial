@@ -6661,3 +6661,11 @@ html {
 }
 
 
+
+/* Manifiesto: ambas fotos en sepia mostaza (gris → sepia, girado hacia el amarillo y más saturado) */
+.home-manifesto .home-manifesto-photo img,
+.home-manifesto .home-manifesto-bird img {
+  filter: grayscale(1) sepia(1) hue-rotate(8deg) saturate(1.5) contrast(1.02);
+}
+
+
