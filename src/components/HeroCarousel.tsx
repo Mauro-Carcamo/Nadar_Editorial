@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { useState } from "react";
-import type { Swiper as SwiperInstance } from "swiper";
 import { A11y, Autoplay, Keyboard } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -12,12 +10,8 @@ import { splitTitle } from "@/data/book-utils";
 import { Book, getCover } from "@/data/site";
 
 export function HeroCarousel({ books }: { books: Book[] }) {
-  const [swiper, setSwiper] = useState<SwiperInstance | null>(null);
   // Avanza solo cada 4 s (se pausa con el mouse encima); sin avance automático con "reducir movimiento"
   const reduceMotion = useReducedMotion();
-  const [edges, setEdges] = useState({ start: true, end: false });
-
-  const syncEdges = (s: SwiperInstance) => setEdges({ start: s.isBeginning, end: s.isEnd });
 
   return (
     <>
@@ -44,12 +38,6 @@ export function HeroCarousel({ books }: { books: Book[] }) {
             640: { spaceBetween: 24 },
             1024: { spaceBetween: 40 },
           }}
-          onSwiper={(s) => {
-            setSwiper(s);
-            syncEdges(s);
-          }}
-          onSlideChange={syncEdges}
-          onResize={syncEdges}
         >
           {books.map((book, index) => {
             const cover = getCover(book);
@@ -97,33 +85,6 @@ export function HeroCarousel({ books }: { books: Book[] }) {
           <h2 id="home-hero-title" className="home-hero-heading">
             Destacados
           </h2>
-        </div>
-        <div className="home-hero-controls">
-          <Link href="/libros" className="text-link">
-            Ver catálogo
-          </Link>
-          <button
-            type="button"
-            className="home-hero-nav"
-            aria-label="Libros anteriores"
-            disabled={edges.start}
-            onClick={() => swiper?.slidePrev()}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M15 5l-7 7 7 7" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            className="home-hero-nav"
-            aria-label="Libros siguientes"
-            disabled={edges.end}
-            onClick={() => swiper?.slideNext()}
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
         </div>
       </motion.div>
     </>

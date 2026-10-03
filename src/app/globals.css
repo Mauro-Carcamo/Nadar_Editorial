@@ -6000,3 +6000,16 @@ html {
 }
 
 
+
+/* Hero más abajo: más aire entre la ola de la cabecera y los libros */
+.home-hero {
+  padding-top: 56px;
+}
+
+@media (min-width: 768px) {
+  .home-hero {
+    padding-top: 72px;
+  }
+}
+
+
