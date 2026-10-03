@@ -5310,3 +5310,18 @@ h3,
 .collection-parallax-title {
   line-height: 1.3;
 }
+
+/* Manifiesto: las fotos se desplazan en sentidos opuestos con el scroll (globo sube, pájaro baja).
+   Son más altas que la sección para que el desplazamiento nunca deje ver sus bordes. */
+.home-manifesto .home-manifesto-photo,
+.home-manifesto .home-manifesto-bird {
+  top: -140px;
+  bottom: -140px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-manifesto .home-manifesto-photo,
+  .home-manifesto .home-manifesto-bird {
+    transform: none !important;
+  }
+}

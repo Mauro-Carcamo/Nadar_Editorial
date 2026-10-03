@@ -27,18 +27,19 @@ export function ManifestoSection() {
   const scale = useTransform(leave, [0, 1], [1, 0.9]);
   const opacity = useTransform(leave, [0, 0.85], [1, 0.15]);
 
-  // Foto de fondo: mismos movimientos que el texto, pero más lentos (parallax) para que se sienta atrás
-  const photoEnterY = useTransform(enter, [0, 1], [-40, 0]);
-  const photoLeaveY = useTransform(leave, [0, 1], [0, -24]);
+  // Fotos en sentidos opuestos según el scroll (Motion):
+  // el globo de Nadar parte más abajo y sube; el pájaro parte más arriba y baja.
+  // Recorrido total = entrada (la sección aparece) + salida (Colecciones la cubre).
+  const photoEnterY = useTransform(enter, [0, 1], [90, 30]);
+  const photoLeaveY = useTransform(leave, [0, 1], [0, -120]);
   const photoY = useTransform(() => photoEnterY.get() + photoLeaveY.get());
-  const photoScale = useTransform(leave, [0, 1], [1, 0.94]);
+  const photoScale = useTransform(leave, [0, 1], [1, 0.96]);
   const photoOpacity = useTransform(leave, [0, 0.85], [1, 0.1]);
 
-  // Ilustración del ave: más atrás todavía, así que se mueve aún más lento
-  const birdEnterY = useTransform(enter, [0, 1], [-20, 0]);
-  const birdLeaveY = useTransform(leave, [0, 1], [0, -12]);
+  const birdEnterY = useTransform(enter, [0, 1], [-90, -30]);
+  const birdLeaveY = useTransform(leave, [0, 1], [0, 120]);
   const birdY = useTransform(() => birdEnterY.get() + birdLeaveY.get());
-  const birdScale = useTransform(leave, [0, 1], [1, 0.97]);
+  const birdScale = useTransform(leave, [0, 1], [1, 0.98]);
 
   return (
     <>
