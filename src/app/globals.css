@@ -5975,3 +5975,15 @@ html {
 }
 
 
+
+/* Colecciones: lo que sigue al punto/guion del título, en una línea aparte y más pequeño */
+.collection-parallax-subtitle {
+  display: block;
+  margin-top: 4px;
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.2px;
+  color: var(--ink);
+}
+

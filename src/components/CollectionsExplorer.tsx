@@ -9,7 +9,7 @@ import { A11y, Keyboard, Parallax } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
-import { getShortDescription } from "@/data/book-utils";
+import { getShortDescription, splitTitle } from "@/data/book-utils";
 import { Book, getCover } from "@/data/site";
 
 type CollectionWithBooks = {
@@ -237,7 +237,10 @@ function CollectionStage({
                 {book.series ? ` · ${book.series}` : ""} · {pad(index + 1)}/{pad(total)}
               </p>
               <h3 className="collection-parallax-title" data-swiper-parallax="-300">
-                {book.title}
+                {splitTitle(book.title).main}
+                {splitTitle(book.title).rest ? (
+                  <span className="collection-parallax-subtitle">{splitTitle(book.title).rest}</span>
+                ) : null}
               </h3>
               <p className="collection-parallax-author" data-swiper-parallax="-200">
                 {book.subtitle}
