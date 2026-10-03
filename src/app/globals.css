@@ -5843,3 +5843,52 @@ h3,
   outline-color: var(--mist-400);
 }
 
+
+/* Cabecera más baja y logo más chico (estado normal y al hacer scroll) */
+.nav-wrap {
+  min-height: 56px;
+}
+
+.brand-logo {
+  height: 42px;
+}
+
+html[data-scrolled] .brand-logo {
+  height: 34px;
+}
+
+html[data-scrolled] .nav-wrap {
+  min-height: 48px;
+}
+
+.home-manifesto {
+  top: 48px;
+}
+
+html {
+  scroll-padding-top: 80px;
+}
+
+@media (min-width: 768px) {
+  .nav-wrap {
+    min-height: 64px;
+    padding-top: 0;
+  }
+
+  .brand-logo {
+    height: 54px;
+  }
+
+  html[data-scrolled] .brand-logo {
+    height: 42px;
+  }
+
+  html[data-scrolled] .nav-wrap {
+    min-height: 56px;
+  }
+
+  .home-manifesto {
+    top: 56px;
+  }
+}
+

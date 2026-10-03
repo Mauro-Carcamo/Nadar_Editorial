@@ -2,16 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
 import type { Swiper as SwiperInstance } from "swiper";
-import { A11y, Keyboard } from "swiper/modules";
+import { A11y, Autoplay, Keyboard } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Book, getCover } from "@/data/site";
 
 export function HeroCarousel({ books }: { books: Book[] }) {
   const [swiper, setSwiper] = useState<SwiperInstance | null>(null);
+  // Avanza solo cada 4 s (se pausa con el mouse encima); sin avance automático con "reducir movimiento"
+  const reduceMotion = useReducedMotion();
   const [edges, setEdges] = useState({ start: true, end: false });
 
   const syncEdges = (s: SwiperInstance) => setEdges({ start: s.isBeginning, end: s.isEnd });
@@ -26,7 +28,9 @@ export function HeroCarousel({ books }: { books: Book[] }) {
       >
         <Swiper
           className="container home-hero-carousel"
-          modules={[A11y, Keyboard]}
+          modules={[A11y, Autoplay, Keyboard]}
+          autoplay={reduceMotion ? false : { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          speed={900}
           watchSlidesProgress
           roundLengths
           keyboard={{ enabled: true, onlyInViewport: true }}

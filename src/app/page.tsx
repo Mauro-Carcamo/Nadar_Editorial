@@ -14,9 +14,6 @@ export default async function Home() {
   const bestsellers = await getBestsellers(10);
   return (
     <MotionProvider>
-      <a href="#contenido" className="skip-link">
-        Saltar al contenido
-      </a>
       <ScrollProgress />
       <SiteHeader />
       <main id="contenido" tabIndex={-1}>
