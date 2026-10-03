@@ -6503,3 +6503,28 @@ html {
   object-position: 60% 35%;
 }
 
+
+/* Manifiesto: fotos un poco más chicas (ancho y alto) */
+.home-manifesto .home-manifesto-photo {
+  width: 42%;
+  top: -30px;
+  bottom: -30px;
+}
+
+.home-manifesto .home-manifesto-bird {
+  left: -80px;
+  width: calc(42% + 80px);
+  top: -30px;
+  bottom: -30px;
+}
+
+@media (max-width: 899px) {
+  .home-manifesto .home-manifesto-photo {
+    width: 52%;
+  }
+
+  .home-manifesto .home-manifesto-bird {
+    width: calc(52% + 80px);
+  }
+}
+
