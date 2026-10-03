@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { CatalogBrowser } from "@/components/catalog/CatalogBrowser";
 import { Reveal } from "@/components/motion/Reveal";
 import { listPublishedBooks } from "@/services/catalog/repository";
@@ -18,9 +17,6 @@ export async function CatalogSection() {
                 Todos los libros
               </h2>
             </div>
-            <Link href="/libros" className="btn btn-outline">
-              Buscar en el catálogo
-            </Link>
           </header>
         </Reveal>
 
