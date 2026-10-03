@@ -35,9 +35,6 @@ export async function CollectionsSection() {
             <h2 id="home-collections-title" className="home-collections-heading">
               Rutas de lectura
             </h2>
-            <p className="home-collections-intro">
-              Nadar Ediciones organiza su catálogo en torno a seis colecciones.
-            </p>
           </header>
         </Reveal>
 
