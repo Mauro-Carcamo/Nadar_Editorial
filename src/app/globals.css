@@ -5515,3 +5515,17 @@ h3,
     background-size: 720px auto;
   }
 }
+
+/* Catálogo: paginación duplicada al comienzo de la grilla (sincronizada con la de abajo) */
+.catalog-pagination-top {
+  --swiper-pagination-color: var(--accent-ink);
+  --swiper-pagination-bullet-inactive-color: var(--line);
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-size: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 0 20px;
+  min-height: 10px;
+}
+

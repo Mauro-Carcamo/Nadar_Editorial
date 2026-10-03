@@ -34,6 +34,8 @@ const coverVariants: Variants = {
 export function CatalogGrid({ books }: { books: Book[] }) {
   return (
     <div className="catalog-shelf">
+      {/* Paginación también al comienzo: comparte estado con la de abajo (misma clase, uniqueNavElements=false) */}
+      <div className="catalog-pagination catalog-pagination-top" />
       <Swiper
         className="catalog-swiper"
         modules={[A11y, Grid, Keyboard, Pagination]}
@@ -42,7 +44,8 @@ export function CatalogGrid({ books }: { books: Book[] }) {
         slidesPerGroup={2}
         spaceBetween={16}
         keyboard={{ enabled: true, onlyInViewport: true }}
-        pagination={{ clickable: true }}
+        pagination={{ el: ".catalog-pagination", clickable: true }}
+        uniqueNavElements={false}
         a11y={{ containerMessage: "Catálogo completo de Nadar Ediciones" }}
         breakpoints={{
           640: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 24 },
@@ -100,6 +103,7 @@ export function CatalogGrid({ books }: { books: Book[] }) {
             </motion.div>
           </SwiperSlide>
         ))}
+        <div slot="container-end" className="swiper-pagination catalog-pagination catalog-pagination-bottom" />
       </Swiper>
     </div>
   );
