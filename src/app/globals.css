@@ -6013,3 +6013,106 @@ html {
 }
 
 
+
+/* Contacto (home): fondo ilustrado, contenido centrado e íconos grandes de redes */
+.home-contact {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.home-contact-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.home-contact-bg img {
+  object-fit: cover;
+  object-position: 50% 35%;
+  opacity: 0.32;
+  filter: saturate(0.85);
+}
+
+/* Velo del color de la sección para que el texto y el formulario se lean bien */
+.home-contact-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(229, 240, 240, 0.55) 0%, rgba(229, 240, 240, 0.2) 45%, rgba(229, 240, 240, 0.65) 100%);
+}
+
+.home-contact-inner {
+  display: grid;
+  justify-items: center;
+  gap: 28px;
+  text-align: center;
+}
+
+.home-contact-head .home-pos-intro {
+  margin-inline: auto;
+}
+
+.home-contact .contact-form {
+  width: min(640px, 100%);
+  text-align: left;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.social-links--icons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.social-links--icons a {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--palette-ink);
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.social-links--icons .social-icon,
+.social-links--icons .social-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.social-links--icons svg {
+  fill: currentColor;
+}
+
+.social-links--icons a:hover,
+.social-links--icons a:focus-visible {
+  background: var(--palette-ink);
+  color: var(--palette-bg);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .social-links--icons a {
+    width: 60px;
+    height: 60px;
+  }
+
+  .social-links--icons .social-icon,
+  .social-links--icons .social-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-links--icons a {
+    transition: none;
+  }
+}
+
+

@@ -6,6 +6,8 @@ import { trackEvent } from "@/lib/analytics";
 type Props = {
   source: "footer" | "contacto" | "home";
   ariaLabel?: string;
+  /** "icons": solo íconos grandes (el nombre queda para lectores de pantalla) */
+  variant?: "default" | "icons";
 };
 
 function iconFor(name: string) {
@@ -37,9 +39,9 @@ function iconFor(name: string) {
   }
 }
 
-export function SocialLinks({ source, ariaLabel = "Redes sociales" }: Props) {
+export function SocialLinks({ source, ariaLabel = "Redes sociales", variant = "default" }: Props) {
   return (
-    <div className="social-links" aria-label={ariaLabel}>
+    <div className={variant === "icons" ? "social-links social-links--icons" : "social-links"} aria-label={ariaLabel}>
       {socialLinks.map((social) => (
         <a
           key={social.name}
@@ -59,7 +61,7 @@ export function SocialLinks({ source, ariaLabel = "Redes sociales" }: Props) {
           }
         >
           <span className="social-icon">{iconFor(social.name)}</span>
-          <span>{social.name}</span>
+          <span className={variant === "icons" ? "sr-only" : undefined}>{social.name}</span>
         </a>
       ))}
     </div>

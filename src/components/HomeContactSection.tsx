@@ -1,26 +1,27 @@
+import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
-import { ContactInfo } from "@/components/ContactInfo";
 import { Reveal } from "@/components/motion/Reveal";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export function HomeContactSection() {
   return (
     <section id="contacto" className="home-contact" aria-labelledby="home-contact-title">
-      <div className="container">
+      {/* Fondo: ilustración del pez volador y los pescadores (página Amistad del sitio original) */}
+      <div className="home-contact-bg" aria-hidden="true">
+        <Image src="/images/page/amistad-pez-volador.jpg" alt="" fill sizes="100vw" />
+      </div>
+      <div className="container home-contact-inner">
         <Reveal>
-          <header className="home-catalog-head">
-            <div>
-              <p className="home-hero-eyebrow">Contacto</p>
-              <h2 id="home-contact-title" className="home-collections-heading">
-                Conversemos
-              </h2>
-              <p className="home-pos-intro">Consultas de catálogo, pedidos, prensa, librerías o propuestas editoriales.</p>
-            </div>
+          <header className="home-contact-head">
+            <p className="home-hero-eyebrow">Contacto</p>
+            <h2 id="home-contact-title" className="home-collections-heading">
+              Contáctanos
+            </h2>
+            <p className="home-pos-intro">Consultas de catálogo, pedidos, prensa, librerías o propuestas editoriales.</p>
           </header>
         </Reveal>
-        <div className="contact-layout">
-          <ContactForm />
-          <ContactInfo source="home" />
-        </div>
+        <ContactForm />
+        <SocialLinks source="home" variant="icons" ariaLabel="Redes sociales de Nadar Ediciones" />
       </div>
     </section>
   );
