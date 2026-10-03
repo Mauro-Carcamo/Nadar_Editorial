@@ -6751,3 +6751,21 @@ html {
 }
 
 
+
+/* Manifiesto: fotos más transparentes */
+.home-manifesto .home-manifesto-photo img {
+  opacity: 0.2;
+}
+
+.home-manifesto .home-manifesto-bird img {
+  opacity: 0.24;
+}
+
+@media (max-width: 899px) {
+  .home-manifesto .home-manifesto-photo img,
+  .home-manifesto .home-manifesto-bird img {
+    opacity: 0.12;
+  }
+}
+
+
