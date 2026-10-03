@@ -5469,3 +5469,15 @@ h3,
     animation: none;
   }
 }
+
+/* Cita del manifiesto más compacta: letra menor, letras e interlineado más juntos y más ancha
+   (menos renglones) */
+.home-manifesto .home-manifesto-inner > .home-manifesto-origin {
+  max-width: min(880px, 100%);
+}
+
+.home-manifesto .home-manifesto-origin p {
+  font-size: clamp(0.92rem, 1.1vw, 1.02rem);
+  letter-spacing: -0.2px;
+  line-height: 1.38;
+}
