@@ -1,14 +1,12 @@
-import Image from "next/image";
+import { ContactBackground } from "@/components/ContactBackground";
 import { Reveal } from "@/components/motion/Reveal";
 import { SocialLinks } from "@/components/SocialLinks";
 
 export function HomeContactSection() {
   return (
     <section id="contacto" className="home-contact" aria-labelledby="home-contact-title">
-      {/* Fondo: ilustración del pez volador y los pescadores (página Amistad del sitio original) */}
-      <div className="home-contact-bg" aria-hidden="true">
-        <Image src="/images/page/amistad-pez-volador.jpg" alt="" fill sizes="100vw" />
-      </div>
+      {/* Fondo: ilustración del pez volador y los pescadores (página Amistad del sitio original), con parallax lento */}
+      <ContactBackground />
       <div className="container home-contact-inner">
         <Reveal>
           <header className="home-contact-head">

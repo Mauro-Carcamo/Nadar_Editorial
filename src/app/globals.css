@@ -6150,3 +6150,51 @@ html {
   padding-block: 96px 112px;
 }
 
+
+/* Contacto: la foto es más alta que la sección para que el parallax no muestre bordes */
+.home-contact-bg-image {
+  position: absolute;
+  inset: -90px 0;
+  will-change: transform;
+}
+
+/* Redes en Contacto: solo el ícono, grande, sin círculo */
+.social-links--icons {
+  gap: 36px;
+}
+
+.social-links--icons a {
+  width: auto;
+  height: auto;
+  padding: 4px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--palette-ink);
+}
+
+.social-links--icons .social-icon,
+.social-links--icons .social-icon svg {
+  width: 44px;
+  height: 44px;
+}
+
+.social-links--icons a:hover,
+.social-links--icons a:focus-visible {
+  background: none;
+  color: var(--accent-ink);
+  transform: translateY(-3px);
+}
+
+@media (max-width: 480px) {
+  .social-links--icons {
+    gap: 28px;
+  }
+
+  .social-links--icons .social-icon,
+  .social-links--icons .social-icon svg {
+    width: 38px;
+    height: 38px;
+  }
+}
+
