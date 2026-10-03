@@ -5727,3 +5727,82 @@ h3,
   }
 }
 
+
+/* Catálogo filtrado: grilla simple (mismas columnas que el carrusel) */
+.catalog-plain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 16px;
+  padding-bottom: 24px;
+}
+
+.catalog-plain-grid .catalog-card {
+  height: 100%;
+}
+
+.catalog-plain-grid .catalog-card-frame {
+  aspect-ratio: 4 / 5;
+}
+
+@media (min-width: 640px) {
+  .catalog-plain-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px 24px;
+  }
+}
+
+@media (min-width: 960px) {
+  .catalog-plain-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+
+/* Barra de filtros en el tono más oscuro de la paleta (#2d3c3f), con controles claros */
+.catalog-filter-bar {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(45, 60, 63, 0.96);
+  box-shadow: 0 18px 44px -16px rgba(20, 30, 32, 0.65);
+}
+
+.catalog-filter-bar .catalog-filter-search input {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.catalog-filter-bar .catalog-filter-search input::placeholder {
+  color: var(--mist-200);
+}
+
+.catalog-filter-bar .catalog-filter-search input:focus-visible {
+  outline: 2px solid var(--mist-400);
+  outline-offset: 2px;
+}
+
+.catalog-filter-bar .catalog-filter-chips button {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: var(--palette-bg);
+}
+
+.catalog-filter-bar .catalog-filter-chips button:hover {
+  border-color: var(--mist-400);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.catalog-filter-bar .catalog-filter-chips button.is-active {
+  border-color: var(--mist-400);
+  background: var(--mist-400);
+  color: var(--palette-ink);
+}
+
+.catalog-filter-bar .catalog-filter-chips {
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+
+.catalog-filter-bar .catalog-filter-search input::-webkit-search-cancel-button {
+  filter: grayscale(1) brightness(2.2);
+  cursor: pointer;
+}

@@ -54,57 +54,80 @@ export function CatalogGrid({ books }: { books: Book[] }) {
       >
         {books.map((book, index) => (
           <SwiperSlide key={book.slug} tag="article" className="catalog-slide">
-            <motion.div
-              className="catalog-card"
-              variants={cardVariants}
-              custom={index % 15}
-              initial="hidden"
-              whileInView="visible"
-              whileHover="hover"
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <Link href={`/libros/${book.slug}`} className="catalog-card-link">
-                <span className={`catalog-card-frame${getCover(book).flat ? " is-flat" : ""}`}>
-                  <motion.span className="catalog-card-cover" variants={coverVariants}>
-                    <Image
-                      src={getCover(book).src}
-                      alt={`Portada de ${book.title}, de ${book.subtitle}`}
-                      width={getCover(book).width}
-                      height={getCover(book).height}
-                      sizes="(min-width: 960px) 260px, (min-width: 640px) 30vw, 44vw"
-                    />
-                  </motion.span>
-                </span>
-                <span className="catalog-card-title">{book.title}</span>
-                <span className="catalog-card-author">{book.subtitle}</span>
-              </Link>
-              <div className="catalog-card-buy">
-                {book.price ? <span className="catalog-card-price">{formatPrice(book.price)}</span> : null}
-                {book.price ? (
-                <AddToCartButton
-                  slug={book.slug}
-                  title={book.title}
-                  subtitle={book.subtitle}
-                  image={getCover(book).src}
-                  price={book.price ?? null}
-                  currency={book.currency ?? "CLP"}
-                  className="catalog-card-cart"
-                  ariaLabel={`Agregar ${book.title} al carrito`}
-                >
-                  Agregar
-                </AddToCartButton>
-                ) : (
-                  // Sin precio confirmado no se agrega al carrito: se consulta disponibilidad
-                  <Link href="/contacto" className="catalog-card-cart catalog-card-ask">
-                    Consultar
-                  </Link>
-                )}
-              </div>
-            </motion.div>
+            <CatalogCard book={book} index={index} />
           </SwiperSlide>
         ))}
         <div slot="container-end" className="swiper-pagination catalog-pagination catalog-pagination-bottom" />
       </Swiper>
+    </div>
+  );
+}
+
+/** Tarjeta de libro del catálogo (la usan el carrusel y la grilla filtrada). */
+export function CatalogCard({ book, index }: { book: Book; index: number }) {
+  return (
+    <motion.div
+      className="catalog-card"
+      variants={cardVariants}
+      custom={index % 15}
+      initial="hidden"
+      whileInView="visible"
+      whileHover="hover"
+      viewport={{ once: true, amount: 0.3 }}
+    >
+      <Link href={`/libros/${book.slug}`} className="catalog-card-link">
+        <span className={`catalog-card-frame${getCover(book).flat ? " is-flat" : ""}`}>
+          <motion.span className="catalog-card-cover" variants={coverVariants}>
+            <Image
+              src={getCover(book).src}
+              alt={`Portada de ${book.title}, de ${book.subtitle}`}
+              width={getCover(book).width}
+              height={getCover(book).height}
+              sizes="(min-width: 960px) 260px, (min-width: 640px) 30vw, 44vw"
+            />
+          </motion.span>
+        </span>
+        <span className="catalog-card-title">{book.title}</span>
+        <span className="catalog-card-author">{book.subtitle}</span>
+      </Link>
+      <div className="catalog-card-buy">
+        {book.price ? <span className="catalog-card-price">{formatPrice(book.price)}</span> : null}
+        {book.price ? (
+        <AddToCartButton
+          slug={book.slug}
+          title={book.title}
+          subtitle={book.subtitle}
+          image={getCover(book).src}
+          price={book.price ?? null}
+          currency={book.currency ?? "CLP"}
+          className="catalog-card-cart"
+          ariaLabel={`Agregar ${book.title} al carrito`}
+        >
+          Agregar
+        </AddToCartButton>
+        ) : (
+          // Sin precio confirmado no se agrega al carrito: se consulta disponibilidad
+          <Link href="/contacto" className="catalog-card-cart catalog-card-ask">
+            Consultar
+          </Link>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+/**
+ * Grilla simple para resultados filtrados: suelen ser pocos libros y el módulo Grid de Swiper
+ * los ubica mal cuando no completan una página (deja filas vacías).
+ */
+export function CatalogPlainGrid({ books }: { books: Book[] }) {
+  return (
+    <div className="catalog-plain-grid">
+      {books.map((book, index) => (
+        <article key={book.slug} className="catalog-slide">
+          <CatalogCard book={book} index={index} />
+        </article>
+      ))}
     </div>
   );
 }

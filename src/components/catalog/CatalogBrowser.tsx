@@ -3,8 +3,9 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { CatalogGrid } from "@/components/CatalogGrid";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
+import { CatalogGrid, CatalogPlainGrid } from "@/components/CatalogGrid";
 import type { Book } from "@/data/book-utils";
 
 // Catálogo del home + barra de filtros fija abajo (visible solo mientras se está en la sección).
@@ -33,7 +34,12 @@ const MAX_CATEGORIES = 2;
 const MIN_CHARS = 4;
 
 type SearchResult = {
-  books: { slug: string; title: string; authors: string | null; cover: string | null }[];
+  books: {
+    slug: string;
+    title: string;
+    authors: string | null;
+    cover: string | null;
+  }[];
   authors: { name: string; slugs: string[] }[];
 };
 
@@ -41,7 +47,10 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
   const router = useRouter();
   const reduceMotion = useReducedMotion();
   const [categories, setCategories] = useState<string[]>([]);
-  const [author, setAuthor] = useState<{ name: string; slugs: string[] } | null>(null);
+  const [author, setAuthor] = useState<{
+    name: string;
+    slugs: string[];
+  } | null>(null);
   const [inView, setInView] = useState(false);
   const [term, setTerm] = useState("");
   const [results, setResults] = useState<SearchResult | null>(null);
@@ -49,13 +58,15 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
 
   // Solo categorías que tienen libros publicados
   const available = useMemo(
-    () => CATALOG_CATEGORIES.filter((c) => books.some((b) => b.tags?.includes(c))),
+    () =>
+      CATALOG_CATEGORIES.filter((c) => books.some((b) => b.tags?.includes(c))),
     [books],
   );
 
   const filtered = useMemo(() => {
     if (author) return books.filter((b) => author.slugs.includes(b.slug));
-    if (categories.length) return books.filter((b) => categories.some((c) => b.tags?.includes(c)));
+    if (categories.length)
+      return books.filter((b) => categories.some((c) => b.tags?.includes(c)));
     return books;
   }, [books, categories, author]);
 
@@ -79,7 +90,9 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
     const t = setTimeout(async () => {
       setSearching(true);
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`, { signal: ctrl.signal });
+        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}`, {
+          signal: ctrl.signal,
+        });
         if (res.ok) setResults(await res.json());
       } catch {
         // consulta cancelada o sin conexión: se mantiene el resultado anterior
@@ -94,10 +107,41 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
   }, [q, ready]);
   const shown = ready ? results : null;
 
-  const goToSection = () => {
-    const section = document.getElementById("catalogo");
-    section?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-  };
+  // Tras filtrar, centra la primera fila de libros en el espacio visible (entre la cabecera y la barra)
+  const [scrollRequest, setScrollRequest] = useState(0);
+  // true solo en el navegador (después de hidratar): el portal necesita document.body
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+  const goToSection = () => setScrollRequest((n) => n + 1);
+  useEffect(() => {
+    if (!scrollRequest) return;
+    const raf = requestAnimationFrame(() => {
+      const target =
+        document.querySelector<HTMLElement>(
+          ".catalog-plain-grid .catalog-slide, .catalog-swiper .swiper-slide",
+        ) ?? document.querySelector<HTMLElement>(".catalog-filter-empty");
+      if (!target) return;
+      const header =
+        document
+          .querySelector<HTMLElement>(".site-header")
+          ?.getBoundingClientRect().bottom ?? 0;
+      const bar =
+        document
+          .querySelector<HTMLElement>(".catalog-filter-bar")
+          ?.getBoundingClientRect().top ?? window.innerHeight;
+      const visibleCenter =
+        (Math.max(0, header) + Math.min(window.innerHeight, bar)) / 2;
+      const r = target.getBoundingClientRect();
+      window.scrollTo({
+        top: window.scrollY + r.top + r.height / 2 - visibleCenter,
+        behavior: reduceMotion ? "auto" : "smooth",
+      });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [scrollRequest, reduceMotion]);
 
   const toggleCategory = (name: string) => {
     setAuthor(null);
@@ -133,7 +177,8 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
       {filterLabel ? (
         <div className="catalog-filter-status" role="status">
           <span>
-            {filterLabel} · {filtered.length} {filtered.length === 1 ? "libro" : "libros"}
+            {filterLabel} · {filtered.length}{" "}
+            {filtered.length === 1 ? "libro" : "libros"}
           </span>
           <button type="button" className="text-link" onClick={clear}>
             Ver todos
@@ -141,110 +186,154 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
         </div>
       ) : null}
 
-      {filtered.length ? (
-        <CatalogGrid key={`${author?.name ?? ""}|${categories.join("|")}`} books={filtered} />
+      {filterLabel && filtered.length ? (
+        <CatalogPlainGrid
+          key={`${author?.name ?? ""}|${categories.join("|")}`}
+          books={filtered}
+        />
+      ) : filtered.length ? (
+        <CatalogGrid books={filtered} />
       ) : (
-        <p className="catalog-filter-empty">No hay libros con esa combinación. Prueba con una sola categoría.</p>
+        <p className="catalog-filter-empty">
+          No hay libros con esa combinación. Prueba con una sola categoría.
+        </p>
       )}
 
-      <AnimatePresence>
-        {inView ? (
-          <motion.div
-            className="catalog-filter-bar"
-            role="region"
-            aria-label="Filtrar catálogo"
-            initial={reduceMotion ? false : { y: 120, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={reduceMotion ? { opacity: 0 } : { y: 120, opacity: 0 }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="catalog-filter-search">
-              <input
-                type="search"
-                value={term}
-                onChange={(e) => setTerm(e.target.value)}
-                onKeyDown={(e) => e.key === "Escape" && setTerm("")}
-                placeholder="Buscar libro o autor…"
-                aria-label="Buscar libro o autor"
-                aria-describedby="catalog-filter-hint"
-                autoComplete="off"
-              />
-              <span id="catalog-filter-hint" className="sr-only">
-                Escribe al menos {MIN_CHARS} letras
-              </span>
-              {q.length > 0 && q.length < MIN_CHARS ? (
-                <p className="catalog-filter-results is-hint">Escribe al menos {MIN_CHARS} letras</p>
-              ) : null}
-              {shown ? (
-                <div className="catalog-filter-results" role="listbox" aria-label="Resultados">
-                  {shown.books.length === 0 && shown.authors.length === 0 ? (
-                    <p className="catalog-filter-none">{searching ? "Buscando…" : "Sin resultados"}</p>
+      {/* La barra va en <body> (portal): así ninguna sección con z-index propio puede taparla */}
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {inView ? (
+              <motion.div
+                className="catalog-filter-bar"
+                role="region"
+                aria-label="Filtrar catálogo"
+                initial={reduceMotion ? false : { y: 120, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={reduceMotion ? { opacity: 0 } : { y: 120, opacity: 0 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="catalog-filter-search">
+                  <input
+                    type="search"
+                    value={term}
+                    onChange={(e) => setTerm(e.target.value)}
+                    onKeyDown={(e) => e.key === "Escape" && setTerm("")}
+                    placeholder="Buscar libro o autor…"
+                    aria-label="Buscar libro o autor"
+                    aria-describedby="catalog-filter-hint"
+                    autoComplete="off"
+                  />
+                  <span id="catalog-filter-hint" className="sr-only">
+                    Escribe al menos {MIN_CHARS} letras
+                  </span>
+                  {q.length > 0 && q.length < MIN_CHARS ? (
+                    <p className="catalog-filter-results is-hint">
+                      Escribe al menos {MIN_CHARS} letras
+                    </p>
                   ) : null}
-                  {shown.authors.length ? (
-                    <>
-                      <p className="catalog-filter-group">Autores</p>
-                      {shown.authors.map((a) => (
-                        <button key={a.name} type="button" role="option" aria-selected={false} onClick={() => chooseAuthor(a)}>
-                          <span className="catalog-filter-avatar" aria-hidden="true">
-                            {a.name.charAt(0)}
-                          </span>
-                          <span>
-                            <strong>{a.name}</strong>
-                            <small>
-                              {a.slugs.length} {a.slugs.length === 1 ? "libro" : "libros"}
-                            </small>
-                          </span>
-                        </button>
-                      ))}
-                    </>
-                  ) : null}
-                  {shown.books.length ? (
-                    <>
-                      <p className="catalog-filter-group">Libros</p>
-                      {shown.books.map((b) => (
-                        <button
-                          key={b.slug}
-                          type="button"
-                          role="option"
-                          aria-selected={false}
-                          onClick={() => router.push(`/libros/${b.slug}`)}
-                        >
-                          {b.cover ? (
-                            <Image src={b.cover} alt="" width={30} height={42} className="catalog-filter-thumb" />
-                          ) : (
-                            <span className="catalog-filter-thumb" aria-hidden="true" />
-                          )}
-                          <span>
-                            <strong>{b.title}</strong>
-                            <small>{b.authors ?? "Nadar Ediciones"}</small>
-                          </span>
-                        </button>
-                      ))}
-                    </>
+                  {shown ? (
+                    <div
+                      className="catalog-filter-results"
+                      role="listbox"
+                      aria-label="Resultados"
+                    >
+                      {shown.books.length === 0 &&
+                      shown.authors.length === 0 ? (
+                        <p className="catalog-filter-none">
+                          {searching ? "Buscando…" : "Sin resultados"}
+                        </p>
+                      ) : null}
+                      {shown.authors.length ? (
+                        <>
+                          <p className="catalog-filter-group">Autores</p>
+                          {shown.authors.map((a) => (
+                            <button
+                              key={a.name}
+                              type="button"
+                              role="option"
+                              aria-selected={false}
+                              onClick={() => chooseAuthor(a)}
+                            >
+                              <span
+                                className="catalog-filter-avatar"
+                                aria-hidden="true"
+                              >
+                                {a.name.charAt(0)}
+                              </span>
+                              <span>
+                                <strong>{a.name}</strong>
+                                <small>
+                                  {a.slugs.length}{" "}
+                                  {a.slugs.length === 1 ? "libro" : "libros"}
+                                </small>
+                              </span>
+                            </button>
+                          ))}
+                        </>
+                      ) : null}
+                      {shown.books.length ? (
+                        <>
+                          <p className="catalog-filter-group">Libros</p>
+                          {shown.books.map((b) => (
+                            <button
+                              key={b.slug}
+                              type="button"
+                              role="option"
+                              aria-selected={false}
+                              onClick={() => router.push(`/libros/${b.slug}`)}
+                            >
+                              {b.cover ? (
+                                <Image
+                                  src={b.cover}
+                                  alt=""
+                                  width={30}
+                                  height={42}
+                                  className="catalog-filter-thumb"
+                                />
+                              ) : (
+                                <span
+                                  className="catalog-filter-thumb"
+                                  aria-hidden="true"
+                                />
+                              )}
+                              <span>
+                                <strong>{b.title}</strong>
+                                <small>{b.authors ?? "Nadar Ediciones"}</small>
+                              </span>
+                            </button>
+                          ))}
+                        </>
+                      ) : null}
+                    </div>
                   ) : null}
                 </div>
-              ) : null}
-            </div>
 
-            <div className="catalog-filter-chips" role="group" aria-label={`Categorías (máximo ${MAX_CATEGORIES})`}>
-              {available.map((c) => {
-                const active = categories.includes(c);
-                return (
-                  <button
-                    key={c}
-                    type="button"
-                    aria-pressed={active}
-                    className={active ? "is-active" : ""}
-                    onClick={() => toggleCategory(c)}
-                  >
-                    {c}
-                  </button>
-                );
-              })}
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+                <div
+                  className="catalog-filter-chips"
+                  role="group"
+                  aria-label={`Categorías (máximo ${MAX_CATEGORIES})`}
+                >
+                  {available.map((c) => {
+                    const active = categories.includes(c);
+                    return (
+                      <button
+                        key={c}
+                        type="button"
+                        aria-pressed={active}
+                        className={active ? "is-active" : ""}
+                        onClick={() => toggleCategory(c)}
+                      >
+                        {c}
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>,
+          document.body,
+        )}
     </div>
   );
 }
