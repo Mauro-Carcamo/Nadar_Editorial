@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CatalogGrid } from "@/components/CatalogGrid";
+import { CatalogBrowser } from "@/components/catalog/CatalogBrowser";
 import { Reveal } from "@/components/motion/Reveal";
 import { listPublishedBooks } from "@/services/catalog/repository";
 
@@ -24,7 +24,7 @@ export async function CatalogSection() {
           </header>
         </Reveal>
 
-        <CatalogGrid books={allBooks} />
+        <CatalogBrowser books={allBooks} />
       </div>
     </section>
   );
