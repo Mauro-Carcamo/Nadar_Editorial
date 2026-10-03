@@ -9,7 +9,8 @@ import { A11y, Keyboard, Parallax } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
-import { Book, getCover, getLeadAndBody } from "@/data/site";
+import { getShortDescription } from "@/data/book-utils";
+import { Book, getCover } from "@/data/site";
 
 type CollectionWithBooks = {
   slug: string;
@@ -241,36 +242,11 @@ function CollectionStage({
               <p className="collection-parallax-author" data-swiper-parallax="-200">
                 {book.subtitle}
               </p>
-              <div className="collection-parallax-text" data-swiper-parallax="-100">
-                {getLeadAndBody(book).lead ? (
-                  <p className="collection-parallax-bajada">{getLeadAndBody(book).lead}</p>
-                ) : null}
-                {getLeadAndBody(book).body ? (
-                  <p className="collection-parallax-description">{getLeadAndBody(book).body}</p>
-                ) : null}
-                {book.isbn || book.publishDate || book.subject ? (
-                  <dl className="collection-parallax-facts">
-                    {book.isbn ? (
-                      <div>
-                        <dt>ISBN</dt>
-                        <dd>{book.isbn}</dd>
-                      </div>
-                    ) : null}
-                    {book.publishDate ? (
-                      <div>
-                        <dt>Publicación</dt>
-                        <dd>{book.publishDate}</dd>
-                      </div>
-                    ) : null}
-                    {book.subject ? (
-                      <div>
-                        <dt>Materia</dt>
-                        <dd>{book.subject}</dd>
-                      </div>
-                    ) : null}
-                  </dl>
-                ) : null}
-              </div>
+              {getShortDescription(book) ? (
+                <p className="collection-parallax-text collection-parallax-summary" data-swiper-parallax="-100">
+                  {getShortDescription(book)}
+                </p>
+              ) : null}
               <div className="collection-parallax-buy" data-swiper-parallax="-50">
                 {book.price ? (
                   <p className="collection-parallax-price">
@@ -294,8 +270,8 @@ function CollectionStage({
                       Consultar disponibilidad
                     </Link>
                   )}
-                  <Link href={`/libros/${book.slug}`} className="btn btn-outline">
-                    Ver ficha
+                  <Link href={`/libros/${book.slug}`} className="btn btn-outline" aria-label={`Ver más sobre ${book.title}`}>
+                    Ver más
                   </Link>
                 </div>
               </div>

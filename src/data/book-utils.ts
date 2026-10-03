@@ -68,6 +68,17 @@ export function getLeadAndBody(book: Book) {
   return { lead: bajada, body: description.slice(lead.length).trim() };
 }
 
+/** Descripción breve (bajada o comienzo del texto), cortada en una palabra completa. */
+export function getShortDescription(book: Book, max = 200) {
+  const { lead, body } = getLeadAndBody(book);
+  const text = (lead || body).replace(/\s+/g, " ").replace(/^[«"“]+/, "").trim();
+  if (text.length <= max) return text;
+  // Si la primera oración cabe, se usa completa; si no, se corta en la última palabra que entra
+  const sentence = text.match(/^.{40,}?[.!?»](?=\s|$)/)?.[0];
+  if (sentence && sentence.length <= max) return sentence.replace(/»$/, "");
+  return `${text.slice(0, max).replace(/\s+\S*$/, "")}…`;
+}
+
 /** "A, B y C" a partir de una lista de nombres. */
 export function joinNames(names: string[]) {
   if (names.length <= 1) return names.join("");

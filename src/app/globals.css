@@ -5922,3 +5922,31 @@ html {
   line-height: 1.35;
 }
 
+
+/* Colecciones: título y autores completos, solo una descripción breve */
+.collection-parallax-title {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  line-height: 1.2;
+}
+
+.collection-parallax-author {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.collection-parallax-summary {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+  max-height: none;
+}
+
