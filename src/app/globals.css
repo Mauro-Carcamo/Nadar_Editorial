@@ -6400,3 +6400,23 @@ html {
 }
 
 
+
+/* Destacados: portadas más grandes (sin marco, ocupan casi todo el alto de la franja) */
+.home-hero {
+  --hero-slide-h: min(96vw, calc(100svh - 230px));
+}
+
+.home-hero-slide-link {
+  padding: 0;
+}
+
+.home-hero-slide-caption {
+  padding: 10px 2px 12px;
+}
+
+@media (min-width: 640px) {
+  .home-hero {
+    --hero-slide-h: clamp(380px, calc(100svh - 210px), 800px);
+  }
+}
+
