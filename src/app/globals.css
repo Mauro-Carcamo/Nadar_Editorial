@@ -5391,3 +5391,33 @@ h3,
 }
 
 /* fin de estilos del manifiesto */
+
+/* Cita del manifiesto: tipografía del sitio (Josefin Sans), recta, en negrita y en el tono oscuro
+   de la paleta; ubicada abajo al centro de la sección */
+.home-manifesto .home-manifesto-origin p {
+  font-family: var(--font-display), sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  color: var(--palette-ink);
+}
+
+.home-manifesto {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: min(82svh, 760px);
+}
+
+.home-manifesto .home-manifesto-inner {
+  justify-content: flex-end;
+}
+
+@media (max-width: 899px) {
+  .home-manifesto {
+    min-height: min(88svh, 720px);
+  }
+}
+
