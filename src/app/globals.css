@@ -6221,3 +6221,134 @@ html {
 }
 
 
+
+@media (prefers-reduced-motion: reduce) {
+  .home-contact-bg-image {
+    transform: none !important;
+  }
+}
+
+/* ===================================================================
+   VISTA MÓVIL (< 768 px). La vista web no cambia: todo lo de abajo
+   aplica solo a pantallas chicas.
+   =================================================================== */
+@media (max-width: 767px) {
+  /* Manifiesto: en celular no queda fijo; la cita se lee completa antes de que llegue Colecciones */
+  .home-manifesto {
+    position: relative;
+    top: auto;
+    min-height: 0;
+    padding: 56px 0 64px;
+  }
+
+  .home-manifesto .home-manifesto-origin p {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .home-manifesto .home-manifesto-link {
+    margin-top: 20px;
+  }
+
+  /* Colecciones: menos aire y tira de portadas más chica */
+  .home-collections {
+    padding: 56px 0 64px;
+  }
+
+  .collections-panel-description,
+  .collection-stage-foot .collections-panel-description {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+  }
+
+  .collection-parallax-cover {
+    aspect-ratio: 4 / 3;
+  }
+
+  .collection-parallax-title {
+    font-size: 1.35rem;
+  }
+
+  .collection-parallax-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .collection-parallax-actions .btn {
+    width: 100%;
+    padding-inline: 8px;
+    justify-content: center;
+  }
+
+  /* Catálogo: espacio al final para que la barra fija no tape la última fila ni la paginación */
+  .home-catalog {
+    padding-bottom: 150px;
+  }
+
+  .catalog-pagination-top {
+    margin-bottom: 14px;
+  }
+
+  /* Barra de filtros compacta */
+  .catalog-filter-bar {
+    bottom: 10px;
+    width: calc(100% - 16px);
+    gap: 8px;
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .catalog-filter-search input {
+    min-height: 38px;
+    font-size: 0.9rem;
+  }
+
+  .catalog-filter-chips button {
+    min-height: 32px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+  }
+
+  .catalog-filter-results {
+    width: 100%;
+    max-height: 50vh;
+  }
+
+  .catalog-filter-status {
+    margin-top: 0;
+    font-size: 0.9rem;
+  }
+
+  /* Puntos de venta: lista más corta y chips de región más chicos */
+  .home-pos {
+    padding: 56px 0 64px;
+  }
+
+  .pos-map-wrap {
+    height: 300px;
+  }
+
+  .pos-list {
+    max-height: 380px;
+  }
+
+  .pos-regions button {
+    min-height: 32px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+  }
+
+  /* Contacto y footer */
+  .home-contact {
+    padding-block: 64px 72px;
+  }
+
+  .site-footer .social-links a {
+    min-height: 40px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+}
+

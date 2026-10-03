@@ -174,8 +174,8 @@ function CollectionStage({
             modules={[A11y]}
             nested
             grabCursor
-            slidesPerView={2.4}
-            spaceBetween={12}
+            slidesPerView={3.3}
+            spaceBetween={10}
             breakpoints={{
               640: { slidesPerView: 3.6, spaceBetween: 14 },
               960: { slidesPerView: 6.5, spaceBetween: 16 },
