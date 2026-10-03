@@ -1,3 +1,4 @@
+import { CatalogBackground } from "@/components/CatalogBackground";
 import { CatalogBrowser } from "@/components/catalog/CatalogBrowser";
 import { Reveal } from "@/components/motion/Reveal";
 import { listPublishedBooks } from "@/services/catalog/repository";
@@ -8,6 +9,7 @@ export async function CatalogSection() {
 
   return (
     <section id="catalogo" className="home-catalog" aria-labelledby="home-catalog-title">
+      <CatalogBackground />
       <div className="container">
         <Reveal>
           <header className="home-catalog-head">

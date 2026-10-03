@@ -6579,3 +6579,41 @@ html {
   width: min(300px, 56vw);
 }
 
+
+/* Catálogo: el patrón vive en una capa con parallax (la sección conserva solo el color de fondo) */
+.home-catalog {
+  background-image: none;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.home-catalog-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.home-catalog-bg-layer {
+  position: absolute;
+  inset: -200px 0;
+  background-image: url("/images/patterns/peces-voladores.svg?v=3");
+  background-repeat: repeat;
+  background-size: 1080px auto;
+  background-position: center top;
+  will-change: transform;
+}
+
+@media (max-width: 767px) {
+  .home-catalog-bg-layer {
+    background-size: 720px auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-catalog-bg-layer {
+    transform: none !important;
+  }
+}
+
+
