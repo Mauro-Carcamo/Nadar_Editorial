@@ -6420,3 +6420,31 @@ html {
   }
 }
 
+
+/* Destacados: la franja empieza justo bajo la ola de la cabecera (sin espacio oscuro arriba) */
+.home-hero {
+  padding-top: 0;
+}
+
+.home-hero-band {
+  padding-top: 60px;
+}
+
+@media (min-width: 768px) {
+  .home-hero {
+    padding-top: 0;
+  }
+
+  .home-hero-band {
+    padding-top: 72px;
+  }
+}
+
+
+@media (max-width: 639px) {
+  /* El libro activo debe caber completo en el carrusel (si no, Swiper lo atenúa) */
+  .home-hero {
+    --hero-slide-h: min(88vw, calc(100svh - 230px));
+  }
+}
+
