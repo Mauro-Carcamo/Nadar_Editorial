@@ -6669,3 +6669,18 @@ html {
 }
 
 
+
+/* Destacados: el bloque de texto tiene la misma altura en todas las tarjetas, así todas las portadas
+   miden lo mismo de alto y el número y los títulos quedan alineados */
+.home-hero-slide-caption {
+  flex: none;
+  height: 80px;
+  overflow: hidden;
+}
+
+@media (max-width: 639px) {
+  .home-hero-slide-caption {
+    height: 92px;
+  }
+}
+
