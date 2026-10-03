@@ -17,6 +17,21 @@ export function HeaderScroll() {
     return () => window.removeEventListener("scroll", update);
   }, []);
 
+  // "Inicio" o el logo estando ya en el home: Next no navega (misma URL), así que se sube al comienzo
+  useEffect(() => {
+    if (pathname !== "/") return;
+    const onClick = (e: MouseEvent) => {
+      const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href="/"]');
+      if (!link || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+      if (window.location.hash) history.replaceState(history.state, "", "/");
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, [pathname]);
+
   useEffect(() => {
     const links = [...document.querySelectorAll<HTMLAnchorElement>(".site-header a[data-section]")];
     const closeMenu = () => document.querySelector<HTMLDetailsElement>(".mobile-nav")?.removeAttribute("open");

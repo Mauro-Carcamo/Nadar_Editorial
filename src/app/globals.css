@@ -5987,3 +5987,16 @@ html {
   color: var(--ink);
 }
 
+
+/* Saltos a secciones (#id): el margen coincide con la cabecera compacta, sin hueco extra */
+html {
+  scroll-padding-top: 48px;
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 56px;
+  }
+}
+
+
