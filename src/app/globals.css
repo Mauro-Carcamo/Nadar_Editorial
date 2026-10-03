@@ -6466,3 +6466,15 @@ html {
   }
 }
 
+
+/* Destacados: amarillo mostaza pastel y más grande */
+:root {
+  --mustard-pastel: #e6c36a;
+}
+
+.home-hero .home-hero-heading {
+  color: var(--mustard-pastel);
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  line-height: 1;
+}
+
