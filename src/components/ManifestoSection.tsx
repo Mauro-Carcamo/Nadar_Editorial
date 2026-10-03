@@ -56,9 +56,9 @@ export function ManifestoSection() {
   // Velocidades distintas: con el mismo scroll el globo recorre mucho más (rápido) y el pájaro poco (lento).
   // Globo (adelante, mitad derecha): parte abajo a la izquierda, sube hacia la esquina superior
   // derecha y se agranda.
-  const photoX = useTransform(progress, [0, 1], [-60, 120]);
-  const photoY = useTransform(progress, [0, 1], [110, -190]);
-  const photoScale = useTransform(progress, [0, 1], [1, 1.38]);
+  const photoX = useTransform(progress, [0, 1], [-40, 70]);
+  const photoY = useTransform(progress, [0, 1], [70, -120]);
+  const photoScale = useTransform(progress, [0, 1], [1, 1.2]);
 
   // Pájaro (atrás, mitad izquierda): parte un poco más arriba y, al hacer scroll, se achica y baja despacio.
   const birdX = useTransform(progress, [0, 1], [36, 20]);
