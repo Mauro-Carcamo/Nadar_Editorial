@@ -6791,3 +6791,11 @@ html {
 }
 
 
+
+/* Craquelado más fino (patrón más chico) y más tenue */
+.home-manifesto::before {
+  background-size: 220px auto;
+  opacity: 0.11;
+}
+
+
