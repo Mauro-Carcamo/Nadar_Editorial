@@ -6653,3 +6653,11 @@ html {
   margin-top: 4px;
 }
 
+
+/* Manifiesto: ambas fotos en escala de grises */
+.home-manifesto .home-manifesto-photo img,
+.home-manifesto .home-manifesto-bird img {
+  filter: grayscale(1);
+}
+
+
