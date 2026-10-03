@@ -6478,3 +6478,28 @@ html {
   line-height: 1;
 }
 
+
+/* Manifiesto: la marca "nadar" reemplaza la cita (mismo color oscuro que tenía el texto) */
+.home-manifesto-wordmark {
+  display: block;
+  width: min(420px, 70vw);
+  height: auto;
+  margin: 0 auto;
+  color: var(--palette-ink);
+}
+
+/* Con la sección más baja, las fotos se encuadran en su parte central y con menos desborde */
+.home-manifesto .home-manifesto-photo,
+.home-manifesto .home-manifesto-bird {
+  top: -70px;
+  bottom: -70px;
+}
+
+.home-manifesto .home-manifesto-photo img {
+  object-position: 50% 22%;
+}
+
+.home-manifesto .home-manifesto-bird img {
+  object-position: 60% 35%;
+}
+

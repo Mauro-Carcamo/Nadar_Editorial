@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useEffect, useRef } from "react";
+import { NadarWordmark } from "@/components/NadarWordmark";
 
 /**
  * Sección "de paso": queda fija detrás de la página (sticky) mientras Colecciones sube y la cubre.
@@ -54,19 +55,19 @@ export function ManifestoSection() {
   });
   // Resorte lento y sin rebote: las fotos no siguen cada tirón de la rueda, se deslizan con inercia
   // y mantienen un movimiento parejo aunque el scroll sea irregular.
-  const progress = useSpring(rawProgress, { stiffness: 6, damping: 11, mass: 2.2, restDelta: 0.0005 });
+  const progress = useSpring(rawProgress, { stiffness: 3.5, damping: 9, mass: 3, restDelta: 0.0005 });
 
   // Velocidades distintas: con el mismo scroll el globo recorre mucho más (rápido) y el pájaro poco (lento).
   // Globo (adelante, mitad derecha): parte abajo a la izquierda, sube hacia la esquina superior
   // derecha y se agranda.
-  const photoX = useTransform(progress, [0, 1], [-40, 70]);
-  const photoY = useTransform(progress, [0, 1], [70, -120]);
-  const photoScale = useTransform(progress, [0, 1], [1, 1.2]);
+  const photoX = useTransform(progress, [0, 1], [-16, 40]);
+  const photoY = useTransform(progress, [0, 1], [24, -60]);
+  const photoScale = useTransform(progress, [0, 1], [1.02, 1.14]);
 
   // Pájaro (atrás, mitad izquierda): parte un poco más arriba y, al hacer scroll, se achica y baja despacio.
-  const birdX = useTransform(progress, [0, 1], [36, 20]);
-  const birdY = useTransform(progress, [0, 1], [-70, 30]);
-  const birdScale = useTransform(progress, [0, 1], [1, 0.82]);
+  const birdX = useTransform(progress, [0, 1], [24, 12]);
+  const birdY = useTransform(progress, [0, 1], [-30, 24]);
+  const birdScale = useTransform(progress, [0, 1], [1, 0.88]);
 
   // Se desvanecen recién cuando Colecciones ya las está cubriendo
   const photoOpacity = useTransform(leave, [0.4, 1], [1, 0.25]);
@@ -95,17 +96,8 @@ export function ManifestoSection() {
             El nombre Nadar
           </h2>
 
-          <blockquote className="home-manifesto-origin">
-            <p>
-              “Nadar” era el pseudónimo de Gaspard-Félix Tournachon, fotógrafo y aeronauta francés que vivió durante el
-              siglo XIX. “Nadar” también refiere al verbo que se utiliza para describir la traslación acuática mediante
-              movimientos corporales. Cabría preguntarse: ¿Es posible una natación celeste, «nadar en los aires»? Pensar
-              a Gaspard-Félix Tournachon como nadador a través de los gases que habitan el cielo, o simplemente quien
-              nada, sea un pez, una persona o un elefante, en el mar o en los lagos, como si el estado líquido del agua
-              fuera lo mismo que su estado gaseoso. Recordemos que viento se define como un gas en movimiento ¿En qué
-              difieren vientos y corrientes acuáticas?
-            </p>
-          </blockquote>
+          {/* Marca "nadar" vectorizada, en el color del texto que había antes */}
+          <NadarWordmark className="home-manifesto-wordmark" title="Nadar" />
 
           <Link href="/proyecto" className="text-link home-manifesto-link">
             Conocer el proyecto editorial <span aria-hidden="true">→</span>
