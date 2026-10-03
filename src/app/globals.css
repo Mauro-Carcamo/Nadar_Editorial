@@ -6202,7 +6202,7 @@ html {
 /* Colecciones: el marco blanco de la portada lleva el patrón de peces voladores en azul casi blanco */
 .collection-parallax-cover {
   background-color: var(--surface);
-  background-image: url("/images/patterns/peces-voladores-azul.svg?v=2");
+  background-image: url("/images/patterns/peces-voladores-azul.svg?v=3");
   background-repeat: repeat;
   background-size: 540px auto;
   background-position: center;
