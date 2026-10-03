@@ -6799,3 +6799,15 @@ html {
 }
 
 
+
+/* Mostaza del fondo un poco más oscuro; grietas más oscuras (mismo tamaño fino) */
+.home-manifesto {
+  background: #e6d29f;
+}
+
+.home-manifesto::before {
+  opacity: 0.17;
+  filter: brightness(0.55);
+}
+
+
