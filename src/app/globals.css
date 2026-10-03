@@ -6448,3 +6448,21 @@ html {
   }
 }
 
+
+/* Escritorio: el hero completo (libros + "Top 10 / Destacados") cabe en la primera pantalla */
+@media (min-width: 640px) {
+  .home-hero {
+    --hero-slide-h: clamp(360px, calc(100svh - 270px), 780px);
+  }
+}
+
+@media (min-width: 768px) {
+  .home-hero-band {
+    padding-top: 52px;
+  }
+
+  .home-hero .home-hero-head {
+    margin-top: 14px;
+  }
+}
+
