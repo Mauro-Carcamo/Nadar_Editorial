@@ -6617,3 +6617,9 @@ html {
 }
 
 
+
+/* Globo aún más arriba desde el inicio: la foto se alarga hacia abajo para cubrir el desplazamiento */
+.home-manifesto .home-manifesto-photo {
+  bottom: -230px;
+}
+
