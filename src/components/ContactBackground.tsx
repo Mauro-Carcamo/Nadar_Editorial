@@ -4,14 +4,15 @@ import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import Image from "next/image";
 import { useRef } from "react";
 
-// Fondo de Contacto: la ilustración se desplaza lento mientras se recorre la sección (parallax suave).
+// Fondo de Contacto: la ilustración se achica y se desplaza lento mientras se recorre la sección.
+// Contacto es la última sección: el recorrido termina al llegar al final de la página.
 // Con "reducir movimiento" se anula en CSS, así el HTML del servidor y del cliente coincide.
 export function ContactBackground() {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
   const smooth = useSpring(scrollYProgress, { stiffness: 12, damping: 14, mass: 1.6, restDelta: 0.0005 });
-  const y = useTransform(smooth, [0, 1], [-70, 70]);
-  const scale = useTransform(smooth, [0, 1], [1.08, 1]);
+  const y = useTransform(smooth, [0, 1], [-50, 50]);
+  const scale = useTransform(smooth, [0, 1], [1.35, 1]);
 
   return (
     <div ref={ref} className="home-contact-bg" aria-hidden="true">
