@@ -5362,3 +5362,32 @@ h3,
     width: 60%;
   }
 }
+
+/* Pájaro: se achica hacia su centro mientras baja; el globo necesita más margen por su recorrido */
+.home-manifesto .home-manifesto-bird {
+  transform-origin: 50% 50%;
+}
+
+.home-manifesto .home-manifesto-photo {
+  top: -220px;
+  bottom: -220px;
+}
+
+/* El pájaro se achica: se extiende fuera de la pantalla por la izquierda y se difumina ese borde,
+   así nunca aparece un corte recto */
+.home-manifesto .home-manifesto-bird {
+  left: -140px;
+  width: calc(50% + 140px);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 22%, #000 62%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 22%, #000 62%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+
+@media (max-width: 899px) {
+  .home-manifesto .home-manifesto-bird {
+    width: calc(60% + 140px);
+  }
+}
+
+/* fin de estilos del manifiesto */

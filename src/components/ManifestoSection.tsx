@@ -53,17 +53,17 @@ export function ManifestoSection() {
     return Math.min(1, Math.max(0, (v - start) / (end - start)));
   });
 
-  // Globo (adelante, mitad derecha): parte sutil abajo a la izquierda, sube hacia la esquina
-  // superior derecha y se agranda.
-  const photoX = useTransform(progress, [0, 1], [-36, 56]);
-  const photoY = useTransform(progress, [0, 1], [70, -90]);
-  const photoScale = useTransform(progress, [0, 1], [1, 1.22]);
+  // Velocidades distintas: con el mismo scroll el globo recorre mucho más (rápido) y el pájaro poco (lento).
+  // Globo (adelante, mitad derecha): parte abajo a la izquierda, sube hacia la esquina superior
+  // derecha y se agranda.
+  const photoX = useTransform(progress, [0, 1], [-60, 120]);
+  const photoY = useTransform(progress, [0, 1], [110, -190]);
+  const photoScale = useTransform(progress, [0, 1], [1, 1.38]);
 
-  // Pájaro (atrás, mitad izquierda): parte al centro, cargado a la derecha de su espacio, y se
-  // achica lentamente hacia arriba a la izquierda (origen de la escala arriba a la izquierda).
-  const birdX = useTransform(progress, [0, 1], [48, -56]);
-  const birdY = useTransform(progress, [0, 1], [10, -80]);
-  const birdScale = useTransform(progress, [0, 1], [1, 0.74]);
+  // Pájaro (atrás, mitad izquierda): parte un poco más arriba y, al hacer scroll, se achica y baja despacio.
+  const birdX = useTransform(progress, [0, 1], [36, 20]);
+  const birdY = useTransform(progress, [0, 1], [-70, 30]);
+  const birdScale = useTransform(progress, [0, 1], [1, 0.82]);
 
   // Se desvanecen recién cuando Colecciones ya las está cubriendo
   const photoOpacity = useTransform(leave, [0.4, 1], [1, 0.25]);
