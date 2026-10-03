@@ -5950,3 +5950,11 @@ html {
   max-height: none;
 }
 
+
+/* Destacados: lo que sigue al punto del título va en una línea aparte, al tamaño del autor */
+.home-hero-slide-subtitle {
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--ink);
+}
+

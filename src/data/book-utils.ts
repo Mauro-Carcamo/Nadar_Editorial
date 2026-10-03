@@ -79,6 +79,12 @@ export function getShortDescription(book: Book, max = 200) {
   return `${text.slice(0, max).replace(/\s+\S*$/, "")}…`;
 }
 
+/** Separa el título en el primer punto: "Drago. Oficio y escritura" -> { main: "Drago", rest: "Oficio y escritura" }. */
+export function splitTitle(title: string) {
+  const m = title.match(/^(.+?)\.\s+(.+)$/);
+  return m ? { main: m[1].trim(), rest: m[2].trim() } : { main: title, rest: "" };
+}
+
 /** "A, B y C" a partir de una lista de nombres. */
 export function joinNames(names: string[]) {
   if (names.length <= 1) return names.join("");

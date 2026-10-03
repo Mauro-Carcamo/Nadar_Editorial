@@ -8,6 +8,7 @@ import type { Swiper as SwiperInstance } from "swiper";
 import { A11y, Autoplay, Keyboard } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import { splitTitle } from "@/data/book-utils";
 import { Book, getCover } from "@/data/site";
 
 export function HeroCarousel({ books }: { books: Book[] }) {
@@ -71,7 +72,10 @@ export function HeroCarousel({ books }: { books: Book[] }) {
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="home-hero-slide-text">
-                    <span className="home-hero-slide-title">{book.title}</span>
+                    <span className="home-hero-slide-title">{splitTitle(book.title).main}</span>
+                    {splitTitle(book.title).rest ? (
+                      <span className="home-hero-slide-subtitle">{splitTitle(book.title).rest}</span>
+                    ) : null}
                     <span className="home-hero-slide-author">{book.subtitle}</span>
                   </span>
                 </span>
