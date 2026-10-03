@@ -2,14 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { CartButton } from "@/components/cart/CartButton";
 import { HeaderScroll } from "@/components/HeaderScroll";
+import { HOME_SECTIONS, sectionHref } from "@/data/navigation";
 
-const navItems = [
-  { href: "/proyecto", label: "Proyecto" },
-  { href: "/colecciones", label: "Colecciones" },
-  { href: "/libros", label: "Catálogo" },
-  { href: "/puntos-de-venta", label: "Puntos de venta" },
-  { href: "/contacto", label: "Contacto" },
-];
+// El menú lleva a las secciones del home (no a páginas aparte)
+const navItems = HOME_SECTIONS.map((s) => ({ href: sectionHref(s.id), label: s.label, id: s.id }));
 
 // Cabecera minimal: logo, menú y carrito. Las redes sociales viven en el footer.
 export function SiteHeader() {
@@ -31,7 +27,9 @@ export function SiteHeader() {
         <ul className="menu desktop-menu">
           {navItems.map((item) => (
             <li key={item.href}>
-              <Link href={item.href}>{item.label}</Link>
+              <Link href={item.href} data-section={item.id}>
+                {item.label}
+              </Link>
             </li>
           ))}
         </ul>
@@ -46,7 +44,9 @@ export function SiteHeader() {
             <ul className="menu mobile-menu-list">
               {navItems.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href}>{item.label}</Link>
+                  <Link href={item.href} data-section={item.id}>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>

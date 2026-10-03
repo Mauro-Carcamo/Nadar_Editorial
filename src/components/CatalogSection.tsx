@@ -8,7 +8,7 @@ export async function CatalogSection() {
   if (!allBooks.length) return null;
 
   return (
-    <section className="home-catalog" aria-labelledby="home-catalog-title">
+    <section id="catalogo" className="home-catalog" aria-labelledby="home-catalog-title">
       <div className="container">
         <Reveal>
           <header className="home-catalog-head">

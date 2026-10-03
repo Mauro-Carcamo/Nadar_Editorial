@@ -141,14 +141,6 @@ function CollectionStage({
             );
           })}
         </div>
-        <p
-          className="collections-panel-description"
-          id={`panel-${active.slug}`}
-          role="tabpanel"
-          aria-labelledby={`tab-${active.slug}`}
-        >
-          {active.description}
-        </p>
       </nav>
 
       <Swiper
@@ -167,6 +159,15 @@ function CollectionStage({
       >
         {/* Tira "Grab cursor" arriba del detalle: solo fotos; al elegir una se abre el libro abajo */}
         <div slot="container-start" className="collection-stage-foot">
+          {/* Descripción de la colección activa: a todo el ancho, justo arriba de las portadas */}
+          <p
+            className="collections-panel-description"
+            id={`panel-${active.slug}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${active.slug}`}
+          >
+            {active.description}
+          </p>
           <Swiper
             className="collection-strip"
             modules={[A11y]}

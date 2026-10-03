@@ -1,14 +1,8 @@
 import Link from "next/link";
 import { SocialLinks } from "@/components/SocialLinks";
+import { HOME_SECTIONS, sectionHref } from "@/data/navigation";
 
-const footerLinks = [
-  { href: "/", label: "Inicio" },
-  { href: "/libros", label: "Catálogo" },
-  { href: "/colecciones", label: "Colecciones" },
-  { href: "/proyecto", label: "Proyecto" },
-  { href: "/puntos-de-venta", label: "Puntos de venta" },
-  { href: "/contacto", label: "Contacto" },
-];
+const footerLinks = [{ href: "/", label: "Inicio" }, ...HOME_SECTIONS.map((s) => ({ href: sectionHref(s.id), label: s.label }))];
 
 export function SiteFooter() {
   return (

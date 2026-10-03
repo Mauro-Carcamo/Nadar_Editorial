@@ -4,7 +4,7 @@ import { socialLinks } from "@/data/site";
 import { trackEvent } from "@/lib/analytics";
 
 type Props = {
-  source: "footer" | "contacto";
+  source: "footer" | "contacto" | "home";
   ariaLabel?: string;
 };
 

@@ -812,7 +812,7 @@ a {
 h1,
 h2,
 h3 {
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-weight: 500;
   letter-spacing: -0.015em;
 }
@@ -1258,7 +1258,7 @@ h3 {
 
 .metric-value {
   margin: 0;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(2rem, 9vw, 3rem);
   line-height: 0.95;
 }
@@ -1435,7 +1435,7 @@ h3 {
 
 .footer-name {
   margin: 0 0 8px;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--ink);
@@ -2163,7 +2163,7 @@ html {
 
 .home-hero-heading {
   margin: 0;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 400;
   line-height: 1;
@@ -2280,7 +2280,7 @@ html {
 
 .home-hero-rank {
   flex: none;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(2.4rem, 5vw, 3.4rem);
   font-weight: 400;
   line-height: 0.85;
@@ -2294,7 +2294,7 @@ html {
 }
 
 .home-hero-slide-title {
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.1rem, 1.8vw, 1.3rem);
   font-weight: 500;
   line-height: 1.2;
@@ -2379,7 +2379,7 @@ html {
 
 .home-collections-heading {
   margin: 0;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(2.2rem, 5vw, 3.6rem);
   font-weight: 400;
   line-height: 1;
@@ -2479,7 +2479,7 @@ html {
 }
 
 .collections-tab-index {
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--accent-ink);
@@ -2612,7 +2612,7 @@ html {
 
 .collection-parallax-title {
   margin: 0;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.6rem, 2.6vw, 2.4rem);
   line-height: 1.08;
   text-wrap: balance;
@@ -2877,7 +2877,7 @@ html {
 }
 
 .catalog-card-title {
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.05rem;
   font-weight: 500;
   line-height: 1.2;
@@ -3077,7 +3077,7 @@ html[data-scrolled] .nav-wrap {
 
 .home-manifesto-origin p {
   margin: 0;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1rem, 1.4vw, 1.12rem);
   font-style: italic;
   line-height: 1.65;
@@ -3134,7 +3134,7 @@ html[data-scrolled] .nav-wrap {
 .home-manifesto-statement {
   max-width: 24ch;
   margin: 0;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.8rem, 4.2vw, 3.1rem);
   font-weight: 400;
   line-height: 1.08;
@@ -3372,7 +3372,7 @@ html[data-scrolled] .nav-wrap {
 
 .book-page-bajada {
   margin: 20px 0 0;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.3rem;
   font-style: italic;
   line-height: 1.45;
@@ -3519,7 +3519,7 @@ html[data-scrolled] .nav-wrap {
 
 .book-page-related-title,
 .collections-page-book-title {
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1rem;
   line-height: 1.25;
   display: -webkit-box;
@@ -3570,7 +3570,7 @@ html[data-scrolled] .nav-wrap {
 .collections-page-index {
   display: block;
   margin-bottom: 8px;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 2.4rem;
   line-height: 1;
   color: var(--accent);
@@ -3806,7 +3806,7 @@ html[data-scrolled] .nav-wrap {
 
 .cart-drawer-item-title {
   margin: 0;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.02rem;
   line-height: 1.25;
 }
@@ -4814,7 +4814,8 @@ html[data-scrolled] .nav-wrap {
 }
 
 .home-catalog,
-.home-pos {
+.home-pos,
+.home-contact {
   position: relative;
   z-index: 1;
 }
@@ -4839,7 +4840,7 @@ html[data-scrolled] .nav-wrap {
 .about-lead {
   margin: 16px 0 0;
   max-width: 34ch;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.25rem, 2.2vw, 1.6rem);
   line-height: 1.45;
   color: var(--ink);
@@ -4880,7 +4881,7 @@ html[data-scrolled] .nav-wrap {
 
 .about-section h2 {
   margin: 0;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 400;
 }
@@ -4915,7 +4916,7 @@ html[data-scrolled] .nav-wrap {
 .about-team h3,
 .about-friends h3 {
   margin: 0;
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 1.2rem;
   font-weight: 500;
 }
@@ -5034,7 +5035,8 @@ html[data-scrolled] .nav-wrap {
   box-shadow: var(--shadow-soft);
 }
 
-.contact-info h2 {
+.contact-info h2,
+.contact-info h3 {
   margin: 0 0 6px;
   font-family: var(--font-ui), sans-serif;
   font-size: 0.75rem;
@@ -5178,4 +5180,133 @@ html[data-scrolled] .nav-wrap {
     grid-column: 1 / -1;
     grid-row: 2;
   }
+}
+
+
+/* ===================================================================
+   Tipografía del sitio original: Josefin Sans en títulos y menús
+   (en negrita como el tema original); la cursiva serif queda para citas y bajadas
+   =================================================================== */
+.home-manifesto-origin p,
+.home-manifesto-statement,
+.book-page-bajada,
+.about-lead {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+h1,
+h2,
+h3,
+.home-hero-heading,
+.home-collections-heading,
+.footer-name {
+  font-variant-numeric: lining-nums;
+  letter-spacing: 0;
+}
+
+.home-hero-heading,
+.home-collections-heading,
+.page-intro h1,
+.book-page-title,
+.collection-parallax-title,
+.about-section h2,
+.footer-name {
+  font-weight: 700;
+}
+
+.catalog-card-title,
+.home-hero-slide-title,
+.cart-drawer-item-title,
+.collections-page-book-title,
+.about-team h3,
+.about-friends h3,
+.admin-panel h3,
+.admin-sidebar h1 {
+  font-weight: 600;
+}
+
+/* Menús: navbar, menú móvil, footer, pestañas de colecciones y regiones */
+.menu a,
+.mobile-menu-list a,
+.footer-links a,
+.collections-tab-name,
+.pos-regions button,
+.cart-trigger-label {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Contacto como última sección del home */
+.home-contact {
+  padding: 72px 0 96px;
+  background: var(--surface-alt);
+}
+
+.home-contact .contact-form {
+  gap: 16px;
+  padding: 24px;
+  border: 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.home-contact .contact-form input,
+.home-contact .contact-form select,
+.home-contact .contact-form textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font: inherit;
+  font-weight: 400;
+}
+
+@media (min-width: 900px) {
+  .home-contact {
+    padding: 112px 0 128px;
+  }
+}
+
+/* Menú: sección visible resaltada (scrollspy) */
+.desktop-menu a[aria-current="location"] {
+  color: var(--accent-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+}
+
+.mobile-menu-list a[aria-current="location"] {
+  color: var(--accent-ink);
+}
+
+/* Josefin Sans tiene ascendentes y descendentes altos: con line-clamp hace falta más interlínea
+   para que la última línea no corte las letras */
+.collection-parallax-title {
+  line-height: 1.22;
+}
+
+.home-hero-slide-title,
+.catalog-card-title,
+.collections-page-book-title {
+  line-height: 1.25;
+}
+
+/* Descripción de la colección: encabeza la tira de portadas, a todo el ancho */
+.collection-stage-foot .collections-panel-description {
+  margin: 0 0 14px;
+  padding: 4px 0 12px;
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.collection-parallax-title {
+  line-height: 1.3;
 }

@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, Newsreader } from "next/font/google";
+import { Inter, Josefin_Sans, Newsreader } from "next/font/google";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 import { CartProvider } from "@/components/cart/CartProvider";
 import "./globals.css";
 
-// Títulos: serif editorial (eje óptico); interfaz y lectura: sans neutra
-const displayFont = Newsreader({
+// Títulos y menús: Josefin Sans, la tipografía del sitio original (tema Blogus).
+// Citas y bajadas: serif editorial en cursiva. Interfaz y lectura: sans neutra.
+const displayFont = Josefin_Sans({
   variable: "--font-display",
+  subsets: ["latin", "latin-ext"],
+});
+
+const serifFont = Newsreader({
+  variable: "--font-serif",
   subsets: ["latin"],
   axes: ["opsz"],
   style: ["normal", "italic"],
@@ -31,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${displayFont.variable} ${uiFont.variable}`}>
+      <body className={`${displayFont.variable} ${serifFont.variable} ${uiFont.variable}`}>
         <CartProvider>{children}</CartProvider>
         <AnalyticsTracker />
       </body>

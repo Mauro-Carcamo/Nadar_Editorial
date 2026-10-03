@@ -10,7 +10,7 @@ export async function PointsOfSaleSection({ standalone = false }: { standalone?:
   const Heading = standalone ? "h1" : "h2";
 
   return (
-    <section className={`home-pos${standalone ? " is-page" : ""}`} aria-labelledby="pos-title">
+    <section id="puntos-de-venta" className={`home-pos${standalone ? " is-page" : ""}`} aria-labelledby="pos-title">
       <div className="container">
         <Reveal>
           <header className="home-catalog-head">

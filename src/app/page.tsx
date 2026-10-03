@@ -1,6 +1,7 @@
 import { CatalogSection } from "@/components/CatalogSection";
 import { CollectionsSection } from "@/components/CollectionsSection";
 import { HeroBooks } from "@/components/HeroBooks";
+import { HomeContactSection } from "@/components/HomeContactSection";
 import { ManifestoSection } from "@/components/ManifestoSection";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
@@ -21,12 +22,13 @@ export default async function Home() {
       <main id="contenido" tabIndex={-1}>
         <HeroBooks books={bestsellers} />
         {/* El manifiesto queda fijo de fondo solo dentro de este bloque: Colecciones lo cubre y ahí termina */}
-        <div className="home-pass">
+        <div id="proyecto" className="home-pass">
           <ManifestoSection />
           <CollectionsSection />
         </div>
         <CatalogSection />
         <PointsOfSaleSection />
+        <HomeContactSection />
       </main>
       <SiteFooter />
     </MotionProvider>

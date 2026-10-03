@@ -14,7 +14,7 @@ export async function CollectionsSection() {
   if (!withBooks.length) return null;
 
   return (
-    <section className="home-collections" aria-labelledby="home-collections-title">
+    <section id="colecciones" className="home-collections" aria-labelledby="home-collections-title">
       <div className="container">
         <Reveal>
           <header className="home-collections-head">
