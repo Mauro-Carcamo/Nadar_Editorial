@@ -6623,3 +6623,16 @@ html {
   bottom: -230px;
 }
 
+
+/* Navbar blanco sólido */
+.site-header {
+  background: #fff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Destacados en blanco */
+.home-hero .home-hero-heading {
+  color: #fff;
+}
+
