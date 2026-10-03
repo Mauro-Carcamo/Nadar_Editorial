@@ -6636,3 +6636,20 @@ html {
   color: #fff;
 }
 
+
+/* Destacados: sin autor; título principal más grande */
+.home-hero-slide-title {
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.home-hero-rank {
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  line-height: 1.15;
+}
+
+.home-hero-slide-subtitle {
+  margin-top: 4px;
+}
+
