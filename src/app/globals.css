@@ -6684,3 +6684,41 @@ html {
   }
 }
 
+
+/* Hero: "Top 10 / Destacados" más compacto y ese espacio pasa a los libros */
+.home-hero {
+  padding-bottom: 10px;
+}
+
+.home-hero .home-hero-head {
+  margin-top: 8px;
+}
+
+.home-hero .home-hero-eyebrow {
+  margin-bottom: 4px;
+  font-size: 0.68rem;
+}
+
+.home-hero .home-hero-heading {
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+}
+
+@media (min-width: 640px) {
+  .home-hero {
+    --hero-slide-h: clamp(380px, calc(100svh - 225px), 820px);
+  }
+}
+
+@media (max-width: 639px) {
+  .home-hero {
+    --hero-slide-h: min(92vw, calc(100svh - 200px));
+  }
+}
+
+
+@media (max-width: 639px) {
+  .home-hero {
+    --hero-slide-h: min(86vw, calc(100svh - 200px));
+  }
+}
+
