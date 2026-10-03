@@ -5421,3 +5421,51 @@ h3,
   }
 }
 
+
+/* Colecciones: el borde superior es una ola (en vez de esquinas redondeadas) del mismo color de su fondo */
+.home-collections {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.section-waves {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% - 1px);
+  width: 100%;
+  height: 56px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.section-waves svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.section-wave-back {
+  fill: var(--mist-400);
+  opacity: 0.35;
+}
+
+.section-wave-mid {
+  fill: var(--mist-200);
+  opacity: 0.6;
+}
+
+.section-wave-front {
+  fill: var(--bg);
+}
+
+@media (min-width: 900px) {
+  .section-waves {
+    height: 80px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-waves .parallax > use {
+    animation: none;
+  }
+}
