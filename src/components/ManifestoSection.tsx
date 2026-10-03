@@ -54,7 +54,7 @@ export function ManifestoSection() {
   });
   // Resorte lento y sin rebote: las fotos no siguen cada tirón de la rueda, se deslizan con inercia
   // y mantienen un movimiento parejo aunque el scroll sea irregular.
-  const progress = useSpring(rawProgress, { stiffness: 22, damping: 18, mass: 1.2, restDelta: 0.0005 });
+  const progress = useSpring(rawProgress, { stiffness: 12, damping: 14, mass: 1.6, restDelta: 0.0005 });
 
   // Velocidades distintas: con el mismo scroll el globo recorre mucho más (rápido) y el pájaro poco (lento).
   // Globo (adelante, mitad derecha): parte abajo a la izquierda, sube hacia la esquina superior
