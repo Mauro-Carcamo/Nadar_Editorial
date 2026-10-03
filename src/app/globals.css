@@ -6738,3 +6738,16 @@ html {
 
 
 
+
+/* Manifiesto: mostaza de las fotos un poco más oscuro y fondo en el mismo tono, más claro
+   (así el centro entre las fotos no queda blanco) */
+.home-manifesto {
+  background: #efe1bd;
+}
+
+.home-manifesto .home-manifesto-photo img,
+.home-manifesto .home-manifesto-bird img {
+  filter: grayscale(1) sepia(1) hue-rotate(8deg) saturate(1.7) brightness(0.88) contrast(1.05);
+}
+
+
