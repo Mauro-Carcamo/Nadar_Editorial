@@ -5481,3 +5481,20 @@ h3,
   letter-spacing: -0.2px;
   line-height: 1.38;
 }
+
+/* Manifiesto más bajo */
+.home-manifesto {
+  min-height: min(64svh, 580px);
+}
+
+@media (min-width: 900px) {
+  .home-manifesto {
+    padding: 72px 0 80px;
+  }
+}
+
+@media (max-width: 899px) {
+  .home-manifesto {
+    min-height: min(70svh, 560px);
+  }
+}
