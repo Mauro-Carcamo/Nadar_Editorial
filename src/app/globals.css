@@ -5958,3 +5958,20 @@ html {
   color: var(--ink);
 }
 
+
+/* Destacados: subtítulo pegado al título y línea fina (color de los números) antes del autor */
+.home-hero-slide-text {
+  gap: 0;
+}
+
+.home-hero-slide-subtitle {
+  margin-top: 1px;
+}
+
+.home-hero-slide-author {
+  margin-top: 6px;
+  padding-top: 5px;
+  border-top: 1px solid var(--accent-ink);
+}
+
+

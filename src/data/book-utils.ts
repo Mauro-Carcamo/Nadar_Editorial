@@ -79,9 +79,13 @@ export function getShortDescription(book: Book, max = 200) {
   return `${text.slice(0, max).replace(/\s+\S*$/, "")}…`;
 }
 
-/** Separa el título en el primer punto: "Drago. Oficio y escritura" -> { main: "Drago", rest: "Oficio y escritura" }. */
+/**
+ * Separa el título en el primer punto o guion largo:
+ * "Drago. Oficio y escritura" -> { main: "Drago", rest: "Oficio y escritura" }
+ * "Asota e'in añunwiin wammamain – Memoria de…" -> { main: "Asota e'in añunwiin wammamain", rest: "Memoria de…" }
+ */
 export function splitTitle(title: string) {
-  const m = title.match(/^(.+?)\.\s+(.+)$/);
+  const m = title.match(/^(.+?)(?:\.\s+|\s+[–—]\s+)(.+)$/);
   return m ? { main: m[1].trim(), rest: m[2].trim() } : { main: title, rest: "" };
 }
 
