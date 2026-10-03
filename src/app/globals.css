@@ -5499,18 +5499,19 @@ h3,
   }
 }
 
-/* Catálogo: fondo con el pez volador del logo repetido en distintos tamaños y tonos del propio
-   fondo (más oscuros y más claros). Baldosa SVG sin costuras: public/images/patterns/peces-voladores.svg */
+/* Catálogo: cardumen de peces voladores (silueta del logo, un solo color por pez) en grilla escalonada,
+   tamaños con ritmo grande/mediano/chico y tonos alternados más oscuros y más claros sobre el fondo.
+   Baldosa SVG sin costuras: public/images/patterns/peces-voladores.svg */
 .home-catalog {
-  background-color: var(--bg);
+  background-color: var(--surface); /* fondo original del catálogo */
   background-image: url("/images/patterns/peces-voladores.svg");
   background-repeat: repeat;
-  background-size: 1200px auto;
+  background-size: 1080px auto;
   background-position: center top;
 }
 
 @media (max-width: 767px) {
   .home-catalog {
-    background-size: 760px auto;
+    background-size: 720px auto;
   }
 }
