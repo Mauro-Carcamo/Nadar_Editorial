@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 /**
  * Sección "de paso": queda fija detrás de la página (sticky) mientras Colecciones sube y la cubre.
@@ -27,38 +27,65 @@ export function ManifestoSection() {
   const scale = useTransform(leave, [0, 1], [1, 0.9]);
   const opacity = useTransform(leave, [0, 0.85], [1, 0.15]);
 
-  // Fotos en sentidos opuestos según el scroll (Motion):
-  // el globo de Nadar parte más abajo y sube; el pájaro parte más arriba y baja.
-  // Recorrido total = entrada (la sección aparece) + salida (Colecciones la cubre).
-  const photoEnterY = useTransform(enter, [0, 1], [90, 30]);
-  const photoLeaveY = useTransform(leave, [0, 1], [0, -120]);
-  const photoY = useTransform(() => photoEnterY.get() + photoLeaveY.get());
-  const photoScale = useTransform(leave, [0, 1], [1, 0.96]);
-  const photoOpacity = useTransform(leave, [0, 0.85], [1, 0.1]);
+  // Fotos: un solo recorrido continuo, sin pausas, desde que la sección asoma abajo hasta que
+  // Colecciones termina de cubrirla. Se mide en píxeles de la página (la sección es sticky).
+  const { scrollY } = useScroll();
+  const range = useRef({ start: 0, end: 1 });
+  useEffect(() => {
+    const measure = () => {
+      if (!ref.current || !endRef.current) return;
+      const endTop = endRef.current.getBoundingClientRect().top + window.scrollY; // fin natural de la sección
+      const start = endTop - ref.current.offsetHeight - window.innerHeight; // la sección asoma por abajo
+      const end = endTop - 80; // Colecciones llega bajo la cabecera: la sección quedó cubierta
+      range.current = { start, end: Math.max(end, start + 1) };
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(document.body);
+    window.addEventListener("resize", measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
+  const progress = useTransform(scrollY, (v) => {
+    const { start, end } = range.current;
+    return Math.min(1, Math.max(0, (v - start) / (end - start)));
+  });
 
-  const birdEnterY = useTransform(enter, [0, 1], [-90, -30]);
-  const birdLeaveY = useTransform(leave, [0, 1], [0, 120]);
-  const birdY = useTransform(() => birdEnterY.get() + birdLeaveY.get());
-  const birdScale = useTransform(leave, [0, 1], [1, 0.98]);
+  // Globo (adelante, mitad derecha): parte sutil abajo a la izquierda, sube hacia la esquina
+  // superior derecha y se agranda.
+  const photoX = useTransform(progress, [0, 1], [-36, 56]);
+  const photoY = useTransform(progress, [0, 1], [70, -90]);
+  const photoScale = useTransform(progress, [0, 1], [1, 1.22]);
+
+  // Pájaro (atrás, mitad izquierda): parte al centro, cargado a la derecha de su espacio, y se
+  // achica lentamente hacia arriba a la izquierda (origen de la escala arriba a la izquierda).
+  const birdX = useTransform(progress, [0, 1], [48, -56]);
+  const birdY = useTransform(progress, [0, 1], [10, -80]);
+  const birdScale = useTransform(progress, [0, 1], [1, 0.74]);
+
+  // Se desvanecen recién cuando Colecciones ya las está cubriendo
+  const photoOpacity = useTransform(leave, [0.4, 1], [1, 0.25]);
 
   return (
     <>
       <section ref={ref} className="home-manifesto" aria-labelledby="home-manifesto-title">
-        {/* Ilustración de un ave sobre el mar (página Laboratorio del sitio original): a la izquierda de Nadar, detrás */}
+        {/* Ilustración de un ave sobre el mar (página Laboratorio del sitio original): mitad izquierda, atrás */}
         <motion.div
           className="home-manifesto-bird"
-          style={{ y: birdY, scale: birdScale, opacity: photoOpacity }}
+          style={{ x: birdX, y: birdY, scale: birdScale, opacity: photoOpacity }}
           aria-hidden="true"
         >
-          <Image src="/images/page/ave-mar.jpg" alt="" fill sizes="(min-width: 900px) 70vw, 100vw" />
+          <Image src="/images/page/ave-mar.jpg" alt="" fill sizes="(min-width: 900px) 50vw, 60vw" />
         </motion.div>
         {/* Gaspard-Félix Tournachon, «Nadar», en la canasta de un globo (c. 1863). Dominio público, Gallica/BnF */}
         <motion.div
           className="home-manifesto-photo"
-          style={{ y: photoY, scale: photoScale, opacity: photoOpacity }}
+          style={{ x: photoX, y: photoY, scale: photoScale, opacity: photoOpacity }}
           aria-hidden="true"
         >
-          <Image src="/images/page/nadar-globo.jpg" alt="" fill sizes="(min-width: 900px) 70vw, 100vw" />
+          <Image src="/images/page/nadar-globo.jpg" alt="" fill sizes="(min-width: 900px) 50vw, 60vw" />
         </motion.div>
         <motion.div className="container home-manifesto-inner" style={{ y, scale, opacity }}>
           <h2 id="home-manifesto-title" className="sr-only">
