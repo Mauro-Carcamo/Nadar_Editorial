@@ -6116,3 +6116,37 @@ html {
 }
 
 
+
+/* Contacto (home) sin formulario: correo y dirección centrados sobre el fondo */
+.home-contact-details {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+}
+
+.home-contact-details p,
+.home-contact-details address {
+  margin: 0;
+  font-style: normal;
+}
+
+.home-contact-details a {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-weight: 700;
+  color: var(--palette-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-ink);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+.home-contact-details address {
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.home-contact {
+  padding-block: 96px 112px;
+}
+

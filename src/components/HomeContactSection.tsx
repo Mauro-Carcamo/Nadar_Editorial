@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ContactForm } from "@/components/ContactForm";
 import { Reveal } from "@/components/motion/Reveal";
 import { SocialLinks } from "@/components/SocialLinks";
 
@@ -20,7 +19,12 @@ export function HomeContactSection() {
             <p className="home-pos-intro">Consultas de catálogo, pedidos, prensa, librerías o propuestas editoriales.</p>
           </header>
         </Reveal>
-        <ContactForm />
+        <div className="home-contact-details">
+          <p>
+            <a href="mailto:contacto@nadarediciones.cl">contacto@nadarediciones.cl</a>
+          </p>
+          <address>Padre Mariano 391, Of. 704 · Providencia, Santiago de Chile</address>
+        </div>
         <SocialLinks source="home" variant="icons" ariaLabel="Redes sociales de Nadar Ediciones" />
       </div>
     </section>
