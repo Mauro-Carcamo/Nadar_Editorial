@@ -6722,3 +6722,19 @@ html {
   }
 }
 
+
+/* Contacto más alto: deja ver una parte mayor de la ilustración de fondo; el contenido queda centrado */
+.home-contact {
+  min-height: min(88svh, 820px);
+  display: flex;
+  align-items: center;
+}
+
+
+.home-contact-bg img {
+  object-position: 50% 45%;
+}
+
+
+
+

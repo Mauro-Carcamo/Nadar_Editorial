@@ -39,7 +39,7 @@ export function ContactBackground() {
   });
   const smooth = useSpring(progress, { stiffness: 12, damping: 14, mass: 1.6, restDelta: 0.0005 });
   const y = useTransform(smooth, [0, 1], [40, -60]);
-  const scale = useTransform(smooth, [0, 1], [1.8, 1]);
+  const scale = useTransform(smooth, [0, 1], [2.1, 1]);
 
   return (
     <div ref={ref} className="home-contact-bg" aria-hidden="true">
