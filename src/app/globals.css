@@ -6528,3 +6528,27 @@ html {
   }
 }
 
+
+/* Manifiesto: fotos aún más chicas */
+.home-manifesto .home-manifesto-photo {
+  width: 36%;
+  top: -10px;
+  bottom: -10px;
+}
+
+.home-manifesto .home-manifesto-bird {
+  width: calc(36% + 80px);
+  top: -10px;
+  bottom: -10px;
+}
+
+@media (max-width: 899px) {
+  .home-manifesto .home-manifesto-photo {
+    width: 46%;
+  }
+
+  .home-manifesto .home-manifesto-bird {
+    width: calc(46% + 80px);
+  }
+}
+
