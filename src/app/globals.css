@@ -5498,3 +5498,19 @@ h3,
     min-height: min(70svh, 560px);
   }
 }
+
+/* Catálogo: fondo con el pez volador del logo repetido en distintos tamaños y tonos del propio
+   fondo (más oscuros y más claros). Baldosa SVG sin costuras: public/images/patterns/peces-voladores.svg */
+.home-catalog {
+  background-color: var(--bg);
+  background-image: url("/images/patterns/peces-voladores.svg");
+  background-repeat: repeat;
+  background-size: 1200px auto;
+  background-position: center top;
+}
+
+@media (max-width: 767px) {
+  .home-catalog {
+    background-size: 760px auto;
+  }
+}
