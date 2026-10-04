@@ -7352,8 +7352,9 @@ html {
     left: 50%;
     right: auto;
     width: 46%;
-    top: 0;
-    bottom: -40px;
+    /* Globo más abajo (~45 % de su alto); Motion sigue moviéndolo igual desde aquí */
+    top: 115px;
+    bottom: -155px;
   }
 
   .home-manifesto .home-manifesto-inner {
@@ -7524,5 +7525,6 @@ html {
     margin-bottom: 0;
   }
 }
+
 
 
