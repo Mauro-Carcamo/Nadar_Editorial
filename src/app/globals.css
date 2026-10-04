@@ -7304,3 +7304,225 @@ html {
 }
 
 
+
+/* ===================================================================
+   VISTA MÓVIL — ronda 3 (solo < 768 px)
+   =================================================================== */
+@media (max-width: 767px) {
+  /* 1. Navbar sin línea (ola) de separación */
+  .header-waves {
+    display: none;
+  }
+
+  .home-hero {
+    margin-top: 0;
+  }
+
+  /* 2. Hero ocupa toda la pantalla bajo la cabecera; libros más grandes */
+  .home-hero {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - 84px);
+    --hero-slide-h: calc(100svh - 300px);
+  }
+
+  .home-hero-band {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 16px;
+  }
+
+  .home-hero .home-hero-head {
+    margin-top: 0;
+    padding-block: 10px 12px;
+  }
+
+  /* 3. Manifiesto: las dos fotos parten desde el centro (una a cada lado) y la marca centrada */
+  .home-manifesto .home-manifesto-bird {
+    left: auto;
+    right: 50%;
+    width: 46%;
+    top: 0;
+    bottom: 0;
+  }
+
+  .home-manifesto .home-manifesto-photo {
+    left: 50%;
+    right: auto;
+    width: 46%;
+    top: 0;
+    bottom: -40px;
+  }
+
+  .home-manifesto .home-manifesto-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .home-manifesto-wordmark {
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* 4. Colecciones: todas visibles, sin número, tira y portada más chicas */
+  .home-collections {
+    padding: 40px 0 48px;
+  }
+
+  .collections-menu {
+    flex-wrap: wrap;
+    overflow: visible;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .collections-tab {
+    min-height: 34px;
+    gap: 6px;
+    padding: 4px 6px 4px 10px;
+  }
+
+  .collections-tab-index {
+    display: none;
+  }
+
+  .collections-tab-name {
+    font-size: 0.78rem;
+  }
+
+  .collections-tab-count {
+    min-width: 20px;
+    height: 20px;
+    font-size: 0.68rem;
+  }
+
+  .collection-panel-nav {
+    padding: 12px 12px 4px;
+  }
+
+  .collection-stage-foot {
+    padding: 6px 12px 0;
+  }
+
+  .collection-stage-foot .collections-panel-description {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+  }
+
+  .collection-stage .collection-parallax-slide {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .collection-parallax-cover {
+    aspect-ratio: 16 / 10;
+  }
+
+  .collection-parallax-eyebrow {
+    font-size: 0.66rem;
+  }
+
+  .collection-parallax-title {
+    font-size: 1.15rem;
+    line-height: 1.2;
+  }
+
+  .collection-parallax-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .collection-parallax-author {
+    font-size: 0.85rem;
+  }
+
+  .collection-parallax-summary {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .collection-parallax-price {
+    font-size: 1.1rem;
+  }
+
+  .collection-parallax-actions .btn {
+    min-height: 40px;
+    font-size: 0.82rem;
+  }
+
+  /* 5. Catálogo: sin marco alrededor de la portada; el libro más grande */
+  .catalog-card-frame,
+  .catalog-card-frame.is-flat {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .catalog-card-cover {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .catalog-card-cover img {
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    box-shadow: 0 6px 12px -6px rgba(45, 60, 63, 0.45);
+  }
+}
+
+
+
+@media (max-width: 767px) {
+  /* Sin ola: el hero sube bajo la cabecera (se recupera el margen que reservaba la ola) y
+     ocupa exactamente la pantalla, con "Top 10 / Destacados" visible */
+  .home-hero {
+    margin-top: -44px;
+    height: calc(100svh - 40px);
+    min-height: 0;
+    --hero-slide-h: calc(100svh - 360px);
+  }
+
+  .home-hero-band {
+    padding-top: 52px;
+  }
+
+  .collection-parallax-cover {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+
+
+@media (max-width: 767px) {
+  /* Hero = pantalla bajo la cabecera (78 px); portada ocupa el alto restante */
+  .home-hero {
+    margin-top: 0;
+    height: calc(100svh - 78px);
+    --hero-slide-h: calc(100svh - 270px);
+  }
+
+  .home-hero-band {
+    padding-top: 12px;
+  }
+}
+
+
+
+@media (max-width: 767px) {
+  /* Sin ola, la cabecera ya no reserva espacio debajo */
+  .site-header {
+    margin-bottom: 0;
+  }
+}
+
+
