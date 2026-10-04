@@ -6811,3 +6811,28 @@ html {
 }
 
 
+
+/* Destacados: textos de los libros más chicos */
+.home-hero-slide-title {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+}
+
+.home-hero-rank {
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+}
+
+.home-hero-slide-subtitle {
+  font-size: 0.78rem;
+}
+
+.home-hero-slide-caption {
+  height: 66px;
+}
+
+@media (max-width: 639px) {
+  .home-hero-slide-caption {
+    height: 78px;
+  }
+}
+
+
