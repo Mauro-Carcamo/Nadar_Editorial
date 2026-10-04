@@ -7619,3 +7619,38 @@ html {
   font-size: 0.78rem;
   font-style: italic;
 }
+
+
+
+/* Manifiesto: marca más chica y centrada en la sección; enlace y su línea más discretos */
+.home-manifesto {
+  justify-content: center;
+}
+
+.home-manifesto .home-manifesto-inner {
+  justify-content: center;
+}
+
+.home-manifesto-wordmark {
+  width: min(220px, 50vw);
+}
+
+.home-manifesto .home-manifesto-link {
+  min-height: 0;
+  gap: 6px;
+  margin-top: 12px;
+  padding-bottom: 3px;
+  font-size: 0.74rem;
+}
+
+@media (max-width: 767px) {
+  .home-manifesto-wordmark {
+    width: min(140px, 38vw);
+  }
+
+  .home-manifesto .home-manifesto-link {
+    margin-top: 8px;
+    font-size: 0.68rem;
+  }
+}
+
