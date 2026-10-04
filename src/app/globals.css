@@ -7660,12 +7660,12 @@ html {
 /* Proyecto editorial: fondo de peces del catálogo en tonos arena (como el manifiesto y la foto
    sepia de Nadar) y redes sociales junto al título */
 .about-page {
-  --about-bg: #faf5e8;
-  --about-fish-dark: #ece0bf;
-  --about-fish-light: #fffcf3;
+  --about-bg: #e6d29f;
+  --about-fish-dark: #d9c48c;
+  --about-fish-light: #eedfb4;
   --about-ink: var(--palette-ink);
   --about-ink-soft: var(--ink-soft);
-  --about-line: rgba(120, 96, 40, 0.16);
+  --about-line: rgba(45, 60, 63, 0.3);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -7675,7 +7675,7 @@ html {
 
 /* Lo que asoma entre la cabecera y la página también es arena */
 body:has(.about-page) {
-  background: #faf5e8;
+  background: #e6d29f;
 }
 
 .about-page-fish {
@@ -7949,5 +7949,83 @@ body:has(.about-page) {
   .home-hero-pagination .swiper-pagination-bullet:hover {
     transform: scale(1.25);
   }
+}
+
+
+
+
+/* Proyecto editorial: craquelado del manifiesto sobre todo el fondo (encima de los peces, bajo el texto) */
+.about-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("/images/patterns/craquelado.png?v=1");
+  background-repeat: repeat;
+  background-size: 220px auto;
+  opacity: 0.17;
+  filter: brightness(0.55);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* Marca "nadar" sobre la línea, título pequeño bajo ella */
+.about-wordmark {
+  display: block;
+  width: min(220px, 50vw);
+  height: auto;
+  color: var(--about-ink);
+}
+
+.about-page .about-hero--solo {
+  padding-bottom: 20px;
+}
+
+.about-kicker {
+  border-top: 1px solid var(--about-line);
+  padding-top: 14px;
+}
+
+.about-kicker h1 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--about-ink);
+}
+
+.about-kicker + .about-section {
+  border-top: 0;
+  padding-top: 28px;
+}
+
+@media (max-width: 767px) {
+  .about-wordmark {
+    width: min(150px, 42vw);
+  }
+
+  .about-page .about-hero--solo {
+    padding-bottom: 14px;
+  }
+
+  .about-kicker {
+    padding-top: 10px;
+  }
+
+  .about-kicker h1 {
+    font-size: 0.72rem;
+  }
+
+  .about-kicker + .about-section {
+    padding-top: 18px;
+  }
+}
+
+
+.about-hero--solo .social-links--icons a {
+  flex: none;
+  aspect-ratio: 1;
 }
 

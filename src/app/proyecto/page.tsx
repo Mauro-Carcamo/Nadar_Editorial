@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { AboutScrollTheme } from "@/components/AboutScrollTheme";
+import { NadarWordmark } from "@/components/NadarWordmark";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SocialLinks } from "@/components/SocialLinks";
@@ -85,10 +86,14 @@ export default function ProyectoPage() {
       {/* Fondo arena con peces voladores que se oscurece al bajar (ver AboutScrollTheme) */}
       <AboutScrollTheme>
         {/* Textos de la página "Proyecto editorial", tal como los entregó la editorial */}
+        {/* Sobre la línea: la marca "nadar" del manifiesto y las redes; bajo la línea, el título pequeño */}
         <section className="container about-hero about-hero--solo">
-          <h1 className="home-collections-heading">Proyecto Editorial</h1>
+          <NadarWordmark className="about-wordmark" title="Nadar" />
           <SocialLinks source="proyecto" variant="icons" ariaLabel="Redes sociales de Nadar Ediciones" />
         </section>
+        <div className="container about-kicker">
+          <h1>Proyecto editorial</h1>
+        </div>
 
         <section className="container about-section" aria-labelledby="vision-title">
           <h2 id="vision-title">VISIÓN EDITORIAL</h2>
