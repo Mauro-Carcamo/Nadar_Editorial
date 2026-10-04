@@ -63,9 +63,6 @@ export function HeroCarousel({ books }: { books: Book[] }) {
                   </span>
                   <span className="home-hero-slide-text">
                     <span className="home-hero-slide-title">{splitTitle(book.title).main}</span>
-                    {splitTitle(book.title).rest ? (
-                      <span className="home-hero-slide-subtitle">{splitTitle(book.title).rest}</span>
-                    ) : null}
                   </span>
                 </span>
               </Link>

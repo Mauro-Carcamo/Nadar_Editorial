@@ -6836,3 +6836,23 @@ html {
 }
 
 
+
+/* Destacados: solo el título principal, centrado bajo la portada; el número queda a la izquierda */
+.home-hero-slide-caption {
+  position: relative;
+  display: block;
+  padding: 10px 40px 12px;
+  text-align: center;
+}
+
+.home-hero-rank {
+  position: absolute;
+  left: 2px;
+  top: 10px;
+}
+
+.home-hero-slide-text {
+  justify-items: center;
+}
+
+
