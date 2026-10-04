@@ -7580,3 +7580,42 @@ html {
 
 
 
+
+
+
+/* Proyecto editorial: título solo en la cabecera; la foto de Nadar acompaña "¿Porqué Nadar?" */
+.about-hero--solo {
+  display: block;
+}
+
+.about-side {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+
+.about-side-photo {
+  margin: 0;
+  max-width: 320px;
+}
+
+.about-side-photo-frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.about-side-photo-frame img {
+  object-fit: cover;
+  object-position: 50% 30%;
+  filter: sepia(0.25) saturate(0.7);
+}
+
+.about-side-photo figcaption {
+  margin-top: 8px;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-style: italic;
+}

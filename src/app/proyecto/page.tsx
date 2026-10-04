@@ -81,71 +81,91 @@ export default function ProyectoPage() {
     <>
       <SiteHeader />
       <main className="about-page">
-        <section className="container about-hero">
-          <div>
-            <p className="home-hero-eyebrow">Proyecto editorial</p>
-            <h1 className="home-collections-heading">Un proceso editorial</h1>
-            <p className="about-lead">
-              Nadar Ediciones es un impulso creativo e intelectual surgido en el sur del continente americano una
-              primavera de 2014.
-            </p>
-          </div>
-          <figure className="about-hero-photo">
-            <Image
-              src="/images/page/nadar-globo.jpg"
-              alt="Gaspard-Félix Tournachon, «Nadar», en la canasta de un globo"
-              fill
-              sizes="(min-width: 900px) 40vw, 90vw"
-              priority
-            />
-            <figcaption>Gaspard-Félix Tournachon, «Nadar» (c. 1863). Dominio público.</figcaption>
-          </figure>
+        {/* Textos de la página "Proyecto editorial", tal como los entregó la editorial */}
+        <section className="container about-hero about-hero--solo">
+          <h1 className="home-collections-heading">Proyecto Editorial</h1>
         </section>
 
         <section className="container about-section" aria-labelledby="vision-title">
-          <h2 id="vision-title">Visión editorial</h2>
+          <h2 id="vision-title">VISIÓN EDITORIAL</h2>
           <div className="about-text">
             <p>
-              Su nombre alude tanto a la actividad misma de nadar como al apelativo con el que fuera conocido el
-              fotógrafo y aeronauta Gaspard-Félix Tournachon (1820-1910), recordado como uno de los pioneros de la
-              técnica fotográfica y por la serie de retratos que en el siglo XIX inmortalizaron los rostros de los
-              hermanos Reclus, Caroline Rémy de Guebhard (Séverine), Charles Baudelaire, Émile Zola, Piotr Kropotkin y
-              Mijaíl Bakunin, entre otras figuras del librepensamiento.
+              Nadar Ediciones es un impulso creativo e intelectual surgido en el sur del continente americano una
+              primavera de 2014. Su nombre alude tanto a la actividad misma de nadar como al apelativo con el que
+              fuera conocido el fotógrafo y aeronauta Gaspard-Félix Tournachon (1820-1910), recordado como uno de los
+              pioneros de la técnica fotográfica y por la serie de retrato que en el siglo XIX inmortalizaron los
+              rostros de los hermanos Reclus, Caroline Rémy de Guebhard (Sevérine), Charles Baudelaire, Émile Zola,
+              Piotr Kropotkin, Mijaíl Bakunin, entre otras figuras del librepensamiento.
             </p>
             <p>
               Nuestro catálogo surge colectivamente, desde la autonomía y la colaboración. Buscamos aportar a la
               densidad del pensamiento, debatiendo perspectivas críticas e impulsando la socialización y autogestión
               del conocimiento. Exploramos distintos escorzos de la expresión humana, orientando nuestro quehacer
-              editorial como hábito y como práctica de la libertad.
-            </p>
-            <p>
-              En tal sentido, Nadar Ediciones no es un proyecto editorial, sino un proceso editorial. La edición de
-              libros no se define en términos comerciales ni mide la calidad de una obra por su impacto mediático; la
-              divulgación de libros es un modo de relación entre las personas, que genera vínculos en base al diálogo y
+              editorial como hábito y como práctica de la libertad. En tal sentido, Nadar Ediciones no es un proyecto
+              editorial, sino un proceso editorial: comprende que el único modo de editar en la sociedad capitalista
+              es desde la resistencia y la mancomunión. Por ello, recalcamos dos aspectos sobre nuestro modo de
+              entender la edición de libros: por un lado, no se define en términos comerciales, ni se plantea
+              económicamente como actividad en crecimiento, así como tampoco mide la calidad de una obra por su
+              impacto mediático; por otro lado, vemos la divulgación de libros como un modo de relación entre las
+              personas, generando vínculos y estableciendo posiciones que configuran ópticas en base al diálogo y
               contra todo dogmatismo, desafiando las fronteras y prejuicios heredados.
             </p>
           </div>
         </section>
 
         <section className="container about-section" aria-labelledby="porque-title">
-          <h2 id="porque-title">¿Por qué Nadar?</h2>
+          <div className="about-side">
+            <h2 id="porque-title">¿PORQUÉ NADAR?</h2>
+            <figure className="about-side-photo">
+              <div className="about-side-photo-frame">
+                <Image
+                  src="/images/page/nadar-globo.jpg"
+                  alt="Autoretrato de Gaspard-Félix Tournachon"
+                  fill
+                  sizes="(min-width: 900px) 240px, 90vw"
+                  priority
+                />
+              </div>
+              <figcaption>Autoretrato de Gaspard-Félix Tournachon.</figcaption>
+            </figure>
+          </div>
           <div className="about-text">
             <p>
-              Para nosotros, «Nadar» refiere a ese tránsito amplio, holgura del mar y de los cielos, hundida en el
-              horizonte que se funde en lo siempre incógnito. Confuso como un pez volador, medio pájaro, medio pez,
-              indeciso entre la libertad oceánica o del casco celeste. Solo una duda se nos disipa: aquella que se
-              remite al impulso hacia la libertad, que se construye entre saltos, alas y aletas.
+              “Nadar” era el pseudónimo de Gaspard-Félix Tournachon, fotógrafo y aeronauta francés que vivió durante
+              el siglo XIX. “Nadar” también refiere al verbo que se utiliza para describir la traslación acuática
+              mediante movimientos corporales. Cabría preguntarse: ¿Es posible una natación celeste, «nadar en los
+              aires»? Pensar a Gaspard-Félix Tournachon como nadador a través de los gases que habitan el cielo, o
+              simplemente quien nada, sea un pez, una persona o un elefante, en el mar o en los lagos, como si el
+              estado líquido del agua fuera lo mismo que su estado gaseoso. Recordemos que viento se define como un
+              gas en movimiento ¿En qué difieren vientos y corrientes acuáticas?
             </p>
             <p>
-              La experiencia de los libros, al igual que el pez volador, guarda el misterio de la lectura: es una
+              Podríamos continuar, divagar acerca de los múltiples estados de la materia y la forma en que nos
+              relacionamos a ella. Para nosotros, “Nadar” refiere a ese tránsito amplio, holgura del mar y de los
+              cielos, hundida en el horizonte que se funde en lo siempre incógnito. Confuso como un pez volador, medio
+              pájaro, medio pez, indeciso entre la libertad oceánica o del casco celeste. Solo una duda se nos disipa,
+              aquella que se remite al impulso hacia la libertad, que se construye entre saltos, alas y aletas.
+            </p>
+            <p>
+              Nadar Ediciones plantea esta aventura del conocimiento. Amplia, libre, dispuesta a la exploración. La
+              experiencia de los libros, al igual que el pez volador, guarda el misterio de la lectura: es una
               vivencia que se pierde en los océanos personales del lector y que luego se dispara por los aires de su
               pensamiento y habla.
             </p>
             <p>
-              La aventura comienza durante la primavera del hemisferio sur, año 2014, cuando acontece el equinoccio
-              vernal. Comienzan las vibraciones de los insectos y las aves, que pronto esparcirán el polen y las
-              semillas por regiones diversas. Seguramente, el comportamiento de ciertos libros es similar al de un
-              insecto, polinizador del pensamiento.
+              Los libros articulan palabras, siendo éstas la sustancia nuestra (palabras escritas, habladas, palabras
+              en silencio, en los gestos y en las señas, puente que nos une y desune). Se puede encontrar allí una
+              morada y habitar la literatura, como hallando nuestro elemento. El pez, el pájaro, los insectos lo
+              tienen. Nosotros pensamos que en las palabras, cuya forma suele ser la del horizonte, es posible nadar,
+              habitar, explorar, oscilar entre la experiencia interior y exterior, que nos hace humanos y también
+              sociedad.
+            </p>
+            <p>
+              La aventura comienza durante la primavera del hemisferio sur, año 2014. Durante estos días acontece el
+              equinoccio vernal, paso del invierno a la primavera. Comienzan, con ello, las vibraciones de los
+              insectos y las aves, quienes prontamente esparcirán el polen y las semillas por regiones diversas. Es el
+              período fecundo de la naturaleza. Seguramente, el comportamiento de ciertos libros es similar al de un
+              insecto, polinizador del pensamiento
             </p>
           </div>
         </section>
