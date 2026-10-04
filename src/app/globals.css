@@ -7923,3 +7923,31 @@ body:has(.about-page) {
   }
 }
 
+
+
+
+/* Hero: puntos de posición también en la web (antes solo en celular), bajo los títulos */
+@media (min-width: 768px) {
+  .home-hero-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 4px 0 18px;
+    --swiper-pagination-color: var(--accent-ink);
+    --swiper-pagination-bullet-inactive-color: var(--line);
+    --swiper-pagination-bullet-inactive-opacity: 1;
+    --swiper-pagination-bullet-size: 9px;
+    --swiper-pagination-bullet-horizontal-gap: 0;
+  }
+
+  .home-hero-pagination .swiper-pagination-bullet {
+    margin: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  .home-hero-pagination .swiper-pagination-bullet:hover {
+    transform: scale(1.25);
+  }
+}
+
