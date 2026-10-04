@@ -53,6 +53,8 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
   } | null>(null);
   const [inView, setInView] = useState(false);
   const [term, setTerm] = useState("");
+  // Celular: las categorías se despliegan con un botón (en escritorio siempre visibles, vía CSS)
+  const [chipsOpen, setChipsOpen] = useState(false);
   const [results, setResults] = useState<SearchResult | null>(null);
   const [searching, setSearching] = useState(false);
 
@@ -309,8 +311,20 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
                   ) : null}
                 </div>
 
+                <button
+                  type="button"
+                  className={`catalog-filter-toggle${categories.length ? " has-active" : ""}`}
+                  aria-expanded={chipsOpen}
+                  aria-controls="catalog-filter-chips"
+                  onClick={() => setChipsOpen((v) => !v)}
+                >
+                  Temas{categories.length ? ` · ${categories.length}` : ""}
+                  <span aria-hidden="true">{chipsOpen ? "▾" : "▴"}</span>
+                </button>
+
                 <div
-                  className="catalog-filter-chips"
+                  id="catalog-filter-chips"
+                  className={`catalog-filter-chips${chipsOpen ? " is-open" : ""}`}
                   role="group"
                   aria-label={`Categorías (máximo ${MAX_CATEGORIES})`}
                 >

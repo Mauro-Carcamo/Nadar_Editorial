@@ -6856,3 +6856,117 @@ html {
 }
 
 
+
+/* Barra de filtros: el botón "Temas" solo existe en celular */
+.catalog-filter-toggle {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  /* Una sola fila: buscador + "Temas"; los temas se despliegan arriba en una grilla */
+  .catalog-filter-bar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .catalog-filter-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--palette-bg);
+    font-family: var(--font-display), sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .catalog-filter-toggle.has-active {
+    border-color: var(--mist-400);
+    background: var(--mist-400);
+    color: var(--palette-ink);
+  }
+
+  .catalog-filter-chips {
+    display: none;
+    grid-column: 1 / -1;
+    order: -1;
+    flex-wrap: wrap;
+    overflow: visible;
+    max-height: 40vh;
+    overflow-y: auto;
+    padding-bottom: 4px;
+  }
+
+  .catalog-filter-chips.is-open {
+    display: flex;
+  }
+
+  .home-catalog {
+    padding-bottom: 96px;
+  }
+
+  /* Destacados: el bloque de texto ahora es de una sola línea */
+  .home-hero-slide-caption {
+    height: 48px;
+  }
+}
+
+
+@media (max-width: 767px) {
+  /* Destacados: hasta 2 líneas de título caben completas sobre la franja */
+  .home-hero-slide-caption {
+    height: 64px;
+    padding-top: 8px;
+  }
+
+  .home-hero-slide-title {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  .home-hero-rank {
+    top: 8px;
+    font-size: 0.95rem;
+  }
+}
+
+
+/* Checkout: los campos de dos columnas no se salen del ancho en pantallas chicas */
+.checkout-field {
+  min-width: 0;
+}
+
+.checkout-field input,
+.checkout-field select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+  /* /libros: filtros de colección en una fila deslizable */
+  .filter-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .filter-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-row .pill {
+    flex: none;
+    min-height: 38px;
+    padding: 6px 14px;
+    font-size: 0.88rem;
+  }
+}
+
+
