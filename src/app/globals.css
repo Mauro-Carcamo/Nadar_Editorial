@@ -7654,3 +7654,79 @@ html {
   }
 }
 
+
+
+
+/* Proyecto editorial: fondo de peces del catálogo en tonos arena (como el manifiesto y la foto
+   sepia de Nadar) y redes sociales junto al título */
+.about-page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #faf5e8;
+}
+
+.about-page-bg .home-catalog-bg-layer {
+  background-image: url("/images/patterns/peces-voladores-arena.svg?v=1");
+}
+
+.about-page .about-section {
+  border-top-color: rgba(120, 96, 40, 0.16);
+}
+
+.about-hero--solo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
+
+.about-hero--solo h1 {
+  margin: 0;
+}
+
+.about-hero--solo .social-links--icons {
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.about-hero--solo .social-links--icons a {
+  width: 46px;
+  height: 46px;
+}
+
+.about-hero--solo .social-links--icons .social-icon,
+.about-hero--solo .social-links--icons .social-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 767px) {
+  .about-hero--solo .social-links--icons a {
+    width: 40px;
+    height: 40px;
+  }
+
+  .about-hero--solo .social-links--icons .social-icon,
+  .about-hero--solo .social-links--icons .social-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+
+.about-hero--solo .social-links--icons a {
+  border: 1px solid rgba(120, 96, 40, 0.28);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--palette-ink);
+}
+
+.about-hero--solo .social-links--icons a:hover,
+.about-hero--solo .social-links--icons a:focus-visible {
+  background: var(--palette-ink);
+  color: #fff;
+}
+
+

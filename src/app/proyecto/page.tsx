@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { CatalogBackground } from "@/components/CatalogBackground";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export const metadata: Metadata = {
   title: "Proyecto editorial | Nadar Ediciones",
@@ -81,9 +83,12 @@ export default function ProyectoPage() {
     <>
       <SiteHeader />
       <main className="about-page">
+        {/* Fondo de peces voladores del catálogo, en tonos arena para esta página */}
+        <CatalogBackground className="about-page-bg" />
         {/* Textos de la página "Proyecto editorial", tal como los entregó la editorial */}
         <section className="container about-hero about-hero--solo">
           <h1 className="home-collections-heading">Proyecto Editorial</h1>
+          <SocialLinks source="proyecto" variant="icons" ariaLabel="Redes sociales de Nadar Ediciones" />
         </section>
 
         <section className="container about-section" aria-labelledby="vision-title">

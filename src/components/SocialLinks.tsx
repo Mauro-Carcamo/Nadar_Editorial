@@ -4,7 +4,7 @@ import { socialLinks } from "@/data/site";
 import { trackEvent } from "@/lib/analytics";
 
 type Props = {
-  source: "footer" | "contacto" | "home";
+  source: "footer" | "contacto" | "home" | "proyecto";
   ariaLabel?: string;
   /** "icons": solo íconos grandes (el nombre queda para lectores de pantalla) */
   variant?: "default" | "icons";
