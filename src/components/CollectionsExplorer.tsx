@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { animate, motion, useMotionValue } from "motion/react";
-import { RefObject, useLayoutEffect, useRef, useState } from "react";
+import { CSSProperties, RefObject, useLayoutEffect, useRef, useState } from "react";
 import type { Swiper as SwiperInstance } from "swiper";
 import { A11y, Keyboard, Parallax } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -27,6 +27,20 @@ const PILL_SPRING = { type: "spring", stiffness: 200, damping: 28 } as const;
 
 // Posición de la píldora del menú entre montajes del panel (se remonta al cambiar de colección)
 let lastPill: PillBox | null = null;
+
+/**
+ * Orden de las pestañas en celular: alterna nombres largos y cortos (el más largo con el más corto,
+ * y así) para que cada fila de pestañas se llene parejo. En escritorio no se usa.
+ */
+function mobileTabOrder(collections: { slug: string; name: string }[], slug: string) {
+  const byLength = [...collections].sort((a, b) => b.name.length - a.name.length);
+  const paired: string[] = [];
+  for (let i = 0, j = byLength.length - 1; i <= j; i++, j--) {
+    paired.push(byLength[i].slug);
+    if (i !== j) paired.push(byLength[j].slug);
+  }
+  return paired.indexOf(slug);
+}
 
 /** Píldora azul del menú: mide la pestaña activa y se desliza hasta ella con un resorte. */
 function useTabPill(menuRef: RefObject<HTMLDivElement | null>) {
@@ -122,6 +136,7 @@ function CollectionStage({
           <motion.span className="collections-tab-pill" style={pill} aria-hidden="true" />
           {collections.map((collection, index) => {
             const selected = collection.slug === active.slug;
+            const mobileOrder = mobileTabOrder(collections, collection.slug);
             return (
               <button
                 key={collection.slug}
@@ -131,6 +146,7 @@ function CollectionStage({
                 aria-selected={selected}
                 aria-controls={`panel-${collection.slug}`}
                 className={`collections-tab${selected ? " is-active" : ""}`}
+                style={{ "--mobile-order": mobileOrder } as CSSProperties}
                 onClick={() => onSelect(collection.slug)}
               >
                 <span className="collections-tab-index">{pad(index + 1)}</span>

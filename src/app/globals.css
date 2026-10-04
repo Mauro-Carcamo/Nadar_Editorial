@@ -7528,3 +7528,55 @@ html {
 
 
 
+
+
+
+/* ===================================================================
+   VISTA MÓVIL — ronda 4 (solo < 768 px)
+   =================================================================== */
+@media (max-width: 767px) {
+  /* 1. Navbar: letra un poco menor y vuelve la ola animada bajo la cabecera */
+  .desktop-menu a {
+    font-size: 0.68rem;
+  }
+
+  .header-waves {
+    display: block;
+  }
+
+  /* 2. Hero: la ola vuelve a cubrir el borde superior, así que los libros bajan un poco
+     (y se achican lo justo). "Top 10 Destacados" sube: la franja oscura gana espacio abajo
+     y el hero sigue cubriendo la pantalla */
+  .home-hero {
+    --hero-slide-h: calc(100svh - 285px);
+  }
+
+  .home-hero-band {
+    padding-top: 40px;
+  }
+
+  .home-hero .home-hero-head {
+    padding-block: 8px 44px;
+  }
+
+  /* 3. Manifiesto: al comenzar la sección las fotos quedan separadas un 30 % del ancho
+     (pájaro termina en el 35 %, globo empieza en el 65 %), descontando el desplazamiento
+     inicial que les da Motion (pájaro +24 px, globo −16 px) */
+  .home-manifesto .home-manifesto-bird {
+    right: calc(65% + 24px);
+  }
+
+  .home-manifesto .home-manifesto-photo {
+    left: calc(65% + 16px);
+  }
+
+  /* 4. Colecciones: pestañas alternan nombre largo y corto y estiran para llenar cada fila */
+  .collections-tab {
+    order: var(--mobile-order, 0);
+    flex: 1 1 auto;
+    justify-content: space-between;
+  }
+}
+
+
+
