@@ -8029,3 +8029,23 @@ body:has(.about-page) {
   aspect-ratio: 1;
 }
 
+
+/* Proyecto editorial: aún más cerca de la cabecera */
+.about-page {
+  margin-top: -24px;
+  padding-top: 0;
+}
+
+.about-hero--solo .social-links--icons a {
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+@media (max-width: 767px) {
+  .about-page {
+    margin-top: 0;
+    padding-top: 34px;
+  }
+}
+
