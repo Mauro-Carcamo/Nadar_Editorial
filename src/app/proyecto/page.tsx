@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { CatalogBackground } from "@/components/CatalogBackground";
+import { AboutScrollTheme } from "@/components/AboutScrollTheme";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SocialLinks } from "@/components/SocialLinks";
@@ -82,9 +82,8 @@ export default function ProyectoPage() {
   return (
     <>
       <SiteHeader />
-      <main className="about-page">
-        {/* Fondo de peces voladores del catálogo, en tonos arena para esta página */}
-        <CatalogBackground className="about-page-bg" />
+      {/* Fondo arena con peces voladores que se oscurece al bajar (ver AboutScrollTheme) */}
+      <AboutScrollTheme>
         {/* Textos de la página "Proyecto editorial", tal como los entregó la editorial */}
         <section className="container about-hero about-hero--solo">
           <h1 className="home-collections-heading">Proyecto Editorial</h1>
@@ -218,7 +217,7 @@ export default function ProyectoPage() {
             Conocer las colecciones
           </Link>
         </div>
-      </main>
+      </AboutScrollTheme>
       <SiteFooter />
     </>
   );

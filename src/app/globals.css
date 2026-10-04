@@ -7660,18 +7660,87 @@ html {
 /* Proyecto editorial: fondo de peces del catálogo en tonos arena (como el manifiesto y la foto
    sepia de Nadar) y redes sociales junto al título */
 .about-page {
+  --about-bg: #faf5e8;
+  --about-fish-dark: #ece0bf;
+  --about-fish-light: #fffcf3;
+  --about-ink: var(--palette-ink);
+  --about-ink-soft: var(--ink-soft);
+  --about-line: rgba(120, 96, 40, 0.16);
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  background: var(--about-bg);
+  color: var(--about-ink);
+}
+
+/* Lo que asoma entre la cabecera y la página también es arena */
+body:has(.about-page) {
   background: #faf5e8;
 }
 
-.about-page-bg .home-catalog-bg-layer {
-  background-image: url("/images/patterns/peces-voladores-arena.svg?v=1");
+.about-page-fish {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.about-page-fish-layer {
+  position: absolute;
+  inset: 0 0 -400px;
+  will-change: transform;
+}
+
+.about-page-fish-layer span {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  -webkit-mask-size: 1080px auto;
+  mask-size: 1080px auto;
+  -webkit-mask-position: center top;
+  mask-position: center top;
+}
+
+.about-page-fish-dark {
+  background: var(--about-fish-dark);
+  -webkit-mask-image: url("/images/patterns/peces-mascara-oscuros.svg?v=1");
+  mask-image: url("/images/patterns/peces-mascara-oscuros.svg?v=1");
+}
+
+.about-page-fish-light {
+  background: var(--about-fish-light);
+  -webkit-mask-image: url("/images/patterns/peces-mascara-claros.svg?v=1");
+  mask-image: url("/images/patterns/peces-mascara-claros.svg?v=1");
+}
+
+@media (max-width: 767px) {
+  .about-page-fish-layer span {
+    -webkit-mask-size: 720px auto;
+    mask-size: 720px auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page-fish-layer {
+    transform: none !important;
+  }
+}
+
+/* Textos siguen el tema (oscuro sobre arena, blanco sobre el tono oscuro) */
+.about-page .home-collections-heading,
+.about-page .about-section h2,
+.about-page .about-text p {
+  color: var(--about-ink);
+}
+
+.about-page .about-side-photo figcaption {
+  color: var(--about-ink-soft);
 }
 
 .about-page .about-section {
-  border-top-color: rgba(120, 96, 40, 0.16);
+  border-top-color: var(--about-line);
 }
 
 .about-hero--solo {
@@ -7729,4 +7798,19 @@ html {
   color: #fff;
 }
 
+
+
+
+/* Las tarjetas (equipo y amistad) siguen blancas: su texto no cambia con el tema */
+.about-page .about-team > li,
+.about-page .about-friends > li {
+  color: var(--palette-ink);
+}
+
+
+.about-page .about-cta .btn-outline {
+  border-color: var(--about-ink);
+  color: var(--about-ink);
+  background: transparent;
+}
 
