@@ -39,17 +39,18 @@ export function CatalogGrid({ books }: { books: Book[] }) {
       <Swiper
         className="catalog-swiper"
         modules={[A11y, Grid, Keyboard, Pagination]}
-        grid={{ rows: 3, fill: "row" }}
-        slidesPerView={2}
-        slidesPerGroup={2}
-        spaceBetween={16}
+        // Celular: 3 columnas x 4 filas; desde 640 px: 3 filas (5 columnas en escritorio)
+        grid={{ rows: 4, fill: "row" }}
+        slidesPerView={3}
+        slidesPerGroup={3}
+        spaceBetween={10}
         keyboard={{ enabled: true, onlyInViewport: true }}
         pagination={{ el: ".catalog-pagination", clickable: true }}
         uniqueNavElements={false}
         a11y={{ containerMessage: "Catálogo completo de Nadar Ediciones" }}
         breakpoints={{
-          640: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 24 },
-          960: { slidesPerView: 5, slidesPerGroup: 5, spaceBetween: 24 },
+          640: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 24, grid: { rows: 3, fill: "row" } },
+          960: { slidesPerView: 5, slidesPerGroup: 5, spaceBetween: 24, grid: { rows: 3, fill: "row" } },
         }}
       >
         {books.map((book, index) => (

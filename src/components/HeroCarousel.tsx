@@ -3,9 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
-import { A11y, Autoplay, Keyboard } from "swiper/modules";
+import { A11y, Autoplay, Keyboard, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import "swiper/css/pagination";
 import { splitTitle } from "@/data/book-utils";
 import { Book, getCover } from "@/data/site";
 
@@ -25,7 +26,9 @@ export function HeroCarousel({ books }: { books: Book[] }) {
       >
         <Swiper
           className="container home-hero-carousel"
-          modules={[A11y, Autoplay, Keyboard]}
+          modules={[A11y, Autoplay, Keyboard, Pagination]}
+          // Puntos de posición: solo se muestran en celular (CSS)
+          pagination={{ el: ".home-hero-pagination", clickable: true }}
           autoplay={reduceMotion ? false : { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
           speed={900}
           watchSlidesProgress
@@ -70,6 +73,7 @@ export function HeroCarousel({ books }: { books: Book[] }) {
             );
           })}
         </Swiper>
+        <div className="home-hero-pagination" />
       </motion.div>
 
       <motion.div

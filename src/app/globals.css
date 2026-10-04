@@ -6970,3 +6970,337 @@ html {
 }
 
 
+
+/* Puntos de posición del hero: ocultos en escritorio */
+.home-hero-pagination {
+  display: none;
+}
+
+/* ===================================================================
+   VISTA MÓVIL (< 768 px) — ajustes específicos; la web no cambia
+   =================================================================== */
+@media (max-width: 767px) {
+  /* 1. Navbar: arriba logo + carrito; abajo el menú completo en letra pequeña (sin hamburguesa) */
+  .nav-wrap {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      "brand cart"
+      "menu menu";
+    align-items: center;
+    row-gap: 2px;
+    min-height: 0;
+    padding: 4px 0 2px;
+  }
+
+  .nav-wrap .brand {
+    grid-area: brand;
+  }
+
+  .nav-wrap .cart-trigger {
+    grid-area: cart;
+    justify-self: end;
+  }
+
+  .mobile-nav {
+    display: none;
+  }
+
+  .desktop-menu {
+    grid-area: menu;
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .desktop-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .desktop-menu li {
+    flex: none;
+  }
+
+  .desktop-menu a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 2px;
+    color: var(--ink);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .desktop-menu a[aria-current="location"] {
+    color: var(--accent-ink);
+    text-underline-offset: 5px;
+  }
+
+  .brand-logo,
+  html[data-scrolled] .brand-logo {
+    height: 34px;
+  }
+
+  .nav-wrap,
+  html[data-scrolled] .nav-wrap {
+    min-height: 0;
+  }
+
+  html {
+    scroll-padding-top: 84px;
+  }
+
+  /* 2. Hero: libros más grandes (la sección supera la mitad de la pantalla) y puntos de posición */
+  .home-hero {
+    --hero-slide-h: min(118vw, calc(100svh - 250px));
+  }
+
+  .home-hero-band {
+    padding-top: 56px;
+    padding-bottom: 2px;
+  }
+
+  .home-hero-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 2px 0 10px;
+    --swiper-pagination-color: var(--accent-ink);
+    --swiper-pagination-bullet-inactive-color: var(--line);
+    --swiper-pagination-bullet-inactive-opacity: 1;
+    --swiper-pagination-bullet-size: 8px;
+    --swiper-pagination-bullet-horizontal-gap: 0;
+  }
+
+  .home-hero-pagination .swiper-pagination-bullet {
+    margin: 0;
+  }
+
+  /* 3. Manifiesto: más bajo, fotos más chicas y separadas a los costados, marca centrada */
+  .home-manifesto {
+    min-height: 0;
+    padding: 40px 0 46px;
+  }
+
+  .home-manifesto .home-manifesto-photo {
+    width: 38%;
+    right: 0;
+    top: 0;
+    bottom: -60px;
+  }
+
+  .home-manifesto .home-manifesto-bird {
+    left: 0;
+    width: 38%;
+    top: 0;
+    bottom: 0;
+  }
+
+  .home-manifesto .home-manifesto-inner {
+    align-items: center;
+  }
+
+  .home-manifesto-wordmark {
+    width: min(180px, 46vw);
+    margin-inline: auto;
+  }
+
+  .home-manifesto .home-manifesto-link {
+    margin-top: 12px;
+    font-size: 0.82rem;
+  }
+
+  /* 5. Catálogo: tarjetas chicas en 3 columnas x 4 filas */
+  .catalog-shelf {
+    --catalog-cols: 3;
+    --catalog-rows: 4;
+    --catalog-gap: 10px;
+    --catalog-text: 58px;
+  }
+
+  .catalog-card {
+    gap: 4px;
+  }
+
+  .catalog-card-frame {
+    margin-bottom: 4px;
+    padding: 6%;
+  }
+
+  .catalog-card-title {
+    font-size: 0.72rem;
+    line-height: 1.2;
+  }
+
+  .catalog-card-author {
+    display: none;
+  }
+
+  .catalog-card-buy {
+    gap: 4px;
+  }
+
+  .catalog-card-price {
+    font-size: 0.72rem;
+  }
+
+  /* Botón de carrito compacto: solo "+" (el nombre accesible ya dice "Agregar … al carrito") */
+  .catalog-card-cart {
+    min-height: 26px;
+    min-width: 26px;
+    padding: 0 6px;
+    font-size: 0;
+    border-radius: 999px;
+  }
+
+  .catalog-card-cart::before {
+    content: "+";
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .catalog-card-ask::before {
+    content: "?";
+  }
+
+  .catalog-plain-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px 10px;
+  }
+}
+
+
+
+@media (max-width: 767px) {
+  /* Hero: la portada activa nunca más ancha que el carrusel (si no, Swiper la atenúa) */
+  .home-hero {
+    --hero-slide-h: min(100vw, calc(100svh - 270px));
+  }
+
+  /* Catálogo 3x4 visible en una pantalla: portada más baja y texto mínimo */
+  .catalog-shelf {
+    --catalog-text: 46px;
+  }
+
+  .catalog-swiper.swiper {
+    --catalog-slide-h: calc(var(--catalog-card-w) * 1.08 + var(--catalog-text));
+  }
+
+  .catalog-card-frame {
+    aspect-ratio: 1 / 1.08;
+  }
+
+  .catalog-card-title {
+    -webkit-line-clamp: 1;
+    font-size: 0.7rem;
+  }
+
+  .catalog-card-cart {
+    min-height: 22px;
+    min-width: 22px;
+  }
+
+  .catalog-card-cart::before {
+    font-size: 0.85rem;
+  }
+
+  .home-catalog-head {
+    margin-bottom: 12px;
+  }
+
+  .home-catalog {
+    padding-top: 40px;
+  }
+}
+
+
+
+@media (max-width: 767px) {
+  /* La tarjeta activa cabe en el carrusel (ancho del contenedor) para que no se atenúe */
+  .home-hero-carousel .home-hero-slide {
+    width: min(var(--hero-slide-h), calc(100vw - 48px));
+  }
+}
+
+
+
+@media (max-width: 767px) {
+  /* Catálogo 3x4: las 4 filas caben entre la cabecera (~84 px) y la barra de filtros (~70 px) */
+  .catalog-swiper.swiper {
+    --catalog-slide-h: calc((100svh - 84px - 70px - 40px - 3 * var(--catalog-gap)) / 4);
+    height: calc(var(--catalog-slide-h) * 4 + 3 * var(--catalog-gap) + 12px);
+    padding-bottom: 12px;
+  }
+
+  .catalog-swiper .catalog-slide {
+    height: var(--catalog-slide-h) !important;
+  }
+
+  .catalog-card-frame {
+    aspect-ratio: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .catalog-card-link {
+    min-height: 0;
+  }
+
+  .catalog-pagination-bottom {
+    display: none;
+  }
+}
+
+
+
+@media (max-width: 767px) {
+  /* Catálogo 3x4: la portada ocupa casi toda la tarjeta; título y precio en una línea fina */
+  .catalog-card {
+    gap: 2px;
+  }
+
+  .catalog-card-link {
+    gap: 2px;
+  }
+
+  .catalog-card-frame {
+    padding: 4px;
+    margin-bottom: 2px;
+  }
+
+  .catalog-card-title {
+    font-size: 0.66rem;
+    line-height: 1.15;
+  }
+
+  .catalog-card-buy {
+    min-height: 0;
+  }
+
+  .catalog-card-price {
+    font-size: 0.66rem;
+    line-height: 1;
+  }
+
+  .catalog-card-cart {
+    min-height: 20px;
+    min-width: 20px;
+    padding: 0 4px;
+    border-width: 1px;
+  }
+
+  .catalog-card-cart::before {
+    font-size: 0.78rem;
+  }
+}
+
+
