@@ -159,11 +159,16 @@ export function CheckoutForm() {
               <Image src={item.image} alt="" width={44} height={64} />
               <span className="checkout-summary-title">
                 {item.title}
+                {item.campaign && item.listPrice ? <span className="cart-campaign">{item.campaign}</span> : null}
                 <small>
-                  {item.quantity} × {item.price !== null ? fmt(item.price) : "consultar"}
+                  {item.quantity} ×{" "}
+                  {item.price !== null && item.campaign && item.listPrice ? <s className="price-list">{fmt(item.listPrice)}</s> : null}{" "}
+                  {item.price !== null ? fmt(item.price) : "consultar"}
                 </small>
               </span>
-              <strong>{item.price !== null ? fmt(item.price * item.quantity) : "—"}</strong>
+              <strong className={item.campaign && item.listPrice ? "price-final" : undefined}>
+                {item.price !== null ? fmt(item.price * item.quantity) : "—"}
+              </strong>
             </li>
           ))}
         </ul>

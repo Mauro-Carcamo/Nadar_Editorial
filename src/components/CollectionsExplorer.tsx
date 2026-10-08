@@ -283,6 +283,8 @@ function CollectionStage({
                       subtitle={book.subtitle}
                       image={getCover(book).src}
                       price={finalPrice(book)}
+                      listPrice={book.price ?? null}
+                      campaign={book.discount?.campaign ?? null}
                       currency={book.currency ?? "CLP"}
                       className="btn btn-primary"
                       ariaLabel={`Agregar ${book.title} al carrito`}

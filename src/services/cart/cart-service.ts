@@ -5,7 +5,9 @@ import { getSellableBooks } from "@/services/catalog/sellable";
 export type ServerCartLine = {
   slug: string;
   quantity: number;
-  unitPrice: number | null;
+  unitPrice: number | null; // precio final
+  listPrice: number | null; // precio normal, solo si hay descuento vigente
+  campaign: string | null;
   available: number;
   sellable: boolean;
 };
@@ -40,6 +42,8 @@ export async function syncGuestCart(guestToken: string, lines: CartLineInput[], 
         slug: line.slug,
         quantity: line.quantity,
         unitPrice: book?.price ?? null,
+        listPrice: book?.discount_percent ? book.list_price : null,
+        campaign: book?.discount_percent ? book.campaign : null,
         available: book?.available ?? 0,
         sellable,
       });

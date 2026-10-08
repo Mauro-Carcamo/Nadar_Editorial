@@ -90,6 +90,9 @@ export function CartDrawer() {
                         <div className="cart-drawer-item-body">
                           <p className="cart-drawer-item-title">{item.title}</p>
                           <p className="cart-drawer-item-author">{item.subtitle}</p>
+                          {item.campaign && item.listPrice ? (
+                            <p className="cart-campaign">{item.campaign}</p>
+                          ) : null}
                           <div className="cart-drawer-item-row">
                             <div className="cart-qty" role="group" aria-label={`Cantidad de ${item.title}`}>
                               <button type="button" onClick={() => changeQty(item.slug, item.quantity - 1)} disabled={item.quantity <= 1} aria-label="Restar uno">
@@ -103,7 +106,17 @@ export function CartDrawer() {
                               </button>
                             </div>
                             <span className="cart-drawer-item-price">
-                              {item.price !== null ? fmt(item.price * item.quantity) : "Consultar"}
+                              {/* Con descuento de campaña: precio normal tachado y precio final */}
+                              {item.price !== null && item.campaign && item.listPrice ? (
+                                <s className="price-list">{fmt(item.listPrice * item.quantity)}</s>
+                              ) : null}
+                              {item.price !== null ? (
+                                <span className={item.campaign && item.listPrice ? "price-final" : undefined}>
+                                  {fmt(item.price * item.quantity)}
+                                </span>
+                              ) : (
+                                "Consultar"
+                              )}
                             </span>
                           </div>
                           {item.available !== undefined && item.available < item.quantity ? (

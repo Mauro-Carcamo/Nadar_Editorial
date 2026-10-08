@@ -107,6 +107,8 @@ export function CatalogCard({ book, index }: { book: Book; index: number }) {
           subtitle={book.subtitle}
           image={getCover(book).src}
           price={finalPrice(book)}
+          listPrice={book.price ?? null}
+          campaign={book.discount?.campaign ?? null}
           currency={book.currency ?? "CLP"}
           className="catalog-card-cart"
           ariaLabel={`Agregar ${book.title} al carrito`}

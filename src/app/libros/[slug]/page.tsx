@@ -99,6 +99,8 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
                     subtitle={book.subtitle}
                     image={cover.src}
                     price={finalPrice(book)}
+                    listPrice={book.price ?? null}
+                    campaign={book.discount?.campaign ?? null}
                     currency={book.currency ?? "CLP"}
                     className="btn btn-primary"
                   />

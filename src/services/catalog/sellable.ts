@@ -10,13 +10,14 @@ export type SellableBook = {
   price: number | null; // precio final (con descuento vigente)
   list_price: number | null;
   discount_percent: number | null;
+  campaign: string | null;
   status: string;
   available: number;
 };
 
 // price = precio final (con el descuento vigente de su campaña, si hay); list_price = precio de lista
 const SQL = `SELECT b.id, b.slug, b.title, b.isbn, b.status, COALESCE(i.available, 0) AS available,
-                    b.price AS list_price, disc.percent AS discount_percent,
+                    b.price AS list_price, disc.percent AS discount_percent, disc.name AS campaign,
                     CASE WHEN b.price IS NULL OR disc.percent IS NULL THEN b.price
                          ELSE round(b.price * (100 - disc.percent) / 100.0)::int END AS price
              FROM books b LEFT JOIN inventory i ON i.book_id = b.id

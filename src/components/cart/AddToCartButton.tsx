@@ -10,7 +10,9 @@ type Props = {
   title: string;
   subtitle: string;
   image: string;
-  price: number | null;
+  price: number | null; // precio final (con descuento, si hay)
+  listPrice?: number | null; // precio normal cuando hay descuento
+  campaign?: string | null;
   currency: string;
   className?: string;
   ariaLabel?: string;
@@ -25,6 +27,8 @@ export function AddToCartButton({
   subtitle,
   image,
   price,
+  listPrice = null,
+  campaign = null,
   currency,
   className = "btn btn-outline",
   ariaLabel,
@@ -68,7 +72,7 @@ export function AddToCartButton({
                 toY: target.top + target.height / 2,
               }
             : undefined;
-        addItem({ slug, title, subtitle, image, price, currency }, from);
+        addItem({ slug, title, subtitle, image, price, listPrice: campaign ? listPrice : null, campaign, currency }, from);
         trackEvent({ eventType: "add_to_cart", pagePath: window.location.pathname, meta: { slug, price } });
         setAdded(true);
       }}

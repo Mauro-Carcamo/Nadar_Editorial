@@ -22,7 +22,9 @@ export type CartItem = {
   title: string;
   subtitle: string;
   image: string;
-  price: number | null;
+  price: number | null; // precio final (con descuento de campaña, si hay)
+  listPrice?: number | null; // precio normal, solo si hay descuento
+  campaign?: string | null; // campaña del descuento (p. ej. "Cyber Week Nadar")
   currency: string;
   quantity: number;
   available?: number; // stock informado por el servidor
@@ -42,7 +44,9 @@ type CartState = {
   removeItem: (slug: string) => void;
   changeQty: (slug: string, quantity: number) => void;
   setShippingZone: (zone: ShippingZone) => void;
-  applyServerPrices: (lines: { slug: string; unitPrice: number | null; available: number }[]) => void;
+  applyServerPrices: (
+    lines: { slug: string; unitPrice: number | null; listPrice?: number | null; campaign?: string | null; available: number }[],
+  ) => void;
   clear: () => void;
   renewToken: () => void;
   open: () => void;
@@ -88,7 +92,10 @@ export const useCartStore = create<CartState>()(
         set((state) => ({
           items: state.items.map((x) => {
             const line = lines.find((l) => l.slug === x.slug);
-            return line ? { ...x, price: line.unitPrice, available: line.available } : x;
+            // El servidor manda: si la campaña terminó, el libro vuelve a su precio normal
+            return line
+              ? { ...x, price: line.unitPrice, listPrice: line.listPrice ?? null, campaign: line.campaign ?? null, available: line.available }
+              : x;
           }),
         })),
       clear: () => set({ items: [] }),

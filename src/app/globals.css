@@ -8652,3 +8652,34 @@ body:has(.about-page) {
     6px 2px 8px rgba(25, 34, 36, 0.22);
 }
 
+
+/* Carrito y resumen del pago: campaña del descuento y precio normal tachado */
+.cart-campaign {
+  display: inline-block;
+  margin: 2px 0 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #d62828;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  line-height: 1.5;
+}
+
+.checkout-summary-title .cart-campaign {
+  display: block;
+  width: fit-content;
+  margin: 3px 0;
+}
+
+.cart-drawer-item-price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.cart-drawer-item-price .price-list {
+  font-size: 0.82em;
+}
+
