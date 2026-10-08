@@ -8494,3 +8494,161 @@ body:has(.about-page) {
   margin-top: 16px;
 }
 
+
+
+
+/* Banner de campaña, estilo Nadar: solo negro, rojo y blanco (reemplaza la versión neón) */
+.campaign-banner {
+  gap: 14px;
+  padding: 8px 10px 8px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius);
+  background: #000;
+  color: #fff;
+  box-shadow: none;
+}
+
+.campaign-banner:hover,
+.campaign-banner:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 0 #d62828;
+}
+
+.campaign-banner:focus-visible {
+  outline: 2px solid #fff;
+}
+
+.campaign-banner-percent {
+  flex: none;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #d62828;
+  color: #fff;
+  transform: rotate(-10deg);
+  line-height: 1;
+}
+
+.campaign-banner-percent small {
+  color: #fff;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.campaign-banner-percent strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.campaign-banner-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+}
+
+.campaign-banner-word {
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  line-height: 1;
+  background: none;
+  color: #fff;
+}
+
+.campaign-banner-week {
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.campaign-banner-text small {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.campaign-banner-cta {
+  padding: 8px 14px;
+  border: 1px solid #fff;
+  border-radius: var(--radius);
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.campaign-banner-cta span {
+  color: #d62828;
+}
+
+.campaign-banner:hover .campaign-banner-cta {
+  background: #fff;
+  color: #000;
+}
+
+@media (max-width: 767px) {
+  .campaign-banner {
+    padding: 8px;
+  }
+
+  .campaign-banner-percent {
+    width: 50px;
+    height: 50px;
+    margin-left: 0;
+  }
+
+  .campaign-banner-percent strong {
+    font-size: 1rem;
+  }
+
+  .campaign-banner-word {
+    font-size: 1.15rem;
+    letter-spacing: 3px;
+  }
+
+  .campaign-banner-week {
+    font-size: 0.82rem;
+  }
+}
+
+/* Botón "Cyber" del catálogo: mismos colores que el banner (negro, rojo y blanco) */
+.catalog-filter-campaign {
+  border-color: #fff;
+  color: #fff;
+  background: #000;
+  letter-spacing: 2px;
+}
+
+.catalog-filter-campaign:hover,
+.catalog-filter-campaign.is-active {
+  background: #d62828;
+  border-color: #d62828;
+  color: #fff;
+}
+
+.catalog-filter-campaign.is-active span,
+.catalog-filter-campaign:hover span {
+  background: #fff;
+  color: #d62828;
+}
+
+/* Hero: la sombra de los libros cae hacia la derecha (más amplia y algo más oscura) */
+.home-hero-slide-cover.is-flat img {
+  box-shadow:
+    18px 6px 28px -6px rgba(25, 34, 36, 0.5),
+    6px 2px 8px rgba(25, 34, 36, 0.22);
+}
+

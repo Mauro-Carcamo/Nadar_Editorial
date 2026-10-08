@@ -9,8 +9,8 @@ const dateFmt = new Intl.DateTimeFormat("es-CL", { day: "numeric", month: "long"
 
 /**
  * Banner de la campaña vigente (p. ej. Cyber Week) junto a "Top 10 Destacados".
- * Estética Cyber de Chile: fondo azul noche, magenta y cian eléctricos. Al hacer clic baja al
- * catálogo con el filtro de libros en descuento activado.
+ * Solo negro, rojo y blanco, con la tipografía de Nadar y el mismo círculo rojo de las portadas.
+ * Al hacer clic baja al catálogo con el filtro de libros en descuento activado.
  */
 export function CampaignBanner({ campaign }: { campaign: ActiveCampaign }) {
   const until = campaign.endsAt ? `Hasta el ${dateFmt.format(new Date(campaign.endsAt))}` : "Por tiempo limitado";
@@ -22,21 +22,22 @@ export function CampaignBanner({ campaign }: { campaign: ActiveCampaign }) {
       onClick={() => window.dispatchEvent(new CustomEvent(CAMPAIGN_FILTER_EVENT))}
       aria-label={`${campaign.headline}: hasta ${campaign.maxPercent}% de descuento. Ver libros en descuento`}
     >
-      <span className="campaign-banner-word" aria-hidden="true">
-        {campaign.label}
+      {/* Mismo círculo rojo de las portadas */}
+      <span className="campaign-banner-percent" aria-hidden="true">
+        <small>hasta</small>
+        <strong>{campaign.maxPercent}%</strong>
       </span>
       <span className="campaign-banner-text">
-        <strong>{campaign.headline}</strong>
+        <span className="campaign-banner-title">
+          <span className="campaign-banner-word">{campaign.label}</span>
+          <span className="campaign-banner-week">{campaign.headline}</span>
+        </span>
         <small>
           {campaign.description || `${campaign.bookCount} libros en descuento`} · {until}
         </small>
       </span>
-      <span className="campaign-banner-percent" aria-hidden="true">
-        <small>hasta</small>
-        {campaign.maxPercent}%
-      </span>
       <span className="campaign-banner-cta" aria-hidden="true">
-        Ver libros →
+        Ver libros <span>→</span>
       </span>
     </a>
   );
