@@ -4,7 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 import { Controller, useFieldArray, useForm, type FieldPath } from "react-hook-form";
+import Link from "next/link";
 import { deleteBookAction, saveBookAction } from "@/app/admin/(panel)/libros/actions";
+import { BookPreview } from "@/components/admin/BookPreview";
 import {
   BOOK_STATUSES,
   BookFormSchema,
@@ -21,6 +23,11 @@ const STATUS_LABEL: Record<(typeof BOOK_STATUSES)[number], string> = {
   PUBLISHED: "Publicado",
   ARCHIVED: "Archivado",
 };
+
+/** Indica en qué partes del sitio se ve un campo. */
+function Where({ children }: { children: string }) {
+  return <small className="book-form-where">Se ve en: {children}</small>;
+}
 
 const slugify = (s: string) =>
   s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 120);
@@ -62,6 +69,13 @@ export function BookForm({ id, defaultValues, collections, authorOptions, catego
 
   const collectionId = watch("collectionId");
   const coverUrl = watch("coverUrl");
+  const [previewTitle, previewBajada, previewDescription, previewPeople, previewPrice] = watch([
+    "title",
+    "bajada",
+    "description",
+    "people",
+    "price",
+  ]);
   const series = collections.find((c) => c.id === collectionId)?.series ?? [];
 
   // Se envían los valores crudos del formulario: el servidor aplica el mismo esquema
@@ -136,6 +150,15 @@ export function BookForm({ id, defaultValues, collections, authorOptions, catego
   return (
     <form className="book-form" onSubmit={onSubmit} noValidate>
       <div className="book-form-main">
+        <BookPreview
+          title={previewTitle ?? ""}
+          bajada={previewBajada ?? ""}
+          description={previewDescription ?? ""}
+          people={previewPeople ?? []}
+          price={String(previewPrice ?? "")}
+          coverUrl={coverUrl ?? ""}
+        />
+
         <fieldset className="admin-panel">
           <legend>Datos principales</legend>
           <label className="book-form-wide">
@@ -147,11 +170,13 @@ export function BookForm({ id, defaultValues, collections, authorOptions, catego
                 },
               })}
             />
+            <Where>todo el sitio. En el hero y Colecciones se separa en dos al primer punto o guion: «Drago. Oficio y escritura» → «Drago» + «Oficio y escritura».</Where>
             {err("title")}
           </label>
           <label>
             Dirección (slug)
             <input {...register("slug")} placeholder="se genera desde el título" />
+            <Where>la dirección de la ficha: /libros/…</Where>
             {err("slug")}
           </label>
           <label>
@@ -162,17 +187,20 @@ export function BookForm({ id, defaultValues, collections, authorOptions, catego
           <label className="book-form-wide">
             Bajada
             <textarea rows={2} {...register("bajada")} />
+            <Where>Colecciones (texto corto) y entrada destacada de la ficha. Ideal: una o dos frases.</Where>
             {err("bajada")}
           </label>
           <label className="book-form-wide">
             Descripción
             <textarea rows={8} {...register("description")} />
+            <Where>la ficha del libro (sinopsis). Si no hay bajada, Colecciones usa su comienzo.</Where>
             {err("description")}
           </label>
         </fieldset>
 
         <fieldset className="admin-panel">
           <legend>Autores y colaboradores</legend>
+          <Where>bajo el título en catálogo, Colecciones y ficha. Traducción, prólogo e ilustración solo en la ficha.</Where>
           <datalist id="book-form-authors">
             {authorOptions.map((name) => (
               <option key={name} value={name} />
@@ -205,11 +233,13 @@ export function BookForm({ id, defaultValues, collections, authorOptions, catego
           <label className="book-form-wide">
             Sobre el autor
             <textarea rows={5} {...register("authorBio")} />
+            <Where>la ficha del libro.</Where>
           </label>
         </fieldset>
 
         <fieldset className="admin-panel">
           <legend>Ficha técnica</legend>
+          <Where>la ficha del libro. Los temas además arman los filtros del catálogo.</Where>
           <label>
             Año
             <input inputMode="numeric" {...register("year")} />
@@ -293,8 +323,11 @@ export function BookForm({ id, defaultValues, collections, authorOptions, catego
             </datalist>
           </label>
           <label>
-            Ranking de ventas
-            <input inputMode="numeric" {...register("salesRank")} placeholder="1 = más vendido" />
+            Puesto en Destacados
+            <input inputMode="numeric" {...register("salesRank")} placeholder="1 a 10 = en el hero" />
+            <small className="book-form-where">
+              Más cómodo desde <Link href="/admin/web/destacados">Destacados (hero)</Link>.
+            </small>
             {err("salesRank")}
           </label>
           <label className="book-form-check">
@@ -307,6 +340,7 @@ export function BookForm({ id, defaultValues, collections, authorOptions, catego
           <label>
             Precio (CLP)
             <input inputMode="numeric" {...register("price")} placeholder="vacío = no se vende" />
+            <Where>catálogo, Colecciones, ficha y carrito. Los descuentos se aplican abajo, en «Descuentos y campañas».</Where>
             {err("price")}
           </label>
           <label>
@@ -322,6 +356,7 @@ export function BookForm({ id, defaultValues, collections, authorOptions, catego
 
         <fieldset className="admin-panel">
           <legend>Portada</legend>
+          <Where>todo el sitio (hero, catálogo, Colecciones, ficha y carrito).</Where>
           {coverUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img className="book-form-cover" src={coverUrl} alt="Portada actual" />

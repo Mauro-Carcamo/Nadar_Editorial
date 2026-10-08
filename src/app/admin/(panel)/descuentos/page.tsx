@@ -45,7 +45,7 @@ export default async function AdminDiscountsPage({ searchParams }: { searchParam
   return (
     <>
       <header className="admin-head">
-        <p className="eyebrow">Catálogo</p>
+        <p className="eyebrow">Comercial</p>
         <h2>Descuentos y campañas</h2>
         <p className="admin-sub">
           Cada campaña (Cyber, aniversario…) tiene fechas y un porcentaje por libro. Mientras está vigente, el descuento

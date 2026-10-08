@@ -32,7 +32,7 @@ export default async function AdminBooksPage({ searchParams }: { searchParams: P
     <>
       <header className="admin-head admin-head-row">
         <div>
-          <p className="eyebrow">Catálogo</p>
+          <p className="eyebrow">Editar web</p>
           <h2>Libros</h2>
           <p className="admin-sub">{total} {total === 1 ? "libro" : "libros"}. Solo los publicados se muestran en la tienda.</p>
         </div>

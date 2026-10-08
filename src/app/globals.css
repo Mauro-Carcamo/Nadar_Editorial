@@ -8969,3 +8969,429 @@ body:has(.about-page) {
   }
 }
 
+
+/* ===================================================================
+   ADMIN · menú en dos áreas (Comercial / Editar web) y Centro de edición
+   =================================================================== */
+.admin-nav {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-nav-group {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-nav-label {
+  margin: 0 0 2px;
+  color: var(--mist-400);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.admin-web-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.admin-web-card {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.admin-web-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.admin-web-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.admin-web-card small {
+  font-weight: 700;
+}
+
+.admin-web-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.admin-web-pending {
+  margin-top: 20px;
+}
+
+.admin-web-pending ul,
+.admin-points ul {
+  display: grid;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-web-pending li,
+.admin-points li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+}
+
+.admin-web-missing {
+  margin-left: auto;
+  color: #b42318;
+  font-size: 0.82rem;
+}
+
+.admin-points {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.admin-points small {
+  color: var(--ink-soft);
+}
+
+/* Destacados (hero) */
+.hero-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+.hero-editor h3 small {
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+
+.hero-editor-list,
+.hero-editor-results {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-editor-list li,
+.hero-editor-results li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.hero-editor-rank {
+  min-width: 26px;
+  color: var(--accent-ink);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+}
+
+.hero-editor-cover {
+  width: 34px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 2px;
+  background: var(--surface-alt);
+}
+
+.hero-editor-title {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.hero-editor-title small {
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+
+.hero-editor-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.hero-editor-actions .btn,
+.hero-editor-results .btn {
+  min-height: 32px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+.hero-editor-save {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.hero-editor-search {
+  width: 100%;
+  min-height: 40px;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+}
+
+.hero-editor-results {
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+/* Colecciones */
+.admin-collections {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.admin-collection summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.admin-collection summary small {
+  color: var(--ink-soft);
+}
+
+.admin-collection[open] summary {
+  margin-bottom: 14px;
+}
+
+.admin-collection-order {
+  color: var(--accent-ink);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+}
+
+.admin-discount-form textarea,
+.admin-discount-form select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+}
+
+/* Editor de libro: dónde se ve cada campo y vista previa */
+.book-form-where {
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.book-form-where a {
+  color: var(--accent-ink);
+}
+
+.book-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.book-preview-block {
+  margin: 0;
+  padding: 10px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  background: var(--surface-alt);
+}
+
+.book-preview-block.is-wide {
+  grid-column: 1 / -1;
+}
+
+.book-preview-block figcaption {
+  margin-bottom: 8px;
+  color: var(--accent-ink);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.book-preview-cover {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  aspect-ratio: 2 / 3;
+  flex: none;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 4px 2px 10px -4px rgba(25, 34, 36, 0.4);
+}
+
+.book-preview-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-preview-nocover {
+  padding: 4px;
+  color: var(--ink-soft);
+  font-size: 0.6rem;
+  text-align: center;
+}
+
+.book-preview-hero,
+.book-preview-card {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.book-preview-hero strong,
+.book-preview-card strong,
+.book-preview-collection strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.95rem;
+}
+
+.book-preview-card small,
+.book-preview-collection small {
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+}
+
+.book-preview-card em {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.book-preview-collection {
+  display: flex;
+  gap: 12px;
+}
+
+.book-preview-collection > div {
+  display: grid;
+  gap: 2px;
+  align-content: start;
+}
+
+.book-preview-sub {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.book-preview-collection p {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.book-preview-missing {
+  color: #b42318;
+}
+
+@media (max-width: 899px) {
+  .hero-editor {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-sidebar nav.admin-nav {
+    display: grid;
+    gap: 4px;
+  }
+
+  .admin-nav-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .admin-nav-label {
+    flex: none;
+    margin: 0;
+    font-size: 0.6rem;
+  }
+
+  .book-preview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-web-missing {
+    margin-left: 0;
+  }
+}
+
+
+.admin-web-cards .admin-panel,
+.admin-points .admin-panel,
+.hero-editor .admin-panel,
+.admin-collections .admin-panel {
+  margin-top: 0;
+}
+
+.book-preview .book-preview-grid,
+.book-form fieldset .book-form-where:first-of-type:not(label .book-form-where) {
+  grid-column: 1 / -1;
+}
+
+.book-preview-grid {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(0, 2fr);
+}
+
+.book-preview-block.is-wide {
+  grid-column: auto;
+}
+
+@media (max-width: 1100px) {
+  .book-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .book-preview-block.is-wide {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .book-preview-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.book-form label {
+  align-content: start;
+}
