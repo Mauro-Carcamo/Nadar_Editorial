@@ -97,8 +97,10 @@ export async function createCheckout(input: CheckoutInput, siteUrl: string): Pro
 
     for (const line of priced) {
       await client.query(
-        `INSERT INTO order_items (order_id, book_id, title, isbn, quantity, unit_price) VALUES ($1, $2, $3, $4, $5, $6)`,
-        [orderId, line.book.id, line.book.title, line.book.isbn, line.quantity, line.unitPrice],
+        `INSERT INTO order_items (order_id, book_id, title, isbn, quantity, unit_price, list_price, discount_percent, campaign_name)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+        [orderId, line.book.id, line.book.title, line.book.isbn, line.quantity, line.unitPrice,
+         line.book.discount_percent ? line.book.list_price : null, line.book.discount_percent, line.book.campaign],
       );
       await client.query("UPDATE inventory SET reserved = reserved + $2 WHERE book_id = $1", [line.book.id, line.quantity]);
       await client.query(

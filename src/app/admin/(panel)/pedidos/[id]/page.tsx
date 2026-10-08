@@ -25,8 +25,16 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ i
       created_at: Date;
       cart_id: string | null;
     }>("SELECT * FROM orders WHERE id = $1", [id]),
-    query<{ title: string; isbn: string | null; quantity: number; unit_price: number; line_total: number }>(
-      "SELECT title, isbn, quantity, unit_price, line_total FROM order_items WHERE order_id = $1 ORDER BY created_at",
+    query<{
+      title: string;
+      isbn: string | null;
+      quantity: number;
+      unit_price: number;
+      line_total: number;
+      list_price: number | null;
+      campaign_name: string | null;
+    }>(
+      "SELECT title, isbn, quantity, unit_price, line_total, list_price, campaign_name FROM order_items WHERE order_id = $1 ORDER BY created_at",
       [id],
     ),
     query<{ provider: string; buy_order: string; amount: number; status: string; authorization_code: string | null; payment_method: string | null; card_last4: string | null; created_at: Date }>(
@@ -107,10 +115,14 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ i
           <tbody>
             {items.rows.map((it, i) => (
               <tr key={i}>
-                <td>{it.title}</td>
+                <td>
+                  {it.title}
+                  {it.campaign_name ? <small className="admin-cell-sub admin-discount-tag">{it.campaign_name}</small> : null}
+                </td>
                 <td>{it.isbn ?? "—"}</td>
                 <td>
-                  {it.quantity} × {money(it.unit_price)}
+                  {it.quantity} ×{" "}
+                  {it.list_price ? <s className="admin-strike">{money(it.list_price)}</s> : null} {money(it.unit_price)}
                 </td>
                 <td>{money(it.line_total)}</td>
               </tr>

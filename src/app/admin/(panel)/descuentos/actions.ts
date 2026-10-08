@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getAdminSession } from "@/lib/auth/admin";
 import { query } from "@/lib/db";
+import { slugify } from "@/services/catalog/admin-books";
 
 // Acciones del panel de descuentos (campañas y libros con descuento).
 // Cada una vuelve a verificar la sesión y el rol, valida con zod y deja registro en audit_log.
@@ -40,7 +41,7 @@ const localDateTime = z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/, "Fecha
 const CampaignInput = z
   .object({
     name: text(80).min(3, "El nombre es obligatorio"),
-    slug: text(60).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Usa minúsculas, números y guiones"),
+    slug: text(60).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "El identificador usa minúsculas, números y guiones"),
     badgeLabel: text(20).min(2, "La etiqueta es obligatoria"),
     headline: text(80),
     description: text(160),
@@ -52,9 +53,11 @@ const CampaignInput = z
   .refine((v) => !v.endsAt || v.endsAt > v.startsAt, { message: "El término debe ser posterior al inicio", path: ["endsAt"] });
 
 function readCampaign(formData: FormData) {
+  const name = String(formData.get("name") ?? "");
   return CampaignInput.safeParse({
-    name: formData.get("name") ?? "",
-    slug: formData.get("slug") ?? "",
+    name,
+    // Si se deja vacío, el identificador se genera desde el nombre
+    slug: String(formData.get("slug") ?? "").trim() || slugify(name).slice(0, 60),
     badgeLabel: formData.get("badgeLabel") ?? "",
     headline: formData.get("headline") ?? "",
     description: formData.get("description") ?? "",
@@ -66,6 +69,12 @@ function readCampaign(formData: FormData) {
 }
 
 const fail = (path: string, message: string): never => redirect(`${path}?error=${encodeURIComponent(message)}`);
+
+/** Página a la que se vuelve tras una acción (campaña o ficha del libro). Solo rutas del panel. */
+function backPath(formData: FormData, fallback: string) {
+  const back = String(formData.get("back") ?? "");
+  return /^\/admin\/(libros|descuentos)\/[0-9a-f-]{36}$/i.test(back) ? back : fallback;
+}
 
 /** Crea (sin id) o actualiza una campaña. */
 export async function saveCampaign(formData: FormData) {
@@ -117,42 +126,46 @@ export async function deleteCampaign(formData: FormData) {
 }
 
 const BookDiscountInput = z.object({
-  campaignId: z.string().uuid(),
-  bookId: z.string().uuid("Elige un libro"),
+  campaignId: z.string().uuid("Elige una campaña"),
+  bookIds: z.array(z.string().uuid()).min(1, "Elige al menos un libro").max(500),
   percent: z.coerce.number().int("El porcentaje debe ser entero").min(1, "Mínimo 1%").max(90, "Máximo 90%"),
 });
 
-/** Agrega un libro a la campaña o cambia su porcentaje. */
+/** Agrega uno o varios libros a la campaña (o cambia su porcentaje). Solo libros con precio. */
 export async function setBookDiscount(formData: FormData) {
   const session = await requireEditor();
   const campaignId = String(formData.get("campaignId") ?? "");
+  const back = backPath(formData, `/admin/descuentos/${campaignId}`);
   const parsed = BookDiscountInput.safeParse({
     campaignId,
-    bookId: formData.get("bookId"),
+    bookIds: formData.getAll("bookId").map(String).filter(Boolean),
     percent: formData.get("percent"),
   });
-  if (!parsed.success) fail(`/admin/descuentos/${campaignId}`, parsed.error.issues[0]?.message ?? "Revisa el descuento");
+  if (!parsed.success) fail(back, parsed.error.issues[0]?.message ?? "Revisa el descuento");
   const v = parsed.data!;
-  await query(
-    `INSERT INTO book_discounts (campaign_id, book_id, percent) VALUES ($1, $2, $3)
+  const { rowCount } = await query(
+    `INSERT INTO book_discounts (campaign_id, book_id, percent)
+     SELECT $1, b.id, $3 FROM books b WHERE b.id = ANY($2::uuid[]) AND b.price IS NOT NULL
      ON CONFLICT (campaign_id, book_id) DO UPDATE SET percent = EXCLUDED.percent`,
-    [v.campaignId, v.bookId, v.percent],
+    [v.campaignId, v.bookIds, v.percent],
   );
-  await audit(session.sub, "BOOK_DISCOUNT_SET", v.campaignId, { bookId: v.bookId, percent: v.percent });
+  if (!rowCount) fail(back, "Los libros elegidos no tienen precio: define un precio antes de aplicar un descuento");
+  await audit(session.sub, "BOOK_DISCOUNT_SET", v.campaignId, { bookIds: v.bookIds, percent: v.percent });
   revalidateStore(v.campaignId);
-  redirect(`/admin/descuentos/${v.campaignId}?ok=1`);
+  redirect(`${back}?ok=1`);
 }
 
 export async function removeBookDiscount(formData: FormData) {
   const session = await requireEditor();
   const campaignId = String(formData.get("campaignId") ?? "");
+  const back = backPath(formData, `/admin/descuentos/${campaignId}`);
   const ids = z.object({ campaignId: z.string().uuid(), bookId: z.string().uuid() }).safeParse({
     campaignId,
     bookId: formData.get("bookId"),
   });
-  if (!ids.success) fail(`/admin/descuentos/${campaignId}`, "Libro inválido");
+  if (!ids.success) fail(back, "Libro inválido");
   await query("DELETE FROM book_discounts WHERE campaign_id = $1 AND book_id = $2", [ids.data!.campaignId, ids.data!.bookId]);
   await audit(session.sub, "BOOK_DISCOUNT_REMOVED", ids.data!.campaignId, { bookId: ids.data!.bookId });
   revalidateStore(ids.data!.campaignId);
-  redirect(`/admin/descuentos/${ids.data!.campaignId}?ok=1`);
+  redirect(`${back}?ok=1`);
 }

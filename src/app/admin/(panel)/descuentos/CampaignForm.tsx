@@ -24,7 +24,7 @@ export function CampaignForm({ values, submitLabel }: { values: CampaignFormValu
       </label>
       <label>
         Identificador (URL)
-        <input name="slug" defaultValue={values.slug} required maxLength={60} pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="cyber-week-nadar" />
+        <input name="slug" defaultValue={values.slug} maxLength={60} pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="se genera desde el nombre" />
       </label>
       <label>
         Texto del círculo

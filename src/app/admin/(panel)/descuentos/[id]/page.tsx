@@ -4,6 +4,7 @@ import { money } from "@/components/admin/format";
 import { discountedPrice } from "@/data/book-utils";
 import { query } from "@/lib/db";
 import { deleteCampaign, removeBookDiscount, setBookDiscount } from "../actions";
+import { BookPicker } from "../BookPicker";
 import { CampaignForm } from "../CampaignForm";
 
 export const dynamic = "force-dynamic";
@@ -50,8 +51,11 @@ export default async function AdminCampaignPage({
        WHERE bd.campaign_id = $1 ORDER BY bd.percent DESC, b.title`,
       [id],
     ),
-    query<{ id: string; title: string; price: number | null }>(
-      `SELECT b.id, b.title, b.price FROM books b
+    query<{ id: string; title: string; authors: string | null; price: number | null }>(
+      `SELECT b.id, b.title, b.price,
+              (SELECT string_agg(a.name, ', ' ORDER BY ba.position) FROM book_authors ba JOIN authors a ON a.id = ba.author_id
+                WHERE ba.book_id = b.id AND ba.role IN ('author', 'editor', 'coordinator')) AS authors
+       FROM books b
        WHERE b.status = 'PUBLISHED'
          AND NOT EXISTS (SELECT 1 FROM book_discounts bd WHERE bd.campaign_id = $1 AND bd.book_id = b.id)
        ORDER BY b.title`,
@@ -88,9 +92,7 @@ export default async function AdminCampaignPage({
               {discounts.rows.map((d) => (
                 <tr key={d.book_id}>
                   <td>
-                    <Link href={`/libros/${d.slug}`} target="_blank">
-                      {d.title}
-                    </Link>
+                    <Link href={`/admin/libros/${d.book_id}`}>{d.title}</Link>
                     {d.status !== "PUBLISHED" ? <small> (no publicado)</small> : null}
                   </td>
                   <td>{d.price !== null ? money(d.price) : "Sin precio"}</td>
@@ -124,29 +126,10 @@ export default async function AdminCampaignPage({
           </table>
         </div>
 
-        <form action={setBookDiscount} className="admin-inline-form admin-discount-add">
+        <h4 className="admin-subhead">Agregar libros</h4>
+        <form action={setBookDiscount} className="admin-discount-add">
           <input type="hidden" name="campaignId" value={campaign.id} />
-          <label>
-            Agregar libro
-            <select name="bookId" required defaultValue="">
-              <option value="" disabled>
-                Elige un libro…
-              </option>
-              {candidates.rows.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.title}
-                  {b.price !== null ? ` — ${money(b.price)}` : " — sin precio"}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            Descuento
-            <span className="admin-percent">
-              <input type="number" name="percent" min={1} max={90} defaultValue={30} required />%
-            </span>
-          </label>
-          <button className="btn btn-primary">Agregar</button>
+          <BookPicker options={candidates.rows} />
         </form>
       </section>
 

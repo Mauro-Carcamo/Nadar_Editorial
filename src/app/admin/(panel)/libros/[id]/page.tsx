@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BookDiscountsPanel } from "@/components/admin/BookDiscountsPanel";
 import { BookForm } from "@/components/admin/BookForm";
 import { dateTime } from "@/components/admin/format";
 import { query } from "@/lib/db";
@@ -11,8 +12,15 @@ export const dynamic = "force-dynamic";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const str = (v: number | string | null | undefined) => (v === null || v === undefined ? "" : String(v));
 
-export default async function EditBookPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function EditBookPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ error?: string; ok?: string }>;
+}) {
   const { id } = await params;
+  const { error, ok } = await searchParams;
   if (!UUID.test(id)) notFound();
   const [book, collections, names] = await Promise.all([getAdminBook(id), listCollectionOptions(), listNameOptions()]);
   if (!book) notFound();
@@ -78,6 +86,11 @@ export default async function EditBookPage({ params }: { params: Promise<{ id: s
           coverHeight: str(book.cover?.height),
         }}
       />
+
+      {/* Descuentos del libro (acciones de /admin/descuentos; vuelven a esta página) */}
+      {error ? <p className="admin-error">{decodeURIComponent(error)}</p> : null}
+      {ok ? <p className="admin-ok">Descuento actualizado.</p> : null}
+      <BookDiscountsPanel bookId={book.id} price={book.price} />
 
       {history.length ? (
         <section className="admin-panel admin-book-history">

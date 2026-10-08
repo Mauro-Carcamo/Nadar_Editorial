@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Controller, useFieldArray, useForm, type FieldPath } from "react-hook-form";
 import { deleteBookAction, saveBookAction } from "@/app/admin/(panel)/libros/actions";
 import {
@@ -51,6 +51,14 @@ export function BookForm({ id, defaultValues, collections, authorOptions, catego
     formState: { errors, isDirty },
   } = useForm<BookFormInput, unknown, BookFormData>({ resolver: zodResolver(BookFormSchema), defaultValues });
   const people = useFieldArray({ control, name: "people" });
+
+  // Aviso del navegador si se intenta salir con cambios sin guardar
+  useEffect(() => {
+    if (!isDirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [isDirty]);
 
   const collectionId = watch("collectionId");
   const coverUrl = watch("coverUrl");

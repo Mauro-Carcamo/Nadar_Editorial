@@ -8683,3 +8683,289 @@ body:has(.about-page) {
   font-size: 0.82em;
 }
 
+
+/* Admin: descuentos en libros, selección múltiple y precios tachados */
+.admin-strike {
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+
+.admin-discount-tag {
+  color: #c1121f;
+  font-weight: 700;
+}
+
+.admin-filter-discount {
+  margin-left: auto;
+}
+
+.admin-filter-discount.is-active {
+  background: #d62828 !important;
+  border-color: #d62828 !important;
+  color: #fff !important;
+}
+
+.admin-subhead {
+  margin: 20px 0 8px;
+  font-size: 1rem;
+}
+
+.book-picker {
+  display: grid;
+  gap: 10px;
+}
+
+.book-picker-bar {
+  display: flex;
+  gap: 8px;
+}
+
+.book-picker-bar input {
+  flex: 1;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+}
+
+.book-picker-list {
+  max-height: 360px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+}
+
+.book-picker-list li + li {
+  border-top: 1px solid var(--line-soft);
+}
+
+.book-picker-list label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.book-picker-list li.is-selected {
+  background: #fdecec;
+}
+
+.book-picker-list li.is-disabled label {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.book-picker-title {
+  display: grid;
+  font-weight: 600;
+}
+
+.book-picker-title small {
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+
+.book-picker-price s {
+  color: var(--ink-soft);
+}
+
+.book-picker-price strong {
+  color: #c1121f;
+}
+
+.book-picker-empty {
+  padding: 12px;
+  color: var(--ink-soft);
+}
+
+.book-picker-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.book-picker-foot .admin-percent {
+  font-weight: 600;
+  gap: 8px;
+}
+
+.book-picker-foot input[type="number"] {
+  width: 76px;
+  min-height: 38px;
+  padding: 4px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.admin-book-discounts {
+  margin-top: 16px;
+}
+
+.admin-book-discount-list {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-book-discount-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+}
+
+.admin-book-discount-list li > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-book-discount-add select {
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+}
+
+
+/* Admin: sección actual marcada en el menú, títulos legibles y menú compacto en celular */
+.admin-sidebar nav a.is-active {
+  color: #fff;
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--mist-400);
+  padding-left: 10px;
+}
+
+.admin-head h2 {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.15;
+}
+
+.book-picker-foot .admin-percent,
+.admin-discount-add .book-picker-foot label.admin-percent {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 767px) {
+  .admin-sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 6px 12px;
+    padding: 10px 16px;
+  }
+
+  .admin-sidebar h1 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .admin-sidebar nav {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .admin-sidebar nav a {
+    flex: none;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .admin-sidebar nav a.is-active {
+    box-shadow: inset 0 -2px 0 var(--mist-400);
+    padding-left: 0;
+  }
+
+  .admin-user {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .admin-user p {
+    display: none;
+  }
+
+  .admin-user .btn,
+  .admin-user button {
+    min-height: 32px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+  }
+
+  .admin-main {
+    padding: 16px;
+  }
+
+  .admin-head-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .book-picker-list label {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .book-picker-price {
+    grid-column: 2;
+  }
+
+  .admin-filter-discount {
+    margin-left: 0;
+  }
+}
+
+
+/* Admin en celular: la tabla de libros muestra solo lo esencial (portada, libro, precio, estado) */
+@media (max-width: 767px) {
+  .admin-books-table th:nth-child(3),
+  .admin-books-table td:nth-child(3),
+  .admin-books-table th:nth-child(5),
+  .admin-books-table td:nth-child(5),
+  .admin-books-table th:nth-child(7),
+  .admin-books-table td:nth-child(7) {
+    display: none;
+  }
+
+  .admin-books-table td {
+    padding: 8px 6px;
+    font-size: 0.82rem;
+  }
+
+  .admin-search {
+    flex-wrap: wrap;
+  }
+}
+

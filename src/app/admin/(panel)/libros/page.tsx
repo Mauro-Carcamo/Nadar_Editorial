@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { dateTime, money } from "@/components/admin/format";
+import { discountedPrice } from "@/data/book-utils";
 import { listAdminBooks, listCollectionOptions } from "@/services/catalog/admin-books";
 
 export const dynamic = "force-dynamic";
@@ -8,7 +9,7 @@ const PAGE = 25;
 const STATUS_LABEL: Record<string, string> = { PUBLISHED: "Publicado", DRAFT: "Borrador", ARCHIVED: "Archivado" };
 const STATUS_TONE: Record<string, string> = { PUBLISHED: "is-ok", DRAFT: "is-wait", ARCHIVED: "is-bad" };
 
-type Search = { q?: string; estado?: string; coleccion?: string; p?: string };
+type Search = { q?: string; estado?: string; coleccion?: string; descuento?: string; p?: string };
 
 export default async function AdminBooksPage({ searchParams }: { searchParams: Promise<Search> }) {
   const params = await searchParams;
@@ -16,11 +17,12 @@ export default async function AdminBooksPage({ searchParams }: { searchParams: P
   const status = params.estado && params.estado in STATUS_LABEL ? params.estado : undefined;
   const collections = await listCollectionOptions();
   const collectionId = collections.some((c) => c.id === params.coleccion) ? params.coleccion : undefined;
-  const { rows, total } = await listAdminBooks({ q: params.q, status, collectionId, page, pageSize: PAGE });
+  const discounted = params.descuento === "1";
+  const { rows, total } = await listAdminBooks({ q: params.q, status, collectionId, discounted, page, pageSize: PAGE });
 
   const href = (patch: Partial<Search>) => {
     const next = new URLSearchParams();
-    const merged = { q: params.q, estado: status, coleccion: collectionId, ...patch };
+    const merged = { q: params.q, estado: status, coleccion: collectionId, descuento: discounted ? "1" : undefined, ...patch };
     for (const [k, v] of Object.entries(merged)) if (v) next.set(k, v);
     const s = next.toString();
     return s ? `/admin/libros?${s}` : "/admin/libros";
@@ -50,6 +52,7 @@ export default async function AdminBooksPage({ searchParams }: { searchParams: P
           ))}
         </select>
         {status ? <input type="hidden" name="estado" value={status} /> : null}
+        {discounted ? <input type="hidden" name="descuento" value="1" /> : null}
         <button className="btn btn-outline" type="submit">
           Buscar
         </button>
@@ -64,11 +67,17 @@ export default async function AdminBooksPage({ searchParams }: { searchParams: P
             {v}
           </Link>
         ))}
+        <Link
+          href={href({ descuento: discounted ? undefined : "1", p: undefined })}
+          className={`admin-filter-discount${discounted ? " is-active" : ""}`}
+        >
+          Con descuento
+        </Link>
       </nav>
 
       {rows.length ? (
         <div className="admin-table-wrap">
-          <table className="admin-table">
+          <table className="admin-table admin-books-table">
             <thead>
               <tr>
                 <th aria-label="Portada" />
@@ -99,7 +108,20 @@ export default async function AdminBooksPage({ searchParams }: { searchParams: P
                     {b.isbn ? <small className="admin-cell-sub admin-mono">{b.isbn}</small> : null}
                   </td>
                   <td>{b.collection ?? "—"}</td>
-                  <td>{b.price !== null ? money(b.price) : "Sin precio"}</td>
+                  <td>
+                  {b.price === null ? (
+                    "Sin precio"
+                  ) : b.discount_percent ? (
+                    <>
+                      <s className="admin-strike">{money(b.price)}</s> <strong>{money(discountedPrice(b.price, b.discount_percent))}</strong>
+                      <small className="admin-cell-sub admin-discount-tag">
+                        −{b.discount_percent}% · {b.campaign}
+                      </small>
+                    </>
+                  ) : (
+                    money(b.price)
+                  )}
+                </td>
                   <td>
                     <strong className={b.available <= 3 ? "admin-low" : ""}>{b.available}</strong>
                     {b.reserved ? <small className="admin-cell-sub">{b.reserved} reservados</small> : null}

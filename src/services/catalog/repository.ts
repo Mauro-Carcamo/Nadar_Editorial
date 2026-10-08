@@ -44,11 +44,12 @@ type BookRow = {
   disc_ends_at: Date | null;
 };
 
-// Descuento vigente de cada libro: campaña activa, dentro de sus fechas; el mayor porcentaje gana
+// Descuento vigente de cada libro: campaña activa, dentro de sus fechas y solo si el libro tiene precio;
+// si está en varias campañas, gana el mayor porcentaje
 export const ACTIVE_DISCOUNT_JOIN = `
   LEFT JOIN LATERAL (SELECT bd.percent, dc.badge_label, dc.name, dc.slug, dc.ends_at
                      FROM book_discounts bd JOIN discount_campaigns dc ON dc.id = bd.campaign_id
-                     WHERE bd.book_id = b.id AND dc.is_active AND dc.starts_at <= now()
+                     WHERE bd.book_id = b.id AND b.price IS NOT NULL AND dc.is_active AND dc.starts_at <= now()
                        AND (dc.ends_at IS NULL OR dc.ends_at > now())
                      ORDER BY bd.percent DESC LIMIT 1) disc ON true`;
 
@@ -152,7 +153,7 @@ async function loadJsonCatalog() {
   const discountFor = (b: Book): BookDiscount | null => {
     let best: BookDiscount | null = null;
     for (const c of campaigns) {
-      const entry = c.books.find((x) => x.slug === b.slug);
+      const entry = b.price ? c.books.find((x) => x.slug === b.slug) : undefined;
       if (entry && (!best || entry.percent > best.percent)) {
         best = {
           percent: entry.percent,
@@ -253,7 +254,7 @@ export const getActiveCampaign = cache(async (): Promise<ActiveCampaign | null> 
             max(bd.percent)::int AS max_percent, count(*)::int AS book_count
      FROM discount_campaigns dc
      JOIN book_discounts bd ON bd.campaign_id = dc.id
-     JOIN books b ON b.id = bd.book_id AND b.status = 'PUBLISHED'
+     JOIN books b ON b.id = bd.book_id AND b.status = 'PUBLISHED' AND b.price IS NOT NULL
      WHERE dc.is_active AND dc.show_banner AND dc.starts_at <= now() AND (dc.ends_at IS NULL OR dc.ends_at > now())
      GROUP BY dc.id
      ORDER BY max(bd.percent) DESC, dc.starts_at DESC

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AdminLogoutButton } from "@/components/admin/AdminLogoutButton";
+import { AdminNav } from "@/components/admin/AdminNav";
 import { requireAdminPage } from "@/lib/auth/admin";
 
 export const metadata: Metadata = {
@@ -8,16 +9,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const NAV = [
-  { href: "/admin", label: "Dashboard" },
-  { href: "/admin/pedidos", label: "Pedidos" },
-  { href: "/admin/pagos", label: "Pagos" },
-  { href: "/admin/carritos", label: "Carritos" },
-  { href: "/admin/inventario", label: "Inventario" },
-  { href: "/admin/libros", label: "Libros" },
-  { href: "/admin/descuentos", label: "Descuentos" },
-  { href: "/admin/mensajes", label: "Mensajes" },
-];
 
 export default async function AdminPanelLayout({ children }: { children: React.ReactNode }) {
   // Segunda barrera (además de proxy.ts): cada render del panel valida la sesión en el servidor
@@ -27,13 +18,7 @@ export default async function AdminPanelLayout({ children }: { children: React.R
     <div className="admin-shell">
       <aside className="admin-sidebar">
         <h1>Nadar Admin</h1>
-        <nav aria-label="Administración">
-          {NAV.map((item) => (
-            <Link key={item.href} href={item.href}>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <AdminNav />
         <div className="admin-user">
           <p>
             {session.name ?? session.email}

@@ -1,6 +1,7 @@
 import type { PoolClient } from "pg";
 import { query, transaction } from "@/lib/db";
 import type { BookFormData } from "@/schemas/book";
+import { ACTIVE_DISCOUNT_JOIN } from "@/services/catalog/repository";
 
 // Administración del catálogo (solo servidor). Pipeline: validación (Zod, en la acción) → transacción
 // (libro, relaciones, portada, inventario) → auditoría. Las acciones revalidan el storefront.
@@ -22,10 +23,19 @@ export type AdminBookRow = {
   reserved: number;
   available: number;
   updated_at: Date;
+  discount_percent: number | null; // descuento vigente (campaña activa)
+  campaign: string | null;
   full_count: number;
 };
 
-export async function listAdminBooks(params: { q?: string; status?: string; collectionId?: string; page: number; pageSize: number }) {
+export async function listAdminBooks(params: {
+  q?: string;
+  status?: string;
+  collectionId?: string;
+  discounted?: boolean;
+  page: number;
+  pageSize: number;
+}) {
   const q = params.q?.trim() ? `%${params.q.trim()}%` : null;
   const { rows } = await query<AdminBookRow>(
     `SELECT b.id, b.slug, b.title, b.isbn, b.status, b.price, c.name AS collection,
@@ -33,17 +43,19 @@ export async function listAdminBooks(params: { q?: string; status?: string; coll
               WHERE ba.book_id = b.id AND ba.role IN ('author', 'editor', 'coordinator')) AS authors,
             (SELECT url FROM book_images WHERE book_id = b.id AND kind = 'cover' ORDER BY position LIMIT 1) AS cover,
             COALESCE(i.stock, 0) AS stock, COALESCE(i.reserved, 0) AS reserved, COALESCE(i.available, 0) AS available,
-            b.updated_at, count(*) OVER()::int AS full_count
+            b.updated_at, disc.percent AS discount_percent, disc.name AS campaign, count(*) OVER()::int AS full_count
      FROM books b
      LEFT JOIN collections c ON c.id = b.collection_id
      LEFT JOIN inventory i ON i.book_id = b.id
+     ${ACTIVE_DISCOUNT_JOIN}
      WHERE ($1::text IS NULL OR b.title ILIKE $1 OR b.isbn ILIKE $1 OR EXISTS (
               SELECT 1 FROM book_authors ba JOIN authors a ON a.id = ba.author_id WHERE ba.book_id = b.id AND a.name ILIKE $1))
        AND ($2::text IS NULL OR b.status = $2)
        AND ($3::uuid IS NULL OR b.collection_id = $3)
+       AND (NOT $6::boolean OR disc.percent IS NOT NULL)
      ORDER BY b.updated_at DESC
      LIMIT $4 OFFSET $5`,
-    [q, params.status || null, params.collectionId || null, params.pageSize, (params.page - 1) * params.pageSize],
+    [q, params.status || null, params.collectionId || null, params.pageSize, (params.page - 1) * params.pageSize, Boolean(params.discounted)],
   );
   return { rows, total: rows[0]?.full_count ?? 0 };
 }
