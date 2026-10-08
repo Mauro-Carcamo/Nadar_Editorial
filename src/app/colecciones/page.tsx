@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   description: "Nadar Ediciones organiza su catálogo en torno a seis colecciones.",
 };
 
+// Se regenera cada 5 min: las campañas de descuento empiezan y terminan a su hora sin publicar de nuevo
+export const revalidate = 300;
+
 export default async function ColeccionesPage() {
   const [collections, allBooks] = await Promise.all([listCollections(), listPublishedBooks()]);
   return (

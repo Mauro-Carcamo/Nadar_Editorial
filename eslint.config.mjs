@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Librería del mapa copiada en postinstall (código de terceros, minificado)
+    "public/vendor/**",
+    // Script manual de prueba contra el ambiente de integración de Webpay (CommonJS)
+    "test-webpay.js",
   ]),
 ]);
 
