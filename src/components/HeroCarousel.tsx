@@ -1,5 +1,6 @@
 "use client";
 
+import { AuroraBackground } from "@/components/AuroraBackground";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
@@ -24,6 +25,15 @@ export function HeroCarousel({ books }: { books: Book[] }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
       >
+        {/* Fondo aurora (React Bits) en tonos de la paleta: los libros quedan delante de una luz en movimiento */}
+        <AuroraBackground
+          className="home-hero-aurora"
+          colorStops={["#a0c9c8", "#719ebe", "#78abb8"]}
+          baseColor="#e5f0f0"
+          amplitude={1}
+          blend={0.55}
+          speed={0.6}
+        />
         <Swiper
           className="container home-hero-carousel"
           modules={[A11y, Autoplay, Keyboard, Pagination]}

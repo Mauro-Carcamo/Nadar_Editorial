@@ -8084,3 +8084,26 @@ body:has(.about-page) {
   }
 }
 
+
+
+
+/* Hero: fondo aurora animado (WebGL) detrás de los libros, en tonos de la paleta */
+.home-hero-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.home-hero-aurora {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.home-hero-aurora canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
