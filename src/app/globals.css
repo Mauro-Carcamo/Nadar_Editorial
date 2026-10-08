@@ -8052,27 +8052,23 @@ body:has(.about-page) {
 
 
 
-/* Manifiesto: trama de serigrafía sutil sobre las fotos. Una copia de cada foto, en negro de alto
-   contraste, se recorta en una grilla de puntos: los puntos solo se ven donde la foto es oscura,
-   como una trama de impresión. Las fotos conservan su movimiento, filtro y transparencia. */
+/* Manifiesto: trama de serigrafía (halftone) sutil sobre las fotos. Es una imagen de puntos negros
+   generada desde cada foto (public/images/page/*-trama.png): los puntos crecen donde la foto es
+   oscura y se achican en las zonas claras, en grilla a 45°. Las fotos conservan su movimiento,
+   filtro y transparencia; la trama comparte encuadre (object-fit/position) con su foto. */
 .home-manifesto .home-manifesto-photo img.home-manifesto-halftone,
 .home-manifesto .home-manifesto-bird img.home-manifesto-halftone {
-  filter: grayscale(1) contrast(2.2) brightness(0.9);
+  filter: none;
   mix-blend-mode: multiply;
-  opacity: 0.22;
-  -webkit-mask-image: radial-gradient(circle at center, #000 0 34%, transparent 46%);
-  mask-image: radial-gradient(circle at center, #000 0 34%, transparent 46%);
-  -webkit-mask-size: 5px 5px;
-  mask-size: 5px 5px;
-  -webkit-mask-repeat: repeat;
-  mask-repeat: repeat;
+  opacity: 0.11;
 }
 
 @media (max-width: 767px) {
   .home-manifesto .home-manifesto-photo img.home-manifesto-halftone,
   .home-manifesto .home-manifesto-bird img.home-manifesto-halftone {
-    opacity: 0.16;
-    -webkit-mask-size: 4px 4px;
-    mask-size: 4px 4px;
+    opacity: 0.1;
   }
 }
+
+
+
