@@ -82,6 +82,8 @@ export function ManifestoSection() {
           aria-hidden="true"
         >
           <Image src="/images/page/ave-mar.jpg" alt="" fill sizes="(min-width: 900px) 50vw, 60vw" />
+          {/* Trama de serigrafía: la misma foto, oscurecida y recortada en puntos (ver CSS) */}
+          <Image className="home-manifesto-halftone" src="/images/page/ave-mar.jpg" alt="" fill sizes="(min-width: 900px) 50vw, 60vw" />
         </motion.div>
         {/* Gaspard-Félix Tournachon, «Nadar», en la canasta de un globo (c. 1863). Dominio público, Gallica/BnF */}
         <motion.div
@@ -90,6 +92,7 @@ export function ManifestoSection() {
           aria-hidden="true"
         >
           <Image src="/images/page/nadar-globo.jpg" alt="" fill sizes="(min-width: 900px) 50vw, 60vw" />
+          <Image className="home-manifesto-halftone" src="/images/page/nadar-globo.jpg" alt="" fill sizes="(min-width: 900px) 50vw, 60vw" />
         </motion.div>
         <motion.div className="container home-manifesto-inner" style={{ y, scale, opacity }}>
           <h2 id="home-manifesto-title" className="sr-only">
