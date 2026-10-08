@@ -1,6 +1,6 @@
 import { cache } from "react";
-import type { Book, Collection } from "@/data/book-utils";
-import { joinNames } from "@/data/book-utils";
+import type { ActiveCampaign, Book, BookDiscount, Collection } from "@/data/book-utils";
+import { discountedPrice, joinNames } from "@/data/book-utils";
 import { isDatabaseConfigured, query } from "@/lib/db";
 
 // Catálogo para el storefront (solo servidor). Fuente: PostgreSQL.
@@ -37,7 +37,20 @@ type BookRow = {
   cover_width: number | null;
   cover_height: number | null;
   mockup: string | null;
+  disc_percent: number | null;
+  disc_label: string | null;
+  disc_campaign: string | null;
+  disc_campaign_slug: string | null;
+  disc_ends_at: Date | null;
 };
+
+// Descuento vigente de cada libro: campaña activa, dentro de sus fechas; el mayor porcentaje gana
+export const ACTIVE_DISCOUNT_JOIN = `
+  LEFT JOIN LATERAL (SELECT bd.percent, dc.badge_label, dc.name, dc.slug, dc.ends_at
+                     FROM book_discounts bd JOIN discount_campaigns dc ON dc.id = bd.campaign_id
+                     WHERE bd.book_id = b.id AND dc.is_active AND dc.starts_at <= now()
+                       AND (dc.ends_at IS NULL OR dc.ends_at > now())
+                     ORDER BY bd.percent DESC LIMIT 1) disc ON true`;
 
 const BOOK_SELECT = `
   SELECT b.slug, b.title, b.isbn, b.bajada, b.description, b.author_bio, b.price, b.currency, b.series,
@@ -48,12 +61,15 @@ const BOOK_SELECT = `
          (SELECT array_agg(cat.name ORDER BY cat.name)
             FROM book_categories bc JOIN categories cat ON cat.id = bc.category_id WHERE bc.book_id = b.id) AS tags,
          cov.url AS cover, cov.width AS cover_width, cov.height AS cover_height,
-         (SELECT url FROM book_images WHERE book_id = b.id AND kind = 'mockup' ORDER BY position LIMIT 1) AS mockup
+         (SELECT url FROM book_images WHERE book_id = b.id AND kind = 'mockup' ORDER BY position LIMIT 1) AS mockup,
+         disc.percent AS disc_percent, disc.badge_label AS disc_label, disc.name AS disc_campaign,
+         disc.slug AS disc_campaign_slug, disc.ends_at AS disc_ends_at
   FROM books b
   LEFT JOIN collections c ON c.id = b.collection_id
   LEFT JOIN inventory i ON i.book_id = b.id
   LEFT JOIN LATERAL (SELECT url, width, height FROM book_images
-                     WHERE book_id = b.id AND kind = 'cover' ORDER BY position LIMIT 1) cov ON true`;
+                     WHERE book_id = b.id AND kind = 'cover' ORDER BY position LIMIT 1) cov ON true
+  ${ACTIVE_DISCOUNT_JOIN}`;
 
 function toBook(r: BookRow): Book {
   const people = r.people ?? [];
@@ -88,22 +104,72 @@ function toBook(r: BookRow): Book {
     sourceUrl: r.source_url ?? undefined,
     salesRank: r.sales_rank,
     available: r.available,
+    discount: r.disc_percent
+      ? {
+          percent: r.disc_percent,
+          label: r.disc_label ?? "",
+          campaign: r.disc_campaign ?? "",
+          campaignSlug: r.disc_campaign_slug ?? "",
+          endsAt: r.disc_ends_at ? r.disc_ends_at.toISOString() : null,
+          price: r.price === null ? null : discountedPrice(r.price, r.disc_percent),
+        }
+      : null,
     dataSource: "postgres",
   };
 }
 
 // ---------------------------------------------------------------- respaldo JSON (sin base de datos)
+type JsonCampaign = {
+  slug: string;
+  name: string;
+  badgeLabel: string;
+  headline: string;
+  description: string;
+  startsAt: string;
+  endsAt: string | null;
+  isActive: boolean;
+  showBanner: boolean;
+  books: { slug: string; percent: number }[];
+};
+
+/** Campañas vigentes del respaldo JSON (mismas reglas que en la base: activa y dentro de fechas). */
+async function loadJsonCampaigns() {
+  const data = await import("@/data/discounts.json");
+  const now = Date.now();
+  return (data.default.campaigns as JsonCampaign[]).filter(
+    (c) => c.isActive && Date.parse(c.startsAt) <= now && (!c.endsAt || Date.parse(c.endsAt) > now),
+  );
+}
+
 async function loadJsonCatalog() {
-  const [books, collections, covers] = await Promise.all([
+  const [books, collections, covers, campaigns] = await Promise.all([
     import("@/data/books.enriched.json"),
     import("@/data/collections.json"),
     import("@/data/covers.json"),
+    loadJsonCampaigns(),
   ]);
   const sizes = covers.default as Record<string, number[]>;
+  const discountFor = (b: Book): BookDiscount | null => {
+    let best: BookDiscount | null = null;
+    for (const c of campaigns) {
+      const entry = c.books.find((x) => x.slug === b.slug);
+      if (entry && (!best || entry.percent > best.percent)) {
+        best = {
+          percent: entry.percent,
+          label: c.badgeLabel,
+          campaign: c.name,
+          campaignSlug: c.slug,
+          endsAt: c.endsAt,
+          price: b.price ? discountedPrice(b.price, entry.percent) : null,
+        };
+      }
+    }
+    return best;
+  };
   return {
     books: (books.default as Book[]).map((b) => {
       const size = sizes[(b.cover ?? "").split("/").pop() ?? ""];
-      return { ...b, coverWidth: size?.[0] ?? null, coverHeight: size?.[1] ?? null };
+      return { ...b, coverWidth: size?.[0] ?? null, coverHeight: size?.[1] ?? null, discount: discountFor(b) };
     }),
     collections: collections.default as Collection[],
   };
@@ -154,3 +220,56 @@ export async function getBestsellers(limit = 10) {
     .slice(0, limit)
     .map(({ book }) => book);
 }
+
+/** Campaña vigente con banner (la de mayor descuento si hay varias); null si no hay ninguna. */
+export const getActiveCampaign = cache(async (): Promise<ActiveCampaign | null> => {
+  if (!isDatabaseConfigured()) {
+    const c = (await loadJsonCampaigns()).find((x) => x.showBanner && x.books.length);
+    if (!c) return null;
+    return {
+      slug: c.slug,
+      name: c.name,
+      label: c.badgeLabel,
+      headline: c.headline,
+      description: c.description,
+      startsAt: c.startsAt,
+      endsAt: c.endsAt,
+      maxPercent: Math.max(...c.books.map((b) => b.percent)),
+      bookCount: c.books.length,
+    };
+  }
+  const { rows } = await query<{
+    slug: string;
+    name: string;
+    badge_label: string;
+    headline: string | null;
+    description: string | null;
+    starts_at: Date;
+    ends_at: Date | null;
+    max_percent: number;
+    book_count: number;
+  }>(
+    `SELECT dc.slug, dc.name, dc.badge_label, dc.headline, dc.description, dc.starts_at, dc.ends_at,
+            max(bd.percent)::int AS max_percent, count(*)::int AS book_count
+     FROM discount_campaigns dc
+     JOIN book_discounts bd ON bd.campaign_id = dc.id
+     JOIN books b ON b.id = bd.book_id AND b.status = 'PUBLISHED'
+     WHERE dc.is_active AND dc.show_banner AND dc.starts_at <= now() AND (dc.ends_at IS NULL OR dc.ends_at > now())
+     GROUP BY dc.id
+     ORDER BY max(bd.percent) DESC, dc.starts_at DESC
+     LIMIT 1`,
+  );
+  const c = rows[0];
+  if (!c) return null;
+  return {
+    slug: c.slug,
+    name: c.name,
+    label: c.badge_label,
+    headline: c.headline ?? c.name,
+    description: c.description ?? "",
+    startsAt: c.starts_at.toISOString(),
+    endsAt: c.ends_at ? c.ends_at.toISOString() : null,
+    maxPercent: c.max_percent,
+    bookCount: c.book_count,
+  };
+});

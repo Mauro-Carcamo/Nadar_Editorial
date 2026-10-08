@@ -9,7 +9,9 @@ import { A11y, Keyboard, Parallax } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
-import { getShortDescription, splitTitle } from "@/data/book-utils";
+import { BookPrice } from "@/components/discounts/BookPrice";
+import { DiscountBadge } from "@/components/discounts/DiscountBadge";
+import { finalPrice, getShortDescription, splitTitle } from "@/data/book-utils";
 import { Book, getCover } from "@/data/site";
 
 type CollectionWithBooks = {
@@ -19,7 +21,6 @@ type CollectionWithBooks = {
   books: Book[];
 };
 
-const formatPrice = (price: number) => `$${new Intl.NumberFormat("es-CL").format(price)}`;
 const pad = (n: number) => String(n).padStart(2, "0");
 
 type PillBox = { x: number; y: number; w: number; h: number };
@@ -215,6 +216,7 @@ function CollectionStage({
                       height={getCover(book).height}
                       sizes="120px"
                     />
+                    <DiscountBadge discount={book.discount} />
                   </span>
                 </button>
               </SwiperSlide>
@@ -239,6 +241,7 @@ function CollectionStage({
                   sizes="(min-width: 960px) 380px, 70vw"
                   priority={index === 0}
                 />
+                <DiscountBadge discount={book.discount} />
               </motion.div>
             </div>
 
@@ -268,8 +271,8 @@ function CollectionStage({
               ) : null}
               <div className="collection-parallax-buy" data-swiper-parallax="-50">
                 {book.price ? (
-                  <p className="collection-parallax-price">
-                    {formatPrice(book.price)} <span>{book.currency ?? "CLP"}</span>
+                  <p className={`collection-parallax-price${book.discount ? " has-discount" : ""}`}>
+                    <BookPrice book={book} currency />
                   </p>
                 ) : null}
                 <div className="collection-parallax-actions">
@@ -279,7 +282,7 @@ function CollectionStage({
                       title={book.title}
                       subtitle={book.subtitle}
                       image={getCover(book).src}
-                      price={book.price ?? null}
+                      price={finalPrice(book)}
                       currency={book.currency ?? "CLP"}
                       className="btn btn-primary"
                       ariaLabel={`Agregar ${book.title} al carrito`}

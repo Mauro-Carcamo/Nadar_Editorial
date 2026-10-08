@@ -1,0 +1,21 @@
+{
+  "_comment": "Respaldo sin base de datos (mismo ejemplo que db/migrations/006_discount_campaigns.sql). Con base, los descuentos se editan en /admin/descuentos.",
+  "campaigns": [
+    {
+      "slug": "cyber-week-nadar",
+      "name": "Cyber Week Nadar",
+      "badgeLabel": "Cyber",
+      "headline": "Cyber Week en Nadar",
+      "description": "Hasta 50% de descuento en libros seleccionados",
+      "startsAt": "2026-10-01T03:00:00Z",
+      "endsAt": null,
+      "isActive": true,
+      "showBanner": true,
+      "books": [
+        { "slug": "colonia-penal-de-ismael-rivera", "percent": 50 },
+        { "slug": "la-culpa-de-gustavo-solorzano-alfaro", "percent": 30 },
+        { "slug": "cartas-desde-argel-1882-de-karl-marx", "percent": 25 }
+      ]
+    }
+  ]
+}

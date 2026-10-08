@@ -3,10 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { BookPrice } from "@/components/discounts/BookPrice";
+import { DiscountBadge } from "@/components/discounts/DiscountBadge";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { getCover, getLeadAndBody } from "@/data/book-utils";
+import { finalPrice, getCover, getLeadAndBody } from "@/data/book-utils";
 import { getBooksByCollection, getPublishedBook, listCollections, listPublishedBooks } from "@/services/catalog/repository";
+
+// Se regenera cada 5 min: las campañas de descuento empiezan y terminan a su hora sin publicar de nuevo
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   return (await listPublishedBooks()).map((book) => ({ slug: book.slug }));
@@ -22,7 +27,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-const formatPrice = (price: number) => `$${new Intl.NumberFormat("es-CL").format(price)}`;
 
 export default async function BookDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -63,6 +67,7 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
               sizes="(min-width: 960px) 440px, 80vw"
               priority
             />
+            <DiscountBadge discount={book.discount} />
           </div>
 
           <article className="book-page-content">
@@ -80,15 +85,20 @@ export default async function BookDetailPage({ params }: { params: Promise<{ slu
             <div className="book-page-buy">
               {book.price ? (
                 <>
-                  <p className="book-page-price">
-                    {formatPrice(book.price)} <span>{book.currency ?? "CLP"}</span>
+                  <p className={`book-page-price${book.discount ? " has-discount" : ""}`}>
+                    <BookPrice book={book} currency />
                   </p>
+                  {book.discount ? (
+                    <p className="book-page-discount-note">
+                      {book.discount.percent}% de descuento · {book.discount.campaign}
+                    </p>
+                  ) : null}
                   <AddToCartButton
                     slug={book.slug}
                     title={book.title}
                     subtitle={book.subtitle}
                     image={cover.src}
-                    price={book.price}
+                    price={finalPrice(book)}
                     currency={book.currency ?? "CLP"}
                     className="btn btn-primary"
                   />

@@ -9,9 +9,11 @@ import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { BookPrice } from "@/components/discounts/BookPrice";
+import { DiscountBadge } from "@/components/discounts/DiscountBadge";
+import { finalPrice } from "@/data/book-utils";
 import { Book, getCover } from "@/data/site";
 
-const formatPrice = (price: number) => `$${new Intl.NumberFormat("es-CL").format(price)}`;
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -87,19 +89,24 @@ export function CatalogCard({ book, index }: { book: Book; index: number }) {
               sizes="(min-width: 960px) 260px, (min-width: 640px) 30vw, 44vw"
             />
           </motion.span>
+          <DiscountBadge discount={book.discount} />
         </span>
         <span className="catalog-card-title">{book.title}</span>
         <span className="catalog-card-author">{book.subtitle}</span>
       </Link>
       <div className="catalog-card-buy">
-        {book.price ? <span className="catalog-card-price">{formatPrice(book.price)}</span> : null}
+        {book.price ? (
+          <span className={`catalog-card-price${book.discount ? " has-discount" : ""}`}>
+            <BookPrice book={book} />
+          </span>
+        ) : null}
         {book.price ? (
         <AddToCartButton
           slug={book.slug}
           title={book.title}
           subtitle={book.subtitle}
           image={getCover(book).src}
-          price={book.price ?? null}
+          price={finalPrice(book)}
           currency={book.currency ?? "CLP"}
           className="catalog-card-cart"
           ariaLabel={`Agregar ${book.title} al carrito`}

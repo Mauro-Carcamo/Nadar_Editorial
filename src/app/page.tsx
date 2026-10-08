@@ -10,6 +10,9 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getBestsellers } from "@/services/catalog/repository";
 
+// Se regenera cada 5 min: las campañas de descuento empiezan y terminan a su hora sin publicar de nuevo
+export const revalidate = 300;
+
 export default async function Home() {
   const bestsellers = await getBestsellers(10);
   return (

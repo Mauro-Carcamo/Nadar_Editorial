@@ -28,6 +28,30 @@ export type Book = {
   dataSource?: string;
   salesRank?: number | null;
   available?: number | null; // stock disponible (solo cuando el catálogo viene de la base)
+  discount?: BookDiscount | null; // descuento vigente (campaña activa); price sigue siendo el de lista
+};
+
+/** Descuento vigente de un libro (lo calcula el servidor según la campaña y sus fechas). */
+export type BookDiscount = {
+  percent: number;
+  label: string; // texto del círculo: "Descuento <label>"
+  campaign: string;
+  campaignSlug: string;
+  endsAt: string | null;
+  price: number | null; // precio final con descuento
+};
+
+/** Campaña vigente con banner (p. ej. Cyber Week), para el banner del home. */
+export type ActiveCampaign = {
+  slug: string;
+  name: string;
+  label: string;
+  headline: string;
+  description: string;
+  startsAt: string;
+  endsAt: string | null;
+  maxPercent: number;
+  bookCount: number;
 };
 
 export type Collection = {
@@ -38,6 +62,16 @@ export type Collection = {
   series: string[];
   sourceUrl: string;
 };
+
+/** Precio con descuento (redondeado al peso). */
+export function discountedPrice(price: number, percent: number) {
+  return Math.round((price * (100 - percent)) / 100);
+}
+
+/** Precio que paga el cliente: con descuento si hay uno vigente; si no, el de lista. */
+export function finalPrice(book: Book) {
+  return book.discount?.price ?? book.price ?? null;
+}
 
 /** Portada plana si existe; si no, la foto original llenando el marco. */
 export function getCover(book: Book) {

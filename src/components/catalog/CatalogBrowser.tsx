@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { CatalogGrid, CatalogPlainGrid } from "@/components/CatalogGrid";
+import { CAMPAIGN_FILTER_EVENT } from "@/components/discounts/CampaignBanner";
 import type { Book } from "@/data/book-utils";
 
 // Catálogo del home + barra de filtros fija abajo (visible solo mientras se está en la sección).
 // - Categorías: hasta 2 a la vez; se muestran los libros que tengan cualquiera de ellas.
 // - Buscador: desde 4 letras consulta /api/search (libros y autores en la base de datos).
 //   Un libro abre su ficha; un autor filtra la grilla con sus libros.
+// - Campaña (p. ej. "Cyber"): muestra solo libros con descuento vigente; se combina con las categorías.
 
 export const CATALOG_CATEGORIES = [
   "Cartografía Social",
@@ -52,6 +54,8 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
     slugs: string[];
   } | null>(null);
   const [inView, setInView] = useState(false);
+  // Solo libros con descuento vigente (botón de la campaña, p. ej. "Cyber")
+  const [onlyDiscounts, setOnlyDiscounts] = useState(false);
   const [term, setTerm] = useState("");
   // Celular: las categorías se despliegan con un botón (en escritorio siempre visibles, vía CSS)
   const [chipsOpen, setChipsOpen] = useState(false);
@@ -65,12 +69,22 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
     [books],
   );
 
+  // Etiqueta de la campaña vigente (la del mayor descuento): nombre del botón del filtro
+  const campaignLabel = useMemo(
+    () =>
+      books
+        .filter((b) => b.discount)
+        .sort((a, b) => b.discount!.percent - a.discount!.percent)[0]?.discount?.label ?? null,
+    [books],
+  );
+
   const filtered = useMemo(() => {
     if (author) return books.filter((b) => author.slugs.includes(b.slug));
+    const pool = onlyDiscounts ? books.filter((b) => b.discount) : books;
     if (categories.length)
-      return books.filter((b) => categories.some((c) => b.tags?.includes(c)));
-    return books;
-  }, [books, categories, author]);
+      return pool.filter((b) => categories.some((c) => b.tags?.includes(c)));
+    return pool;
+  }, [books, categories, author, onlyDiscounts]);
 
   // La barra aparece mientras la sección Catálogo está en pantalla
   useEffect(() => {
@@ -145,6 +159,23 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
     return () => cancelAnimationFrame(raf);
   }, [scrollRequest, reduceMotion]);
 
+  // El banner de la campaña (hero) activa este filtro y baja al catálogo
+  useEffect(() => {
+    const activate = () => {
+      setAuthor(null);
+      setOnlyDiscounts(true);
+      setScrollRequest((n) => n + 1);
+    };
+    window.addEventListener(CAMPAIGN_FILTER_EVENT, activate);
+    return () => window.removeEventListener(CAMPAIGN_FILTER_EVENT, activate);
+  }, []);
+
+  const toggleDiscounts = () => {
+    setAuthor(null);
+    setOnlyDiscounts((v) => !v);
+    goToSection();
+  };
+
   const toggleCategory = (name: string) => {
     setAuthor(null);
     setCategories((prev) => {
@@ -165,13 +196,18 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
   const clear = () => {
     setCategories([]);
     setAuthor(null);
+    setOnlyDiscounts(false);
     goToSection();
   };
 
+  const filterParts = [
+    ...(onlyDiscounts && !author ? [`Descuentos ${campaignLabel ?? ""}`.trim()] : []),
+    ...categories,
+  ];
   const filterLabel = author
     ? `Libros de ${author.name}`
-    : categories.length
-      ? categories.join(" + ")
+    : filterParts.length
+      ? filterParts.join(" + ")
       : null;
 
   return (
@@ -190,7 +226,7 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
 
       {filterLabel && filtered.length ? (
         <CatalogPlainGrid
-          key={`${author?.name ?? ""}|${categories.join("|")}`}
+          key={`${author?.name ?? ""}|${categories.join("|")}|${onlyDiscounts}`}
           books={filtered}
         />
       ) : filtered.length ? (
@@ -310,6 +346,19 @@ export function CatalogBrowser({ books }: { books: Book[] }) {
                     </div>
                   ) : null}
                 </div>
+
+                {campaignLabel ? (
+                  <button
+                    type="button"
+                    className={`catalog-filter-campaign${onlyDiscounts ? " is-active" : ""}`}
+                    aria-pressed={onlyDiscounts}
+                    onClick={toggleDiscounts}
+                    title={`Solo libros con descuento ${campaignLabel}`}
+                  >
+                    {campaignLabel}
+                    <span aria-hidden="true">%</span>
+                  </button>
+                ) : null}
 
                 <button
                   type="button"

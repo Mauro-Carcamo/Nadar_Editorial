@@ -2,8 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Book, getCover } from "@/data/site";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { BookPrice } from "@/components/discounts/BookPrice";
+import { DiscountBadge } from "@/components/discounts/DiscountBadge";
+import { finalPrice } from "@/data/book-utils";
 
-const formatPrice = (price: number) => `$${new Intl.NumberFormat("es-CL").format(price)}`;
 
 export function BookGrid({ books }: { books: Book[] }) {
   return (
@@ -22,6 +24,7 @@ export function BookGrid({ books }: { books: Book[] }) {
                   sizes="(min-width: 960px) 300px, (min-width: 640px) 45vw, 90vw"
                   className="book-cover"
                 />
+                <DiscountBadge discount={book.discount} />
               </div>
             </Link>
             <div className="book-meta">
@@ -39,13 +42,15 @@ export function BookGrid({ books }: { books: Book[] }) {
               <div className="book-card-actions">
                 {book.price ? (
                   <>
-                    <span className="book-mini-fact">{formatPrice(book.price)}</span>
+                    <span className={`book-mini-fact${book.discount ? " has-discount" : ""}`}>
+                      <BookPrice book={book} />
+                    </span>
                     <AddToCartButton
                       slug={book.slug}
                       title={book.title}
                       subtitle={book.subtitle}
                       image={cover.src}
-                      price={book.price}
+                      price={finalPrice(book)}
                       currency={book.currency ?? "CLP"}
                       className="pill"
                     />

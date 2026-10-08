@@ -1,6 +1,8 @@
 "use client";
 
 import { AuroraBackground } from "@/components/AuroraBackground";
+import { CampaignBanner } from "@/components/discounts/CampaignBanner";
+import { DiscountBadge } from "@/components/discounts/DiscountBadge";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
@@ -8,10 +10,10 @@ import { A11y, Autoplay, Keyboard, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { splitTitle } from "@/data/book-utils";
+import { splitTitle, type ActiveCampaign } from "@/data/book-utils";
 import { Book, getCover } from "@/data/site";
 
-export function HeroCarousel({ books }: { books: Book[] }) {
+export function HeroCarousel({ books, campaign }: { books: Book[]; campaign?: ActiveCampaign | null }) {
   // Avanza solo cada 4 s (se pausa con el mouse encima); sin avance automático con "reducir movimiento"
   const reduceMotion = useReducedMotion();
 
@@ -69,6 +71,7 @@ export function HeroCarousel({ books }: { books: Book[] }) {
                     sizes="(min-width: 640px) 480px, 80vw"
                     priority={index < 3}
                   />
+                  <DiscountBadge discount={book.discount} />
                 </span>
                 <span className="home-hero-slide-caption">
                   <span className="home-hero-rank" aria-label={`Puesto ${index + 1}`}>
@@ -98,6 +101,8 @@ export function HeroCarousel({ books }: { books: Book[] }) {
             Destacados
           </h2>
         </div>
+        {/* Campaña vigente (Cyber, etc.): se administra en /admin/descuentos */}
+        {campaign ? <CampaignBanner campaign={campaign} /> : null}
       </motion.div>
     </>
   );
